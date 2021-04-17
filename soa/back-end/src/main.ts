@@ -8,6 +8,7 @@ async function bootstrap() {
   const serverConfig = config.get('server')
   
   const app = await NestFactory.create(AppModule);
+  app.enableCors() // SUPER DUPER SAFE, UNDOUBTEDLY PRODUCTION-READY.
 
   const port = process.env.PORT || serverConfig.port
   await app.listen(port);
