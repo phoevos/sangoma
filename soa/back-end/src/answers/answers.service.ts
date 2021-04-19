@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { EntityManager } from 'typeorm';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
+import { Answer } from './entities/answer.entity';
 
 @Injectable()
 export class AnswersService {
-  create(createAnswerDto: CreateAnswerDto) {
-    return 'This action adds a new answer';
+  constructor(@InjectEntityManager('questions') private entityManager: EntityManager) {}
+
+  async create(createAnswerDto: CreateAnswerDto): Promise<Answer> {
+    const answer = await this.entityManager.create(Answer, createAnswerDto)
+    return this.entityManager.save(answer)
   }
 
-  findAll() {
-    return `This action returns all answers`;
+  async findAll(): Promise<Answer[]> {
+    return this.entityManager.find(Answer)
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} answer`;
+  async findOne(id: number): Promise<Answer> {
+    const answer = await this.entityManager.findOne(Answer, id)
+    if (!answer) throw new NotFoundException(`Answer #${id} not found`)
+    return answer
   }
 
-  update(id: number, updateAnswerDto: UpdateAnswerDto) {
-    return `This action updates a #${id} answer`;
+  async update(id: number, updateAnswerDto: UpdateAnswerDto): Promise<Answer> {
+    return this.entityManager.transaction(async manager => {
+      const answer = await manager.findOne(Answer, id)
+      if (!answer) throw new NotFoundException(`Answer #${id} not found`)
+      manager.merge(Answer, answer, updateAnswerDto)
+      return manager.save(answer)
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} answer`;
+  async remove(id: number): Promise<void> {
+    return this.entityManager.transaction(async manager => {
+      const answer = await manager.findOne(Answer, id)
+      if (!answer) throw new NotFoundException(`Answer #${id} not found`)
+      await manager.delete(Answer, id)
+    })
   }
 }
