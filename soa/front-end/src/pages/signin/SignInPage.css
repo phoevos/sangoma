@@ -4,7 +4,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color:#b9e7e7;
+    /* background-color:#b9e7e7; */
+    background-color:white;
   }
   
 .style_font {

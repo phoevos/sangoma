@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
+import { Button } from '@material-ui/core';
+import { useHistory, Link, NavLink } from "react-router-dom";
 import classes from './MainPage.module.css';
-import { NavLink } from 'react-router-dom';
-import { Fragment } from 'react';
-import { Button, TextField } from '@material-ui/core';
-import { useHistory } from "react-router-dom";
-// import Button from 'react-bootstrap/Button';
-// import Navbar from 'react-bootstrap/Navbar';
-// import Form from 'react-bootstrap/Form';
-// import FormControl from 'react-bootstrap/FormControl';
-// import Nav from 'react-bootstrap/Nav';
+
+
 
 
 const MainPage = () => {
@@ -31,28 +26,38 @@ const MainPage = () => {
     if (isLoggedIn) {
       setIsLoggedIn(false);
       localStorage.removeItem('accessToken');
+      localStorage.removeItem('username');
     }
     else return history.push('/signin');
 
   }
   return (
-    <Fragment>
+    <Fragment className={classes.display}>
+
       <header className={classes.header}>
         <div className={classes.logo}>AskMeAnything</div>
         <nav className={classes.nav}>
+          <ul>
+            {isLoggedIn && <li className={classes.active}>
+              <NavLink to='/newquestion' >
+                Add a question
+            </NavLink>
+            </li >}
+            <li>
+              <Button
+                style={{ marginBottom: '-10px' }}
+                fullWidth
+                variant="contained"
+                color="primary"
+                onClick={LogHandler}
+              >
+                {!isLoggedIn && <div > SIGN IN/SIGN UP</div>}
+                {isLoggedIn && <div > SIGN OUT</div>}
+              </Button>
+            </li >
 
-            <Button
-              style={{ marginBottom: '-8px' }}
-              fullWidth
-              variant="contained"
-              color="primary"
-              onClick={LogHandler}
-            >
-            { !isLoggedIn && <div > SIGN IN/SIGN UP</div>}
-            { isLoggedIn && <div > SIGN OUT</div>}
-            </Button>
-
-      </nav >
+          </ul >
+        </nav >
       </header >
 
       <header className={classes.header2}>
@@ -60,24 +65,24 @@ const MainPage = () => {
           <ul>
             <li>
               <NavLink to='/' activeClassName={classes.active}>
-              about
+                about
               </NavLink>
             </li>
             <li>
               <NavLink to='/' activeClassName={classes.active}>
-              contact us
+                contact us
               </NavLink>
             </li>
 
             <li className={classes.active}>
               <NavLink to='/' activeClassName={classes.active}>
-              project documentation
+                project documentation
             </NavLink>
             </li>
 
             <li className={classes.active}>
               <NavLink to='/' activeClassName={classes.active}>
-              link on github
+                link on github
             </NavLink>
             </li >
 

@@ -5,9 +5,11 @@
     padding: 0 10%;
     justify-content: space-between;
     align-items: center;
-    background-color: #008080;
+    background-color: #1ab0dd;
   }
-  
+.display {
+  background-color: #b9e7e7;
+}
 .header2 {
   position: absolute;
   bottom: 0px;
@@ -17,7 +19,7 @@
   padding: 0 10%;
   justify-content: space-between;
   align-items: center;
-  background-color: #008080;
+  background-color: #1ab0dd;
 }
 
 .logo {
@@ -25,10 +27,9 @@
   color: white;
 }
 
-.nav button_format { 
-  margin-left: 3.5rem
-}
+
 .nav ul {
+  text-align: center;
   list-style: none;
   display: flex;
   margin: 0;
@@ -50,3 +51,4 @@
 .nav a.active {
   color: #e6fcfc;
 }
+
