@@ -1,26 +1,43 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectEntityManager } from '@nestjs/typeorm';
+import { EntityManager } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { Question } from './entities/question.entity';
 
 @Injectable()
 export class QuestionsService {
-  create(createQuestionDto: CreateQuestionDto) {
-    return 'This action adds a new question';
+  constructor(@InjectEntityManager('questions') private entityManager: EntityManager) {}
+
+  async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
+    const question = await this.entityManager.create(Question, createQuestionDto)
+    return this.entityManager.save(question)
   }
 
-  findAll() {
-    return `This action returns all questions`;
+  async findAll(): Promise<Question[]> {
+    return this.entityManager.find(Question)
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} question`;
+  async findOne(id: number): Promise<Question> {
+    const question = await this.entityManager.findOne(Question, id, { relations: ['answers']})
+    if (!question) throw new NotFoundException(`Question #${id} not found`)
+    return question
   }
 
-  update(id: number, updateQuestionDto: UpdateQuestionDto) {
-    return `This action updates a #${id} question`;
+  async update(id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
+    return this.entityManager.transaction(async manager => {
+      const question = await manager.findOne(Question, id, { relations: ['answers']})
+      if (!question) throw new NotFoundException(`Question #${id} not found`)
+      manager.merge(Question, question, updateQuestionDto)
+      return manager.save(question)
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} question`;
+  async remove(id: number): Promise<void> {
+    return this.entityManager.transaction(async manager => {
+      const question = await manager.findOne(Question, id)
+      if (!question) throw new NotFoundException(`Question #${id} not found`)
+      await manager.delete(Question, id)
+    })
   }
 }
