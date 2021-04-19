@@ -1,0 +1,32 @@
+.fullscreen-wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color:#b9e7e7; */
+  background-color:white;
+}
+
+  
+.style_font {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.header {
+  width: 80%;
+  height: 5rem;
+  display: flex;
+  padding: 0 10%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #008080;
+}
+
+
+.logo {
+  font-size: 2rem;
+  color: white;
+  text-decoration: inherit;
+
+}
