@@ -8,12 +8,10 @@ const ErrorContainer = styled.div`
   color: #a51809;
   box-sizing: border-box;
   margin-bottom: 10px;
+  border-radius: 2px;
+
 `;
 
-// const ErrorHeading = styled.h1`
-//   font-size: 18px;
-//   margin: 10px 0;
-// `;
 const ErrorList = styled.ul`
   padding-left: 20px;
 `;

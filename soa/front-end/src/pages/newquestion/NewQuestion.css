@@ -1,0 +1,22 @@
+
+.newquestions__font{
+  text-align: center;
+  color:rgb(77, 116, 201);
+}
+
+.newquestions__container{
+  max-width: 480px;
+  width: 100%;
+  background-color: white;
+  padding: 30px;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.c{
+  color:white;
+}
