@@ -51,7 +51,7 @@ const MainPage = () => {
         if (isLoggedIn) {
             setIsLoggedIn(false);
             localStorage.removeItem('accessToken');
-            localStorage.removeItem('username');
+            localStorage.removeItem('loggedUsername');
         }
         else return history.push('/signin');
     
