@@ -27,11 +27,6 @@ const SingleQuestionPage = () => {
 
     return (
         <div >
-        <div >
-            <Navbar bg="primary" variant="dark" size="lg" >
-                <Navbar.Brand href="/">AskMeAnything</Navbar.Brand>
-            </Navbar>
-        </div>
         <div className ='single-container2'>
             <h1 className='single-question-title'> {question.title}</h1>
 

@@ -10,19 +10,6 @@ import './NewQuestion.css';
 const qs = require('querystring');
 const BASE_URL = 'http://localhost:3000';
 
-const FormContainer = styled.div`
-    max-width: 480px;
-    width: 100%;
-    background-color: #white;
-    padding: 30px;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-`;
-
 const NewQuestion = () => {
 
 
@@ -72,13 +59,6 @@ const NewQuestion = () => {
 
     return (
         <div>
-            <div>
-                <Navbar bg="primary" variant="dark" size="lg" >
-                    <Navbar.Brand href="/">AskMeAnything</Navbar.Brand>
-                    <Nav><div className='newquestions-font'>{localStorage.getItem('username')}</div>
-                    </Nav>
-                </Navbar>
-            </div>
                 <div className='newquestions__container'>
                     <h1 className='newquestions__font'>Ask a new question</h1>
                     {errorMessage && <ErrorMessage message={errorMessage} />}
