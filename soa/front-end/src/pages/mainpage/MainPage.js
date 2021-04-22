@@ -36,9 +36,33 @@ const MainPage = () => {
             return history.push(`/questions/${id}`);
         }
         // if you click on username go to single user page
-        else{
+        else {
             return history.push(`/users/${id}`);
         }
+    }
+
+    const deleteQuestionHandler = (id) => {
+        const config = {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+
+            }
+        }
+        axios.delete(`${BASE_URL}/questions/${id}`, config)
+            .then(response => {
+                console.log(response.data);
+                window.location.reload();
+            })
+            .catch(error => {
+                if (error.response.data.statusCode === 401) {
+                    // That's a temporary work-around, redirecting to signin should be done more gracefully.
+                    history.push('/signin');
+                } else {
+                    console.log(error.response.data); 
+                    // setErrorMessage(error.response.data.message); 
+                } 
+            });
     }
 
     const LogHandler = () => {
@@ -55,7 +79,7 @@ const MainPage = () => {
             <h2 className='main-title-margin'>Recent Questions and Answers </h2>
             <nav>
                 <div className='main-questions'>
-                    <QuestionList gotoPageHandler={gotoPageHandler} items={questions} />
+                    <QuestionList gotoPageHandler={gotoPageHandler} deleteQuestionHandler={deleteQuestionHandler} items={questions} />
                 </div>
             </nav>
             </div>

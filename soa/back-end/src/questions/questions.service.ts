@@ -15,7 +15,11 @@ export class QuestionsService {
   }
 
   async findAll(): Promise<Question[]> {
-    return this.entityManager.find(Question)
+    return this.entityManager.find(Question, {
+      order: {
+        dateTime: 'DESC'
+      }
+    })
   }
 
   async findOne(id: number): Promise<Question> {

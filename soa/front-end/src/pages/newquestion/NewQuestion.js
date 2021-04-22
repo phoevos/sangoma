@@ -54,7 +54,15 @@ const NewQuestion = () => {
                 console.log(response.data)
                 goToStartingPage();
             })
-            .catch(error => { console.log(error.response.data); setErrorMessage(error.response.data.message); });
+            .catch(error => {
+                if (error.response.data.statusCode === 401) {
+                    // That's a temporary work-around, redirecting to signin should be done more gracefully.
+                    history.push('/signin');
+                } else {
+                    console.log(error.response.data); 
+                    setErrorMessage(error.response.data.message); 
+                } 
+            });
     }
 
     return (

@@ -12,6 +12,7 @@ const QuestionList = (props) => {
 		<ul className='question-list'>
 			{props.items.map((question) => (
 				<QuestionItem gotoPageHandler={props.gotoPageHandler}
+					deleteQuestionHandler={props.deleteQuestionHandler}
 					key={question.id}
 					id={question.id}
 					title={question.title}
