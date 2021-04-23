@@ -1,8 +1,8 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useHistory } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Navbar, Nav, Form, Col, NavDropdown, ListGroup, Row } from 'react-bootstrap';
-import { Button, FormGroup } from '@material-ui/core';
+import { Navbar, Nav, Form, Col, NavDropdown} from 'react-bootstrap';
+import { Button } from '@material-ui/core';
 import MainPage from '../pages/mainpage/MainPage';
 import NewQuestion from '../pages/newquestion/NewQuestion';
 import SingleQuestion from '../pages/singlequestion/SingleQuestionPage';
@@ -47,13 +47,13 @@ const Layout = () => {
                             {/* <Nav.Link href='/myprofile' className="">
                                 {localStorage.getItem('loggedUsername').split('@')[0]}
                             </Nav.Link>  */}
-                            <NavDropdown title={localStorage.getItem('loggedUsername').split('@')[0]} id="nav-dropdown">
+                            {isLoggedIn && <NavDropdown title={localStorage.getItem('loggedUsername').split('@')[0]} id="nav-dropdown">
                                 <NavDropdown.Item eventKey="4.1">Shaka</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="4.2">Dingane</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="4.3">Mhlangana</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item eventKey="4.4" href="https://www.youtube.com/watch?v=11eis4XVfVE">Enter the cult...</NavDropdown.Item>
-                            </NavDropdown>
+                            </NavDropdown>}
                             <Col>
                                 <Button
                                     style={{ marginBottom: '0px' }}

@@ -1,8 +1,7 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState} from 'react';
 import { useLocation } from "react-router-dom";
 import axios from 'axios';
 import './SingleQuestionPage.css'
-import { Navbar } from 'react-bootstrap';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -22,7 +21,6 @@ const SingleQuestionPage = () => {
 
     useEffect(() => {
         fetchdata();
-
     }, []);
 
     return (

@@ -2,10 +2,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TextField, FormControl, Button } from '@material-ui/core';
-import styled from 'styled-components';
 import axios from 'axios';
 import ErrorMessage from '../../components/ErrorMessage';
-import { Navbar, Nav, Form } from 'react-bootstrap';
+import {Nav} from 'react-bootstrap';
 import './NewQuestion.css';
 const qs = require('querystring');
 const BASE_URL = 'http://localhost:3000';

@@ -79,7 +79,7 @@ const SignInPage = (props) => {
 
 		<div >
 			<div className='fixed-top'>
-				<Navbar bg="primary" variant="dark" size="lg" >
+				<Navbar bg="dark" variant="dark" size="lg" >
 					<Navbar.Brand href="/">AskMeAnything</Navbar.Brand>
 				</Navbar>
 			</div>
