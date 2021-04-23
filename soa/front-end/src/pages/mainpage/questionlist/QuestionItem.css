@@ -21,17 +21,14 @@
   flex-flow: column-reverse;
   justify-content: flex-start;
   flex: 1;
-}
-
-.question-item h1 {
   font-size: 1rem;
-  flex: 1;
   margin: 0 1rem;
   color: #2a5dbb;
   font-weight: bold;
 }
 
-.question-item:hover h1 {
+
+.question-item__description:hover{
   color: #540f69;
 }
 
