@@ -52,7 +52,8 @@ const MainPage = () => {
         axios.delete(`${BASE_URL}/questions/${id}`, config)
             .then(response => {
                 console.log(response.data);
-                window.location.reload();
+                dispatchQuestions(questions.filter(q => q.id !== id))
+                // window.location.reload();
             })
             .catch(error => {
                 if (error.response.data.statusCode === 401) {

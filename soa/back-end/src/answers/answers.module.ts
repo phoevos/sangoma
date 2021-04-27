@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Question } from 'src/questions/entities/question.entity';
 import { Answer } from './entities/answer.entity';
 import { AuthModule } from 'src/auth/auth.module';
+import { Keyword } from 'src/keywords/entities/keyword.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Question, Answer], 'questions'),
+    TypeOrmModule.forFeature([Question, Answer, Keyword], 'questions'),
     AuthModule
   ],
   controllers: [AnswersController],

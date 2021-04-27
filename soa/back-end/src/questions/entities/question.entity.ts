@@ -1,5 +1,6 @@
 import { Answer } from "src/answers/entities/answer.entity";
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Keyword } from '../../keywords/entities/keyword.entity';
 
 @Entity()
 export class Question extends BaseEntity {
@@ -18,6 +19,14 @@ export class Question extends BaseEntity {
     @Column()
     dateTime: Date
 
-    @OneToMany(type => Answer, answer => answer.question, { onDelete: "CASCADE"})
+    @OneToMany(() => Answer, answer => answer.question, { onDelete: "CASCADE"})
     answers: Answer[]
+
+    @ManyToMany(() => Keyword, keyword => keyword.questions)
+    @JoinTable({
+        name: 'question_keyword',
+        joinColumn: { name: 'questionId', referencedColumnName: 'id'},
+        inverseJoinColumn: { name: 'keywordId', referencedColumnName: 'keyword'},
+    })
+    keywords: Keyword[]
 }
