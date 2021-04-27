@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import QuestionList from './questionlist/QuestionList';
 import './MainPage.css';
 import axios from 'axios';
-
+import Loader from  '../../components/loader/Loader';
 const BASE_URL = 'http://localhost:3000';
 
 const MainPage = () => {
@@ -69,11 +69,13 @@ const MainPage = () => {
     return (
         <div>
             <h2 className='main-title-margin'>Recent Questions and Answers </h2>
-            {isFetched && <nav>
+            <nav>
                 <div className='main-questions'>
-                    <QuestionList gotoPageHandler={gotoPageHandler} deleteQuestionHandler={deleteQuestionHandler} items={questions} />
+                {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} deleteQuestionHandler={deleteQuestionHandler} items={questions} />}
+                {!isFetched && <Loader></Loader>}
                 </div>
-            </nav>}
+            </nav>
+            
         </div>
     );
 };
