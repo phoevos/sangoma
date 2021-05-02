@@ -1,4 +1,5 @@
 import { IsDate, IsNotEmpty, IsString } from "class-validator"
+import { Type } from "class-transformer"
 
 export class CreateAnswerDto {
     @IsNotEmpty()
@@ -12,6 +13,7 @@ export class CreateAnswerDto {
     @IsNotEmpty()
     username: string
 
+    @Type(() => Date)
     @IsDate()
     @IsNotEmpty()
     dateTime: Date

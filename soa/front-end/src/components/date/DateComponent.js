@@ -1,8 +1,8 @@
 import React from 'react';
 
-import './QuestionDate.css';
+import './DateComponent.css';
 
-const QuestionDate = (props) => {
+const DateComponent = (props) => {
 
 	function convert_datetime(date_ob) {
 
@@ -21,11 +21,11 @@ const QuestionDate = (props) => {
 	const time = convert_datetime(date);
 
 	return (
-		<div className='question-date'>
-			<div className='question-date__month'>{day}/{month}/{year}</div>
-			<div className='question-date__day'> {time}</div>
+		<div className='item-date'>
+			<div className='item-date__month'>{day}/{month}/{year}</div>
+			<div className='item-date__day'> {time}</div>
 		</div>
 	);
 };
 
-export default QuestionDate;
+export default DateComponent;

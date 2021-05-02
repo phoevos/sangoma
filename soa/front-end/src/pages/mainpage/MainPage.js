@@ -4,15 +4,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import QuestionList from './questionlist/QuestionList';
 import './MainPage.css';
 import axios from 'axios';
-import Loader from  '../../components/loader/Loader';
+import Loader from '../../components/loader/Loader';
+import Pagination from '../../components/pagination/Pagination'
 const BASE_URL = 'http://localhost:3000';
 
 const MainPage = () => {
 
     const [questions, dispatchQuestions] = useState([]);
     const [isFetched, setIsFetched] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [questionsPerPage] = useState(6);
     const history = useHistory();
-
 
     const fetchdata = () => {
         axios.get(`${BASE_URL}/questions`)
@@ -23,12 +25,6 @@ const MainPage = () => {
             .catch(error => {
             });
     }
-
-    useEffect(() => {
-        fetchdata();
-
-    }, []);
-
     const gotoPageHandler = (id, isquestion) => {
 
         // if you click on question title go to single question page
@@ -40,6 +36,18 @@ const MainPage = () => {
             return history.push(`/users/${id}`);
         }
     }
+    useEffect(() => {
+        fetchdata();
+
+    }, []);
+
+
+
+    // Get current posts
+    const indexOfLastQuestion = currentPage * questionsPerPage;
+    const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
+    const currentQuestions = questions.slice(indexOfFirstQuestion, indexOfLastQuestion);
+    const paginateHandler = pageNumber => setCurrentPage(pageNumber);
 
     const deleteQuestionHandler = (id) => {
         const config = {
@@ -71,11 +79,17 @@ const MainPage = () => {
             <h2 className='main-title-margin'>Recent Questions and Answers </h2>
             <nav>
                 <div className='main-questions'>
-                {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} deleteQuestionHandler={deleteQuestionHandler} items={questions} />}
-                {!isFetched && <Loader></Loader>}
+                    {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} deleteQuestionHandler={deleteQuestionHandler} items={currentQuestions} />}
+                    {!isFetched && <Loader></Loader>}
+                    <Pagination
+                        postsPerPage={questionsPerPage}
+                        totalPosts={questions.length}
+                        paginate={paginateHandler}
+                    />
                 </div>
             </nav>
-            
+
+
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import QuestionDate from './QuestionDate';
+import DateComponent from '../../../components/date/DateComponent';
 import './QuestionItem.css';
 
 const QuestionItem = (props) => {
@@ -15,7 +15,7 @@ const QuestionItem = (props) => {
 	return (
 		<li>
 			<div className='question-item'>
-				<QuestionDate dateTime={props.dateTime} />
+				<DateComponent dateTime={props.dateTime} />
 				<div className='question-item__description'>
 					<div onClick={() => { console.log(props.id); props.gotoPageHandler(props.id, true); }}>{hideString(props.title)}</div>
 				</div>
