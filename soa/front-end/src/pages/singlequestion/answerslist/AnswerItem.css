@@ -26,14 +26,12 @@
   color: #2a5dbb;
 }
 
-
-.answer-item__description:hover{
-  color: #540f69;
-}
-
 .answer-item-username{
   font-size: 0.9rem;
   color: #2a5dbb;
+  text-align: right;
+  margin-right:10px;
+
 }
 
 .answer-item-username-link{

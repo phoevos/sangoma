@@ -11,11 +11,14 @@ const Question = (props) => {
     return (
 
             <div className='single-container'>
+                <p className="single-question-title"> {props.question.title}</p>
                 <div className="single-question-wrap1">
+
                     <DateComponent dateTime={props.question.dateTime} />
-                    <div className='single-question-item__description'>
-                        <div>{props.question.title}</div>
+                    <div className='single-question-item__text'>
+                        <div>{props.question.text}</div>
                     </div>
+                    {/* <p className="single-question-text"> {props.question.text}</p> */}
                     <div className='single-question-item-username'>
                     Question Submitted <br></br> by user {" "}
                     <text className='single-question-item-username-link' onClick={() => { }}>
@@ -24,7 +27,6 @@ const Question = (props) => {
                 </div>
                 </div>
 
-                <p className="single-question-text"> {props.question.text}</p>
                 {/* <button className='sin-ques-reply-but'>
                     <div>
                         Answer {"  "}
@@ -32,7 +34,7 @@ const Question = (props) => {
                     </div>
                 </button> */}
                 <Button
-                    style={{ marginBottom: '0px' }}
+                    style={{ marginTop: '15px',marginBottom:'5px' }}
                     variant="contained"
                     color="primary"
                     onClick={props.addAnswerHandler}

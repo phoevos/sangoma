@@ -14,19 +14,12 @@
   position:relative;
   padding: 0.5rem;
   margin-bottom: 1rem;
+  border-style: solid;
+  border-color:rgb(128, 120, 117);
 }
-
-.single-question-title {  
-  font-size: 2rem;
-  flex: 1;
-  margin: 0 1rem;
-  color: #2a5dbb;
-  font-weight: bold;
-  text-align: center;
-
+.single-container:hover {
+  background-color: lavenderblush;
 }
-
-
 .single-ques-repistyle{
   font-size: 100px;
 }
@@ -57,7 +50,7 @@
 }
 
 
-.single-question-item__description {
+.single-question-item__text {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -68,7 +61,6 @@
   font-size: 1rem;
   margin: 0 1rem;
   color: #2a5dbb;
-  font-weight: bold;
 }
 
 
@@ -86,9 +78,11 @@
 .single-question-item-username-link:hover{
   color: #540f69;
 }
-.single-question-text{
-  overflow-wrap: break-word;
+.single-question-title{
+  text-align: center;
   margin:10px;
-  font-size: 1rem;
+  font-size: 1.3rem;
   color: #2a5dbb;
+  flex:1;
+  font-weight: bold;
 }
