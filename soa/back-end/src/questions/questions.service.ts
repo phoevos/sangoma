@@ -1,10 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Get, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
-import { EntityManager } from 'typeorm';
+import { Between, EntityManager, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
+import { FilteredQuestionDto } from './dto/get-filtered-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Question } from './entities/question.entity';
-
+import {Like} from "typeorm";
 @Injectable()
 export class QuestionsService {
   constructor(@InjectEntityManager('questions') private entityManager: EntityManager) {}
@@ -19,6 +20,36 @@ export class QuestionsService {
       order: {
         dateTime: 'DESC'
       }
+    })
+  }
+
+  async findFilteredQuestions(filteredQuestionDto: FilteredQuestionDto): Promise<Question[]> {
+
+
+    const dateFilter = (startDate,endDate)=>{
+      if(startDate && endDate){
+        return {dateTime: Between(startDate,endDate)}
+      }
+      else if(startDate && !endDate) {
+        return {dateTime: MoreThanOrEqual(startDate)}
+      }
+      else if(!startDate && endDate) {
+        return {dateTime: LessThanOrEqual(startDate)}
+      }
+      else return
+    }
+
+    const {titlePart,startDate,endDate,username,matchingKeywords} = filteredQuestionDto
+
+    return this.entityManager.find(Question, {
+      order: {
+        dateTime: 'DESC'
+      },
+      relations: ["keywords"] ,
+      where:{
+            ...(titlePart &&{title: Like("%"+titlePart+"%")}),
+            ...dateFilter(startDate,endDate),
+            ...(username && {username : username})}
     })
   }
 

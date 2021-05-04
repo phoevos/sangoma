@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, ValidationPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, ValidationPipe, UseGuards, Query } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import {FilteredQuestionDto} from './dto/get-filtered-question.dto'
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('questions')
@@ -14,10 +15,16 @@ export class QuestionsController {
     return this.questionsService.create(createQuestionDto);
   }
 
+  //@Get(filtered)
   @Get()
-  findAll() {
-    return this.questionsService.findAll()
+  findFiltered(@Query(ValidationPipe) filteredQuestionDto: FilteredQuestionDto) {
+    return this.questionsService.findFilteredQuestions(filteredQuestionDto);
   }
+
+  // @Get()
+  // findAll() {
+  //   return this.questionsService.findAll()
+  // }
 
   @Get('/:id')
   findOne(@Param('id', ParseIntPipe) id: number) {
