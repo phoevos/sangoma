@@ -4,7 +4,6 @@
   align-items: center;
   padding: 0.5rem;
   margin: 0.5rem 0;
-  overflow:auto;  
   background-color: #eceaea;
   border-radius: 12px;
 }
@@ -24,6 +23,7 @@
   font-size: 1rem;
   margin: 0 1rem;
   color: #2a5dbb;
+  overflow:auto;  
 }
 
 .answer-item-username{

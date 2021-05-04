@@ -61,6 +61,10 @@
   font-size: 1rem;
   margin: 0 1rem;
   color: #2a5dbb;
+  overflow:auto;  
+}
+.breaker{
+  max-width: 50px;
 }
 
 
@@ -86,3 +90,4 @@
   flex:1;
   font-weight: bold;
 }
+
