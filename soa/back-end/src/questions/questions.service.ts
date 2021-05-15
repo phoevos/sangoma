@@ -1,17 +1,24 @@
-import { Get, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { Between, EntityManager, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { FilteredQuestionDto } from './dto/get-filtered-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Question } from './entities/question.entity';
-import {Like} from "typeorm";
+import { Keyword } from 'src/keywords/entities/keyword.entity';
+
+
 @Injectable()
 export class QuestionsService {
   constructor(@InjectEntityManager('questions') private entityManager: EntityManager) {}
 
-  async create(createQuestionDto: CreateQuestionDto): Promise<Question> {
+  async create(createQuestionDto: CreateQuestionDto){
+    
     const question = await this.entityManager.create(Question, createQuestionDto)
+    for (let keyword of createQuestionDto.keywords) {
+      let thekeyword = this.entityManager.create(Keyword,keyword)
+      this.entityManager.save(thekeyword)
+    }
     return this.entityManager.save(question)
   }
 
@@ -25,32 +32,70 @@ export class QuestionsService {
 
   async findFilteredQuestions(filteredQuestionDto: FilteredQuestionDto): Promise<Question[]> {
 
-
-    const dateFilter = (startDate,endDate)=>{
-      if(startDate && endDate){
-        return {dateTime: Between(startDate,endDate)}
-      }
-      else if(startDate && !endDate) {
-        return {dateTime: MoreThanOrEqual(startDate)}
-      }
-      else if(!startDate && endDate) {
-        return {dateTime: LessThanOrEqual(startDate)}
-      }
-      else return
-    }
-
     const {titlePart,startDate,endDate,username,matchingKeywords} = filteredQuestionDto
+    let query = this.entityManager.createQueryBuilder(Question,"question")
 
-    return this.entityManager.find(Question, {
-      order: {
-        dateTime: 'DESC'
-      },
-      relations: ["keywords"] ,
-      where:{
-            ...(titlePart &&{title: Like("%"+titlePart+"%")}),
-            ...dateFilter(startDate,endDate),
-            ...(username && {username : username})}
-    })
+
+                               /*  Optimised sql implementation : url -- https://www.slideshare.net/billkarwin/sql-query-patterns-optimized */
+
+    if(matchingKeywords){
+      for (let i = 0; i < matchingKeywords.length; i++)
+      query.innerJoin("question.keywords",`keyword${i}`, `keyword${i}.keyword = :matchingkeyword`, { matchingkeyword: matchingKeywords[i] })
+    }
+    if(username)  query.andWhere("question.username = :username", {username}) 
+    if(startDate) query.andWhere("question.dateTime >= :startDate", {startDate})
+    if(endDate)   query.andWhere("question.dateTime <= :endDate", {endDate})
+    if(titlePart) query.andWhere("question.title LIKE(:titlepart)",{titlepart:`%${titlePart}%`})
+
+    query.leftJoinAndSelect("question.keywords","keyword")
+    
+    return query.getMany();
+
+
+                                          /* Implementation with group by . Unable to return keyword list */
+    // if(matchingKeywords){
+    //   query.innerJoinAndSelect("question.keywords","keyword")
+
+    //   query.andWhere(`"keywordId" IN (${matchingKeywords.toString()})`)
+    // }
+    // if(username)  query.andWhere("question.username = :username", {username}) 
+    // if(startDate) query.andWhere("question.dateTime >= :startDate", {startDate})
+    // if(endDate)   query.andWhere("question.dateTime <= :endDate", {endDate})
+    // if(titlePart) query.andWhere("question.title LIKE(:titlepart)",{titlepart:`%${titlePart}%`})
+    // if(matchingKeywords){
+    //   query.groupBy("question.id")
+    //   query.having(`COUNT(DISTINCT "question_keyword"."keywordId")= ${matchingKeywords.length}`)
+    // }
+
+
+                                              /* Older implementation (find) without keyword filtering*/
+    // const dateFilter = (startDate,endDate)=>{
+    //   if(startDate && endDate){
+    //     return {dateTime: Between(startDate,endDate)}
+    //   }
+    //   else if(startDate && !endDate) {
+    //     return {dateTime: MoreThanOrEqual(startDate)}
+    //   }
+    //   else if(!startDate && endDate) {
+    //     return {dateTime: LessThanOrEqual(startDate)}
+    //   }
+    //   else return
+    // }
+
+
+    // return this.entityManager.find(Question, {
+    //   order: {
+    //     dateTime: 'DESC'
+    //   },
+    //   relations: ["keywords"] ,
+      
+    //   where:{
+    //         ...(titlePart &&{title: Like("%"+titlePart+"%")}),
+    //         ...dateFilter(startDate,endDate),
+    //         ...(username && {username : username})}
+    // })
+
+
   }
 
   async findOne(id: number): Promise<Question> {

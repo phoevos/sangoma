@@ -19,7 +19,7 @@ export class Question extends BaseEntity {
     @Column()
     dateTime: Date
 
-    @OneToMany(() => Answer, answer => answer.question, { onDelete: "CASCADE"})
+    @OneToMany(() => Answer, answer => answer.question, { onDelete: "CASCADE", cascade: true })
     answers: Answer[]
 
     @ManyToMany(() => Keyword, keyword => keyword.questions)

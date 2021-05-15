@@ -22,6 +22,6 @@ export class FilteredQuestionDto {
     username: string
     
     @IsOptional()
-    matchingKeywords: Keyword[]
+    matchingKeywords: string[]
 
 }

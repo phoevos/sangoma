@@ -90,7 +90,7 @@ const SignUpPage = () => {
 					<Navbar.Brand href="/">AskMeAnything</Navbar.Brand>
 				</Navbar>
 			</div>
-			<div className='signInContainer'>
+			<div className='signUpContainer'>
 				<Heading>Welcome!</Heading>
 				<p>Please enter your credentials.</p>
 				{errorMessage && <ErrorMessage message={errorMessage} />}

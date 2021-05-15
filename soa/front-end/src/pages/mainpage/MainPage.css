@@ -1,36 +1,21 @@
 .main-questions {
-    padding: 1rem;
-    background-color: rgba(240, 242, 243, 0.897);
-    margin: 2rem auto;
-    width: 60%;
-    max-height:850px;
-    margin-top:50px;
-    display: block;
-    border-radius: 12px;
-    margin-left:5%;
-    position:relative;
-    display: inline-block;
-    margin-bottom: 65px;
-  }
-
-.main-title-margin {
-  margin-left: 25%;
-  color: rgb(255, 255, 255);
-  position: relative;
-  top :25px;
-}
-.main-custom-form-pos{
   padding: 1rem;
   background-color: rgba(240, 242, 243, 0.897);
   margin: 2rem auto;
-  width: 20%;
-  max-height:550px;
-  overflow:auto;  
+  width: 60%;
+  max-height:850px;
   margin-top:50px;
   display: block;
   border-radius: 12px;
   margin-left:5%;
   position:relative;
   display: inline-block;
+  margin-bottom: 65px;
 }
 
+.main-title-margin {
+margin-left: 25%;
+color: rgb(255, 255, 255);
+position: relative;
+top :25px;
+}

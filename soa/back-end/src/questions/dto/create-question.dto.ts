@@ -1,5 +1,6 @@
 import { Type } from "class-transformer"
 import { IsDate, IsNotEmpty, IsString } from "class-validator"
+import { Keyword } from "src/keywords/entities/keyword.entity"
 
 export class CreateQuestionDto {
     @IsString()
@@ -18,4 +19,7 @@ export class CreateQuestionDto {
     @IsDate()
     @IsNotEmpty()
     dateTime: Date
+
+    keywords: Keyword[]
+
 }
