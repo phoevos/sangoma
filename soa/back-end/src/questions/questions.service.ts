@@ -41,7 +41,7 @@ export class QuestionsService {
 
     if(matchingKeywords){
       if (typeof matchingKeywords === 'string' || matchingKeywords instanceof String)
-        matchingKeywordsArray = [].push(matchingKeywords)
+        matchingKeywordsArray = [].concat(matchingKeywords)
       else 
         matchingKeywordsArray = matchingKeywords
 
