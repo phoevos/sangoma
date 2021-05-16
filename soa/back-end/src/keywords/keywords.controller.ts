@@ -1,21 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query, ValidationPipe} from '@nestjs/common';
 import { KeywordsService } from './keywords.service';
 import { CreateKeywordDto } from './dto/create-keyword.dto';
 import { UpdateKeywordDto } from './dto/update-keyword.dto';
+import { FilteredKeywordDto } from './dto/get-filtered-keyword.dto';
 
 @Controller('keywords')
 export class KeywordsController {
   constructor(private readonly keywordsService: KeywordsService) {}
 
-  // @Post()
-  // @UseGuards(AuthGuard())
-  // create(@Body(ValidationPipe) createKeywordDto: CreateKeywordDto) {
-  //   return this.keywordsService.create(createKeywordDto);
+  // @Get()
+  // findAll() {
+  //   return this.keywordsService.findAll();
   // }
 
+  // @Get('/filtered')
   @Get()
-  findAll() {
-    return this.keywordsService.findAll();
+  findFiltered(@Query(ValidationPipe) filteredKeywordDto: FilteredKeywordDto) {
+    return this.keywordsService.findFilteredKeywords(filteredKeywordDto);
   }
 
   @Get('/:keyword')

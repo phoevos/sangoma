@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {  Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { Between, EntityManager, LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
@@ -35,7 +35,6 @@ export class QuestionsService {
     const {titlePart,startDate,endDate,username,matchingKeywords} = filteredQuestionDto
     let query = this.entityManager.createQueryBuilder(Question,"question")
 
-
                                /*  Optimised sql implementation : url -- https://www.slideshare.net/billkarwin/sql-query-patterns-optimized */
 
     if(matchingKeywords){
@@ -50,7 +49,6 @@ export class QuestionsService {
     query.leftJoinAndSelect("question.keywords","keyword")
     
     return query.getMany();
-
 
                                           /* Implementation with group by . Unable to return keyword list */
     // if(matchingKeywords){

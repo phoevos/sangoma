@@ -1,6 +1,5 @@
 import { Type } from "class-transformer"
 import { IsDate, IsOptional, IsString } from "class-validator"
-import { Keyword } from "src/keywords/entities/keyword.entity"
 
 export class FilteredQuestionDto {
     @IsOptional()
