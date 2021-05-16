@@ -28,6 +28,7 @@ export class KeywordsService {
 
     return query.getRawMany()
   }
+
   async findOne(keyword: string) : Promise<Keyword>{
     const thekeyword = await this.entityManager.findOne(Keyword, keyword)
     if (!thekeyword) throw new NotFoundException(`Keyword #${keyword} not found`)

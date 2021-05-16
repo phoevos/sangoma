@@ -6,6 +6,7 @@ import { FilteredQuestionDto } from './dto/get-filtered-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Question } from './entities/question.entity';
 import { Keyword } from 'src/keywords/entities/keyword.entity';
+import { arrayContains } from 'class-validator';
 
 
 @Injectable()
@@ -33,13 +34,19 @@ export class QuestionsService {
   async findFilteredQuestions(filteredQuestionDto: FilteredQuestionDto): Promise<Question[]> {
 
     const {titlePart,startDate,endDate,username,matchingKeywords} = filteredQuestionDto
-    let query = this.entityManager.createQueryBuilder(Question,"question")
+    let matchingKeywordsArray
+    const query = this.entityManager.createQueryBuilder(Question,"question")
 
                                /*  Optimised sql implementation : url -- https://www.slideshare.net/billkarwin/sql-query-patterns-optimized */
 
     if(matchingKeywords){
-      for (let i = 0; i < matchingKeywords.length; i++)
-      query.innerJoin("question.keywords",`keyword${i}`, `keyword${i}.keyword = :matchingkeyword`, { matchingkeyword: matchingKeywords[i] })
+      if (typeof matchingKeywords === 'string' || matchingKeywords instanceof String)
+        matchingKeywordsArray = [].push(matchingKeywords)
+      else 
+        matchingKeywordsArray = matchingKeywords
+
+      for (let i = 0; i < matchingKeywordsArray.length; i++)
+      query.innerJoin("question.keywords",`keyword${i}`, `keyword${i}.keyword = :matchingkeyword`, { matchingkeyword: matchingKeywordsArray[i] })
     }
     if(username)  query.andWhere("question.username = :username", {username}) 
     if(startDate) query.andWhere("question.dateTime >= :startDate", {startDate})
