@@ -2,14 +2,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+}
+.question-item-container{
+  background-color: #eceaea;
+  border-radius: 12px;
   padding: 0.5rem;
   margin: 0.5rem 0;
   overflow:auto;  
-  background-color: #eceaea;
-  border-radius: 12px;
 }
-
-.question-item:hover {
+.question-item-container:hover {
   background-color: lavenderblush;
 }
 
@@ -52,6 +54,8 @@
   flex-wrap: wrap;
   padding: 0;
   margin: 8px 0 0 0;
+  font-size: 10px;
+
 }
 
 .tag {
@@ -62,7 +66,7 @@
   justify-content: center;
   color: #fff;
   padding: 0 8px;
-  font-size: 14px;
+  font-size: 10px;
   list-style: none;
   border-radius: 6px;
   margin: 0 8px 8px 0;
@@ -77,6 +81,7 @@
 }
 
 .gg-pen {
+  float: right;
   box-sizing: border-box;
   position: relative;
   display: block;
@@ -89,8 +94,6 @@
   inset -2px 0 0;
   border-top-right-radius: 1px;
   border-bottom-right-radius: 1px;
-  margin-right: 15px;
-  margin-top: 75px
  }
  
  .gg-pen::after,
@@ -126,6 +129,7 @@
  } 
 
 .gg-trash {
+  float: right;
   box-sizing: border-box;
   position: relative;
   display: block;
@@ -139,8 +143,7 @@
   inset 2px 0 0;
   border-bottom-left-radius: 1px;
   border-bottom-right-radius: 1px;
-  margin-top: 80px;
-  margin-right: 5px;
+  margin-right: 10px;
  }
  
  .gg-trash::after,

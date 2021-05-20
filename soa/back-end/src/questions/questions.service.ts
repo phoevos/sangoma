@@ -53,7 +53,7 @@ export class QuestionsService {
     if(titlePart) query.andWhere("question.title LIKE(:titlepart)",{titlepart:`%${titlePart}%`})
 
     query.leftJoinAndSelect("question.keywords","keyword")
-    
+    query.orderBy("question.dateTime","DESC")
     return query.getMany();
 
                                           /* Implementation with group by . Unable to return keyword list */

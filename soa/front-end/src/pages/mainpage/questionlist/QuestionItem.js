@@ -14,11 +14,16 @@ const QuestionItem = (props) => {
 	}
 
 	return (
-		<li>
-			<div className='question-item'>
-				<DateComponent dateTime={props.dateTime} />
-				<div className='question-item__description'>
-					<div onClick={() => { console.log(props.id); props.gotoPageHandler(props.id, true); }}>{hideString(props.title)}</div>
+		<div>
+			<div className='question-item-container'>
+				<div className='question-item'>
+					<DateComponent dateTime={props.dateTime} />
+					<div className='question-item__description'>
+						<div onClick={() => { console.log(props.id); props.gotoPageHandler(props.id, true); }}>{hideString(props.title)}</div>
+					</div>
+
+					<div className='question-item-username'>Question Submitted <br></br> by user <text className='question-item-username-link' onClick={() => props.gotoPageHandler(props.username, false)}>{props.username.split('@')[0]}</text></div>
+
 				</div>
 				<ul className='tags'>
 					{props.tags.map((tag, index) => (
@@ -27,11 +32,12 @@ const QuestionItem = (props) => {
 						</li>
 					))}
 				</ul>
-				<div className='question-item-username'>Question Submitted <br></br> by user <text className='question-item-username-link' onClick={() => props.gotoPageHandler(props.username, false)}>{props.username.split('@')[0]}</text></div>
+				<div>
 				<div className='gg-pen'></div>
 				<div className='gg-trash' onClick={() => props.deleteQuestionHandler(props.id)}></div>
+				</div>
 			</div>
-		</li>
+		</div>
 	);
 };
 

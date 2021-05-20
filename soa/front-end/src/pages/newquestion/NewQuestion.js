@@ -56,7 +56,7 @@ const NewQuestion = () => {
             username: localStorage.getItem('loggedUsername'),
             dateTime: new Date().toUTCString()
         };
-
+        console.log(requestBody)
         axios.post(`${BASE_URL}/questions`, requestBody, config)
             .then(response => {
                 console.log(response.data)
