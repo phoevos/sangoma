@@ -2,10 +2,9 @@
 import React, { useState } from 'react';
 import { TextField, FormControl, Button } from '@material-ui/core';
 import axios from 'axios';
-import ErrorMessage from '../../../components/ErrorMessage';
+import ErrorMessage from '../../../components/hoc/error/ErrorMessage';
 import {Nav} from 'react-bootstrap';
 import './NewAnswer.css';
-const qs = require('querystring');
 const BASE_URL = 'http://localhost:3000';
 
 const NewAnswer = (props) => {
@@ -24,7 +23,7 @@ const NewAnswer = (props) => {
         const config = {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                'Content-Type': 'application/x-www-form-urlencoded'
+                'Content-Type': 'application/json'
 
             }
         }
@@ -36,7 +35,7 @@ const NewAnswer = (props) => {
             dateTime: new Date().toUTCString()
         };
 
-        axios.post(`${BASE_URL}/answers`, qs.stringify(requestBody), config)
+        axios.post(`${BASE_URL}/answers`, requestBody, config)
             .then(response => {
                 console.log(response.data)
                 window.location.reload(false);

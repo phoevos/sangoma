@@ -1,7 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
+import { Question } from 'src/questions/entities/question.entity';
 import { EntityManager } from 'typeorm';
 import { CreateAnswerDto } from './dto/create-answer.dto';
+import { FilteredAnswerDto } from './dto/get-filtered-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { Answer } from './entities/answer.entity';
 
@@ -14,8 +16,15 @@ export class AnswersService {
     return this.entityManager.save(answer)
   }
 
-  async findAll(): Promise<Answer[]> {
-    return this.entityManager.find(Answer)
+  async findAll(filteredAnswerDto: FilteredAnswerDto): Promise<Answer[]> {
+    const { username } = filteredAnswerDto
+    const query = this.entityManager.createQueryBuilder(Answer, 'answer')
+    if(username) {
+      query.andWhere("answer.username = :username", {username})
+      query.leftJoin("answer.question","q").select(['answer.id', 'answer.username', 'answer.text', 'answer.dateTime', 'q.title'])
+      return query.getMany();
+    }
+    return this.entityManager.find(Answer, {username})
   }
 
   async findOne(id: number): Promise<Answer> {

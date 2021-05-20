@@ -12,12 +12,14 @@ const QuestionList = (props) => {
 		<ul className='question-list'>
 			{props.items.map((question) => (
 				<QuestionItem gotoPageHandler={props.gotoPageHandler}
-					deleteQuestionHandler={props.deleteQuestionHandler}
+					fetch={props.fetch}
+					deleteHandler={props.deleteHandler}
 					key={question.id}
 					id={question.id}
 					title={question.title}
 					username={question.username}
 					dateTime={question.dateTime}
+					tags={question.keywords}
 				/>
 			))}
 		</ul>

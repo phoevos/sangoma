@@ -3,10 +3,11 @@ import { useHistory } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Navbar, Nav, Form, Col, NavDropdown} from 'react-bootstrap';
 import { Button } from '@material-ui/core';
-import MainPage from '../pages/mainpage/MainPage';
-import NewQuestion from '../pages/newquestion/NewQuestion';
-import SingleQuestion from '../pages/singlequestion/SingleQuestionPage';
+import MainPage from '../../../pages/mainpage/MainPage';
+import NewQuestion from '../../../pages/newquestion/NewQuestion';
+import SingleQuestion from '../../../pages/singlequestion/SingleQuestionPage';
 import { Route } from "react-router-dom";
+import Dashboard from '../../../pages/dashboard/Dashboard';
 
 const Layout = () => {
 
@@ -48,7 +49,7 @@ const Layout = () => {
                                 {localStorage.getItem('loggedUsername').split('@')[0]}
                             </Nav.Link>  */}
                             {isLoggedIn && <NavDropdown title={localStorage.getItem('loggedUsername').split('@')[0]} id="nav-dropdown">
-                                <NavDropdown.Item eventKey="4.1">Shaka</NavDropdown.Item>
+                                <NavDropdown.Item eventKey="4.1" href='/my'>My AskMeAnything</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="4.2">Dingane</NavDropdown.Item>
                                 <NavDropdown.Item eventKey="4.3">Mhlangana</NavDropdown.Item>
                                 <NavDropdown.Divider />
@@ -73,6 +74,7 @@ const Layout = () => {
             <div>
                 <Route exact path="/newquestion" component={NewQuestion} />
                 <Route path="/questions/" component={SingleQuestion} />
+                <Route path="/my" component={Dashboard} />
                 <Route exact path="/"   component={MainPage}/>
             </div>
             <div className="fixed-bottom">

@@ -18,6 +18,13 @@ const Question = (props) => {
                     <div className='single-question-item__text'>
                         <div>{props.question.text}</div>
                     </div>
+                    <ul className='tags'>
+                        {props.question.keywords.map((tag, index) => (
+                            <li key={index} className='tag'>
+                                <span className='tag-title' onClick={() => props.fetch(tag.keyword)}>{tag.keyword}</span>
+                            </li>
+                        ))}
+                    </ul>
                     {/* <p className="single-question-text"> {props.question.text}</p> */}
                     <div className='single-question-item-username'>
                     Question Submitted <br></br> by user {" "}

@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, UseGuards, ValidationPipe, Query } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AnswersService } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
+import { FilteredAnswerDto } from './dto/get-filtered-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 
 @Controller('answers')
@@ -15,8 +16,8 @@ export class AnswersController {
   }
 
   @Get()
-  findAll() {
-    return this.answersService.findAll()
+  findAll(@Query(ValidationPipe) filteredAnswerDto: FilteredAnswerDto) {
+    return this.answersService.findAll(filteredAnswerDto)
   }
 
   @Get('/:id')

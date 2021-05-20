@@ -3,11 +3,10 @@ import { TextField, Button } from '@material-ui/core';
 import styled from 'styled-components';
 import { useHistory } from "react-router-dom";
 import axios from 'axios';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/hoc/error/ErrorMessage';
 import { Navbar } from 'react-bootstrap';
 import './SignUpPage.css';
 
-const qs = require('querystring');
 const BASE_URL = 'http://localhost:3000';
 
 const Heading = styled.h1`
@@ -61,7 +60,7 @@ const SignUpPage = () => {
 		else {
 			const config = {
 				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
+					'Content-Type': 'application/json',
 				}
 			}
 			//Create Request Body
@@ -71,7 +70,7 @@ const SignUpPage = () => {
 			};
 			//Send post request
 
-			axios.post(`${BASE_URL}/auth/signup`, qs.stringify(requestBody), config)
+			axios.post(`${BASE_URL}/auth/signup`, requestBody, config)
 				.then(response => {
 					let signUpAccessToken = response.data.accessToken;
 					localStorage.setItem('accessToken', signUpAccessToken);

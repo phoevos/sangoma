@@ -3,7 +3,7 @@ import { Button, TextField } from '@material-ui/core';
 import { useHistory } from "react-router-dom";
 import styled from 'styled-components';
 import axios from 'axios';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/hoc/error/ErrorMessage';
 import { Navbar } from 'react-bootstrap';
 import './SignInPage.css';
 const qs = require('querystring');

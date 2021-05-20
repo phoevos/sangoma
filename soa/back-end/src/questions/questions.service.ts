@@ -14,10 +14,9 @@ export class QuestionsService {
   constructor(@InjectEntityManager('questions') private entityManager: EntityManager) {}
 
   async create(createQuestionDto: CreateQuestionDto){
-    
-    const question = await this.entityManager.create(Question, createQuestionDto)
+    const question = this.entityManager.create(Question, createQuestionDto)
     for (let keyword of createQuestionDto.keywords) {
-      let thekeyword = this.entityManager.create(Keyword,keyword)
+      let thekeyword = this.entityManager.create(Keyword, keyword)
       this.entityManager.save(thekeyword)
     }
     return this.entityManager.save(question)
@@ -104,7 +103,7 @@ export class QuestionsService {
   }
 
   async findOne(id: number): Promise<Question> {
-    const question = await this.entityManager.findOne(Question, id, { relations: ['answers']})
+    const question = await this.entityManager.findOne(Question, id, { relations: ['answers', 'keywords']})
     if (!question) throw new NotFoundException(`Question #${id} not found`)
     return question
   }

@@ -3,27 +3,36 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TextField, FormControl, Button } from '@material-ui/core';
 import axios from 'axios';
-import ErrorMessage from '../../components/ErrorMessage';
+import ErrorMessage from '../../components/hoc/error/ErrorMessage';
 import {Nav} from 'react-bootstrap';
 import './NewQuestion.css';
-const qs = require('querystring');
+import TagsInput from '../../components/tags/TagsInput';
 const BASE_URL = 'http://localhost:3000';
 
 const NewQuestion = () => {
 
-
     const [errorMessage, setErrorMessage] = useState('');
     const [titleState, dispatchTitle] = useState('');
     const [textState, dispatchText] = useState('');
+    const [tags, setTags] = useState([]);
+
+    const addTags = event => {
+        if (event.key === "Enter" && event.target.value !== "") {
+            setTags([...tags, event.target.value])
+            event.target.value = ""
+        }
+    }
+
+    const removeTags = index => {
+        setTags([...tags.filter(tag => tags.indexOf(tag) !== index)])
+    }
 
     const titleChangeHandler = (event) => {
         dispatchTitle(event.target.value);
-
     };
 
     const textChangeHandler = (event) => {
         dispatchText(event.target.value);
-
     };
     const history = useHistory();
 
@@ -36,19 +45,19 @@ const NewQuestion = () => {
         const config = {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                'Content-Type': 'application/x-www-form-urlencoded'
-
+                'Content-Type': 'application/json'
             }
         }
-
+        
         const requestBody = {
             title: titleState,
             text: textState,
+            keywords: tags.map(keyword => ({keyword: keyword})),
             username: localStorage.getItem('loggedUsername'),
             dateTime: new Date().toUTCString()
         };
 
-        axios.post(`${BASE_URL}/questions`, qs.stringify(requestBody), config)
+        axios.post(`${BASE_URL}/questions`, requestBody, config)
             .then(response => {
                 console.log(response.data)
                 goToStartingPage();
@@ -89,6 +98,8 @@ const NewQuestion = () => {
                             onChange={textChangeHandler}
                         />
                     </FormControl>
+                    
+                    <TagsInput addTags={addTags} removeTags={removeTags} tags={tags}/>
 
                     <Nav>
                         <Button

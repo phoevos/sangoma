@@ -15,7 +15,6 @@ export class QuestionsController {
     return this.questionsService.create(createQuestionDto);
   }
 
-  //@Get(filtered)
   @Get()
   findFiltered(@Query(ValidationPipe) filteredQuestionDto: FilteredQuestionDto) {
     return this.questionsService.findFilteredQuestions(filteredQuestionDto);

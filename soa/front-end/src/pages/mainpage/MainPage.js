@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import QuestionList from './questionlist/QuestionList';
 import './MainPage.css';
 import axios from 'axios';
-import Loader from '../../components/loader/Loader';
+import Loader from '../../components/hoc/loader/Loader';
 import Pagination from '../../components/pagination/Pagination'
 const BASE_URL = 'http://localhost:3000';
 
@@ -16,8 +16,16 @@ const MainPage = () => {
     const [questionsPerPage] = useState(6);
     const history = useHistory();
 
-    const fetchdata = () => {
-        axios.get(`${BASE_URL}/questions`)
+    const fetchdata = (tag) => {
+        let params
+        if (tag) {
+            params = {
+                params: {
+                    matchingKeywords: [tag]
+                }
+            }
+        }
+        axios.get(`${BASE_URL}/questions`, params)
             .then(response => {
                 dispatchQuestions(response.data);
                 setIsFetched(true);
@@ -41,7 +49,10 @@ const MainPage = () => {
 
     }, []);
 
-
+    // Tabs should to be added here:
+    //     * The default one will be our home page (all questions)
+    //     * Questions per day / month tab
+    //     * Questions per keyword tab
 
     // Get current posts
     const indexOfLastQuestion = currentPage * questionsPerPage;
@@ -79,7 +90,7 @@ const MainPage = () => {
             <h2 className='main-title-margin'>Recent Questions and Answers </h2>
             <nav>
                 <div className='main-questions'>
-                    {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} deleteQuestionHandler={deleteQuestionHandler} items={currentQuestions} />}
+                    {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} fetch={fetchdata} deleteHandler={deleteQuestionHandler} items={currentQuestions} />}
                     {!isFetched && <Loader></Loader>}
                     <Pagination
                         postsPerPage={questionsPerPage}

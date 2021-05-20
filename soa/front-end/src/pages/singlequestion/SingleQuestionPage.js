@@ -5,7 +5,7 @@ import axios from 'axios';
 import './SingleQuestionPage.css'
 import 'font-awesome/css/font-awesome.min.css';
 import Question from './question/Question';
-import Loader from '../../components/loader/Loader';
+import Loader from '../../components/hoc/loader/Loader';
 import NewAnswer from './newanswer/NewAnswer'
 import AnswerList from './answerslist/AnswerList'
 import Pagination from '../../components/pagination/Pagination'
@@ -26,8 +26,20 @@ const SingleQuestionPage = () => {
         return history.push('/');
     };
 
-    const fetchdata = () => {
-        axios.get(`${BASE_URL}${location.pathname}`)
+    const fetchdata = (tag) => {
+        let params
+        let path = location.pathname
+        // if (tag) {
+        //     path = 'questions'
+        //     params = {
+        //         params: {
+        //             matchingKeywords: [tag]
+        //         }
+        //     }
+        //     redi
+        //     return history.push('/', tag)
+        // }
+        axios.get(`${BASE_URL}${path}`, params)
             .then(response => {
                 dispatchQuestion(response.data);
                 setIsFetched(true);
@@ -60,7 +72,7 @@ const SingleQuestionPage = () => {
             {isFetched &&
                 <div>
                 <div className='single-container2'>
-                    <Question question={question} addAnswerHandler={addAnswerHandler}>
+                    <Question question={question} fetch={fetchdata} addAnswerHandler={addAnswerHandler}>
                     </Question>
                     {addAnswer && <NewAnswer location = {location} history = {history} goToStartingPage = {goToStartingPage} addAnswerHandler={addAnswerHandler}>
                     </NewAnswer>}
