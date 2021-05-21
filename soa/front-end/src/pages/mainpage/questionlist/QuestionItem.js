@@ -22,7 +22,15 @@ const QuestionItem = (props) => {
 						<div onClick={() => { console.log(props.id); props.gotoPageHandler(props.id, true); }}>{hideString(props.title)}</div>
 					</div>
 
-					<div className='question-item-username'>Question Submitted <br></br> by user <text className='question-item-username-link' onClick={() => props.gotoPageHandler(props.username, false)}>{props.username.split('@')[0]}</text></div>
+					<div className='question-item-username'>
+						Question Submitted
+						<br>
+						</br>
+						by user
+						<bdi className='question-item-username-link' onClick={() => props.gotoPageHandler(props.username, false)}>
+							{props.username.split('@')[0]}
+						</bdi>
+					</div>
 
 				</div>
 				<ul className='tags'>
@@ -33,8 +41,8 @@ const QuestionItem = (props) => {
 					))}
 				</ul>
 				<div>
-				<div className='gg-pen'></div>
-				<div className='gg-trash' onClick={() => props.deleteQuestionHandler(props.id)}></div>
+					<div className='gg-pen'></div>
+					<div className='gg-trash' onClick={() => props.deleteHandler(props.id)}></div>
 				</div>
 			</div>
 		</div>

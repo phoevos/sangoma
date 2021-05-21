@@ -6,15 +6,21 @@ import './MainPage.css';
 import axios from 'axios';
 import Loader from '../../components/hoc/loader/Loader';
 import Pagination from '../../components/pagination/Pagination'
+import { Modal } from '../../components/hoc/modal/Modal';
+
 const BASE_URL = 'http://localhost:3000';
 
 const MainPage = () => {
 
+    const [showModal, setShowModal] = useState(false);
     const [questions, dispatchQuestions] = useState([]);
     const [isFetched, setIsFetched] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [questionsPerPage] = useState(6);
     const history = useHistory();
+    const openModal = () => {
+        setShowModal(prev => !prev);
+      };
 
     const fetchdata = (tag) => {
         let params
@@ -77,15 +83,17 @@ const MainPage = () => {
             .catch(error => {
                 if (error.response.data.statusCode === 401) {
                     // That's a temporary work-around, redirecting to signin should be done more gracefully.
-                    history.push('/signin');
+                    //history.push('/signin');
+                    openModal()
                 } else {
                     console.log(error.response.data);
                     // setErrorMessage(error.response.data.message); 
                 }
             });
     }
-
+    let message = "You are trying to delete a question without authentication."
     return (
+        <div>
         <div>
             <h2 className='main-title-margin'>Recent Questions and Answers </h2>
             <nav>
@@ -101,6 +109,8 @@ const MainPage = () => {
             </nav>
 
 
+        </div>
+        <Modal showModal={showModal} setShowModal={setShowModal} message ={message} history={history}/>        
         </div>
     );
 };

@@ -15,7 +15,7 @@ export class Answer extends BaseEntity {
     @Column()
     dateTime: Date
 
-    @ManyToOne(type => Question, question => question.answers)
+    @ManyToOne(type => Question, question => question.answers, { onDelete: "CASCADE"})
     question: Question
 
     @Column()

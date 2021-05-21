@@ -126,6 +126,7 @@
 
  .gg-pen:hover {
   background-color: chartreuse;
+  cursor: pointer;
  } 
 
 .gg-trash {
@@ -176,4 +177,5 @@
  
  .gg-trash:hover {
   background-color: #f71515;
+  cursor: pointer;
  } 

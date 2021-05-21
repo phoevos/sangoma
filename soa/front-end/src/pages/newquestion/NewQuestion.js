@@ -7,10 +7,12 @@ import ErrorMessage from '../../components/hoc/error/ErrorMessage';
 import {Nav} from 'react-bootstrap';
 import './NewQuestion.css';
 import TagsInput from '../../components/tags/TagsInput';
+import { Modal } from '../../components/hoc/modal/Modal';
 const BASE_URL = 'http://localhost:3000';
 
 const NewQuestion = () => {
 
+    const [showModal, setShowModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [titleState, dispatchTitle] = useState('');
     const [textState, dispatchText] = useState('');
@@ -23,6 +25,11 @@ const NewQuestion = () => {
         }
     }
 
+
+    const openModal = () => {
+        setShowModal(prev => !prev);
+      };
+      
     const removeTags = index => {
         setTags([...tags.filter(tag => tags.indexOf(tag) !== index)])
     }
@@ -65,13 +72,16 @@ const NewQuestion = () => {
             .catch(error => {
                 if (error.response.data.statusCode === 401) {
                     // That's a temporary work-around, redirecting to signin should be done more gracefully.
-                    history.push('/signin');
+                    // history.push('/signin');
+                    openModal();
                 } else {
                     console.log(error.response.data); 
                     setErrorMessage(error.response.data.message); 
                 } 
             });
     }
+
+    let message = "You are trying to submit a question without authentication."
 
     return (
         <div>
@@ -124,6 +134,7 @@ const NewQuestion = () => {
 
                     </Nav>
                 </div>
+                <Modal showModal={showModal} setShowModal={setShowModal} message ={message}/>
 
         </div>
 

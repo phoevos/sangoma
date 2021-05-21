@@ -1,5 +1,6 @@
  
 .signUpContainer{
+  max-width: 480px;
   width: 100%;
   background-color: white;
   padding: 30px;

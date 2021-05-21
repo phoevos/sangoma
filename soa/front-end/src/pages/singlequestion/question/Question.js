@@ -21,9 +21,9 @@ const Question = (props) => {
                 {/* <p className="single-question-text"> {props.question.text}</p> */}
                 <div className='single-question-item-username'>
                     Question Submitted <br></br> by user {" "}
-                    <text className='single-question-item-username-link' onClick={() => { }}>
+                    <bdi className='single-question-item-username-link' onClick={() => { }}>
                         {props.question.username.split('@')[0]}
-                    </text>
+                    </bdi>
                 </div>
             </div>
 

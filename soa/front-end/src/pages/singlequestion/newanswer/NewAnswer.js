@@ -5,11 +5,13 @@ import axios from 'axios';
 import ErrorMessage from '../../../components/hoc/error/ErrorMessage';
 import {Nav} from 'react-bootstrap';
 import './NewAnswer.css';
+import { Modal } from '../../../components/hoc/modal/Modal';
+
 const BASE_URL = 'http://localhost:3000';
 
 const NewAnswer = (props) => {
 
-
+    const [showModal, setShowModal] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [textState, dispatchText] = useState('');
 
@@ -17,7 +19,9 @@ const NewAnswer = (props) => {
         dispatchText(event.target.value);
 
     };
-
+    const openModal = () => {
+        setShowModal(prev => !prev);
+      };
     const submitQuestionHandler = () => {
 
         const config = {
@@ -43,7 +47,8 @@ const NewAnswer = (props) => {
             .catch(error => {
                 if (error.response.data.statusCode === 401) {
                     // That's a temporary work-around, redirecting to signin should be done more gracefully.
-                    props.history.push('/signin');
+                    // props.history.push('/signin');
+                    openModal();
                 } 
                 else {
                     console.log(error.response.data); 
@@ -51,6 +56,7 @@ const NewAnswer = (props) => {
                 } 
             });
     }
+    let message = "You are trying to an answer without authentication."
 
     return (
         <div>
@@ -93,7 +99,7 @@ const NewAnswer = (props) => {
 
                     </Nav>
                 </div>
-
+                <Modal showModal={showModal} setShowModal={setShowModal} message ={message} history={props.history}/>
         </div>
 
     );
