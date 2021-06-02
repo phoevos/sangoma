@@ -10,12 +10,16 @@ import './Dashboard.css'
 import '../mainpage/MainPage.css'
 import QuestionsPerKeyword from '../../components/chart/keywords/QuestionsPerKeyword'
 import QuestionsPerKeywordTable from '../../components/chart/keywords/QuestionsPerKeywordTable'
+import Contributions from '../../components/chart/contributions/Contributions'
 const BASE_URL = 'http://localhost:3000';
 
 const Dashboard = () => {
     const [questions, dispatchQuestions] = useState([]);
     const [answers, dispatchAnswers] = useState([]);
     const [keywords, dispatchKeywords] = useState([]);
+    const [openList, toggleList] = useState(false);
+    const [year, setYear] = useState((new Date()).getFullYear());
+    const [month, setMonth] = useState((new Date()).toLocaleString('default', { month: 'long' }));
     const [isFetched, setIsFetched] = useState(false);
     const [answerIsFetched, setAnswerIsFetched] = useState(false);
     const [keywordsFetched, setKeywordsFetched] = useState(false);
@@ -32,7 +36,7 @@ const Dashboard = () => {
             }
         }
         if (tag) params.params.matchingKeywords = [tag]
-        
+
         axios.get(`${BASE_URL}/questions`, params)
             .then(response => {
                 dispatchQuestions(response.data);
@@ -148,6 +152,46 @@ const Dashboard = () => {
             });
     }
 
+    const monthHandler = (month) => {
+        console.log("MonthHandler!");
+    }
+
+    const yearHandler = (year) => {
+        console.log("YearHandler!");
+    }
+    
+    const toggleListHandler = () => {
+        if (openList) {
+            toggleList(true)
+        } else {
+            toggleList(false)
+        }
+    }
+
+    const changeYearHandler = (i) => {
+        setYear(i)
+        toggleList(false)
+    }
+
+    const changeMonthHandler = (i) => {
+        setMonth(i)
+        toggleList(false)
+    }
+
+    const dummyQuestionObject = [{
+        year: 2021,
+        month: 'June',
+        contributions: 11
+    },{
+        year: 2020,
+        month: 'January',
+        contributions: 10
+    },{
+        year: 2019,
+        month: 'February',
+        contributions: 8
+    }]
+
     return (
         <div>
             <h2 className='main-title-margin'>My AskMeAnything</h2>
@@ -192,6 +236,13 @@ const Dashboard = () => {
                     </div>
                 </Tab>
                 <Tab eventKey="contributions" title="My Contributions">
+                    <Contributions 
+                        year={year} month={month}
+                        toggleList={toggleListHandler}
+                        yearHandler={yearHandler} monthHandler={monthHandler} 
+                        changeYearHandler={changeYearHandler} changeMonthHandler={changeMonthHandler} 
+                        questions={dummyQuestionObject}>
+                    </Contributions>
                 </Tab>
             </Tabs>
         </div>
