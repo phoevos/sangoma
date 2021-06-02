@@ -134,7 +134,7 @@ const NewQuestion = () => {
 
                     </Nav>
                 </div>
-                <Modal showModal={showModal} setShowModal={setShowModal} message ={message}/>
+                <Modal showModal={showModal} setShowModal={setShowModal} history={history} message ={message}/>
 
         </div>
 

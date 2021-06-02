@@ -28,7 +28,7 @@ const QuestionItem = (props) => {
 						</br>
 						by user
 						<bdi className='question-item-username-link' onClick={() => props.gotoPageHandler(props.username, false)}>
-							{props.username.split('@')[0]}
+							{' ' + props.username.split('@')[0]} {/* Η μεγαλύτερη παπάτζα έβερ. */}
 						</bdi>
 					</div>
 

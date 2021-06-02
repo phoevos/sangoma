@@ -1,6 +1,6 @@
 import React from "react"
 import "./TagsInput.scss"
-import { TextField, FormControl, Button } from '@material-ui/core';
+import { TextField, FormControl } from '@material-ui/core';
 
 const TagsInput = props => {
     return(

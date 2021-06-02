@@ -28,6 +28,7 @@ const Layout = () => {
             setIsLoggedIn(false);
             localStorage.removeItem('accessToken');
             localStorage.removeItem('loggedUsername');
+            history.push('/');
         }
         else return history.push('/signin');
     

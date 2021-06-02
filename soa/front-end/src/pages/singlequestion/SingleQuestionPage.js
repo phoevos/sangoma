@@ -7,7 +7,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import Question from './question/Question';
 import Loader from '../../components/hoc/loader/Loader';
 import NewAnswer from './newanswer/NewAnswer'
-import AnswerList from './answerslist/AnswerList'
+import AnswerList from './answerlist/AnswerList'
 import Pagination from '../../components/pagination/Pagination'
 
 const BASE_URL = 'http://localhost:3000';
@@ -29,16 +29,6 @@ const SingleQuestionPage = () => {
     const fetchdata = (tag) => {
         let params
         let path = location.pathname
-        // if (tag) {
-        //     path = 'questions'
-        //     params = {
-        //         params: {
-        //             matchingKeywords: [tag]
-        //         }
-        //     }
-        //     redi
-        //     return history.push('/', tag)
-        // }
         axios.get(`${BASE_URL}${path}`, params)
             .then(response => {
                 dispatchQuestion(response.data);

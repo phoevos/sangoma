@@ -22,7 +22,7 @@ export class Question extends BaseEntity {
     @OneToMany(() => Answer, answer => answer.question)
     answers: Answer[]
 
-    @ManyToMany(() => Keyword, keyword => keyword.questions)
+    @ManyToMany(() => Keyword, keyword => keyword.questions, { cascade: true })
     @JoinTable({
         name: 'question_keyword',
         joinColumn: { name: 'questionId', referencedColumnName: 'id'},

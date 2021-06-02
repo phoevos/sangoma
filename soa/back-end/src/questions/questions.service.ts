@@ -15,10 +15,10 @@ export class QuestionsService {
 
   async create(createQuestionDto: CreateQuestionDto){
     const question = this.entityManager.create(Question, createQuestionDto)
-    for (let keyword of createQuestionDto.keywords) {
-      let thekeyword = this.entityManager.create(Keyword, keyword)
-      this.entityManager.save(thekeyword)
-    }
+    // for (let keyword of createQuestionDto.keywords) {
+    //   let thekeyword = this.entityManager.create(Keyword, keyword)
+    //   this.entityManager.save(thekeyword)
+    // }
     return this.entityManager.save(question)
   }
 
@@ -45,7 +45,7 @@ export class QuestionsService {
         matchingKeywordsArray = matchingKeywords
 
       for (let i = 0; i < matchingKeywordsArray.length; i++)
-      query.innerJoin("question.keywords",`keyword${i}`, `keyword${i}.keyword = :matchingkeyword`, { matchingkeyword: matchingKeywordsArray[i] })
+        query.innerJoin("question.keywords",`keyword${i}`, `keyword${i}.keyword = :matchingkeyword`, { matchingkeyword: matchingKeywordsArray[i] })
     }
     if(username)  query.andWhere("question.username = :username", {username}) 
     if(startDate) query.andWhere("question.dateTime >= :startDate", {startDate})
@@ -121,7 +121,8 @@ export class QuestionsService {
     return this.entityManager.transaction(async manager => {
       const question = await manager.findOne(Question, id)
       if (!question) throw new NotFoundException(`Question #${id} not found`)
-      await manager.delete(Question, id)
+      await manager.remove(question)
+      // await manager.delete(Question, id)
     })
   }
 }

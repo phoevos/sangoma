@@ -5,15 +5,20 @@ import { useHistory } from 'react-router'
 import Loader from '../../components/hoc/loader/Loader'
 import Pagination from '../../components/pagination/Pagination'
 import QuestionList from '../mainpage/questionlist/QuestionList'
+import AnswerList from '../singlequestion/answerlist/AnswerList'
 import './Dashboard.css'
 import '../mainpage/MainPage.css'
+import QuestionsPerKeyword from '../../components/chart/keywords/QuestionsPerKeyword'
+import QuestionsPerKeywordTable from '../../components/chart/keywords/QuestionsPerKeywordTable'
 const BASE_URL = 'http://localhost:3000';
 
 const Dashboard = () => {
     const [questions, dispatchQuestions] = useState([]);
     const [answers, dispatchAnswers] = useState([]);
+    const [keywords, dispatchKeywords] = useState([]);
     const [isFetched, setIsFetched] = useState(false);
     const [answerIsFetched, setAnswerIsFetched] = useState(false);
+    const [keywordsFetched, setKeywordsFetched] = useState(false);
     const [currentQuestionPage, setCurrentQuestionPage] = useState(1);
     const [currentAnswerPage, setCurrentAnswerPage] = useState(1);
     const [questionsPerPage] = useState(6);
@@ -26,13 +31,8 @@ const Dashboard = () => {
                 username: localStorage.getItem('loggedUsername')
             }
         }
-        if (tag) {
-            params = {
-                params: {
-                    matchingKeywords: [tag]
-                }
-            }
-        }
+        if (tag) params.params.matchingKeywords = [tag]
+        
         axios.get(`${BASE_URL}/questions`, params)
             .then(response => {
                 dispatchQuestions(response.data);
@@ -57,6 +57,21 @@ const Dashboard = () => {
             });
     }
 
+    const fetchKeywords = () => {
+        const params = {
+            params: {
+                username: localStorage.getItem('loggedUsername')
+            }
+        }
+        axios.get(`${BASE_URL}/keywords`, params)
+            .then(response => {
+                dispatchKeywords(response.data);
+                setKeywordsFetched(true);
+            })
+            .catch(error => {
+            });
+    }
+
     const gotoPageHandler = (id, isquestion) => {
 
         // if you click on question title go to single question page
@@ -71,6 +86,7 @@ const Dashboard = () => {
     useEffect(() => {
         fetchQuestions();
         fetchAnswers();
+        fetchKeywords();
     }, []);
 
     // Get current posts
@@ -155,19 +171,27 @@ const Dashboard = () => {
                 <Tab eventKey="myanswers" title="My Answers">
                     <div>
                         <nav>
-                            <div className='main-questions'>
-                                {/* {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} fetch={fetchAnswers} deleteHandler={deleteAnswerHandler} items={currentAnswers} />} */}
+                            <div className='main-answers'>
+                                {isFetched && <AnswerList gotoPageHandler={gotoPageHandler} fetch={fetchAnswers} deleteHandler={deleteAnswerHandler} items={currentAnswers} />}
                                 {!answerIsFetched && <Loader></Loader>}
-                                {/* <Pagination
+                                <Pagination
                                     postsPerPage={answersPerPage}
                                     totalPosts={answers.length}
                                     paginate={paginateAnswersHandler}
-                                /> */}
+                                />
                             </div>
                         </nav>
                     </div>
                 </Tab>
-                <Tab eventKey="graphs" title="Graphs">
+                <Tab eventKey="keywords" title="Questions/Keyword">
+                    <div className='keyword-chart'>
+                        <QuestionsPerKeyword keywords={keywords}></QuestionsPerKeyword>
+                    </div>
+                    <div className='keyword-table'>
+                        <QuestionsPerKeywordTable keywords={keywords} fetch={fetchQuestions}></QuestionsPerKeywordTable>
+                    </div>
+                </Tab>
+                <Tab eventKey="contributions" title="My Contributions">
                 </Tab>
             </Tabs>
         </div>

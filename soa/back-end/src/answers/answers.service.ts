@@ -21,7 +21,7 @@ export class AnswersService {
     const query = this.entityManager.createQueryBuilder(Answer, 'answer')
     if(username) {
       query.andWhere("answer.username = :username", {username})
-      query.leftJoin("answer.question","q").select(['answer.id', 'answer.username', 'answer.text', 'answer.dateTime', 'q.title'])
+      query.leftJoin("answer.question","q").select(['answer.id', 'answer.username', 'answer.text', 'answer.dateTime', 'q.title', 'q.id'])
       return query.getMany();
     }
     return this.entityManager.find(Answer, {username})

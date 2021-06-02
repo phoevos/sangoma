@@ -6,7 +6,7 @@ export class Keyword {
     @PrimaryColumn({ nullable: false, unique: true })
     keyword: string
 
-    @ManyToMany(() => Question, question => question.keywords, { onDelete: "CASCADE"})
+    @ManyToMany(() => Question, question => question.keywords, { onDelete: "CASCADE"} )
     questions: Question[]
 }
 
