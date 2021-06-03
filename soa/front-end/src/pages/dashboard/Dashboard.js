@@ -19,7 +19,10 @@ const Dashboard = () => {
     const [keywords, dispatchKeywords] = useState([]);
     const [openList, toggleList] = useState(false);
     const [year, setYear] = useState((new Date()).getFullYear());
-    const [month, setMonth] = useState((new Date()).toLocaleString('default', { month: 'long' }));
+    const [annualContributions, setAnnualContributions] = useState([]);
+    const [month, setMonth] = useState((new Date()).getMonth() + 1);
+    // const [month, setMonth] = useState((new Date()).toLocaleString('default', { month: 'long' }));
+    const [monthlyContributions, setMonthlyContributions] = useState([]);
     const [isFetched, setIsFetched] = useState(false);
     const [answerIsFetched, setAnswerIsFetched] = useState(false);
     const [keywordsFetched, setKeywordsFetched] = useState(false);
@@ -91,6 +94,8 @@ const Dashboard = () => {
         fetchQuestions();
         fetchAnswers();
         fetchKeywords();
+        changeYearHandler(year);
+        changeMonthHandler(month);
     }, []);
 
     // Get current posts
@@ -151,14 +156,6 @@ const Dashboard = () => {
                 }
             });
     }
-
-    const monthHandler = (month) => {
-        console.log("MonthHandler!");
-    }
-
-    const yearHandler = (year) => {
-        console.log("YearHandler!");
-    }
     
     const toggleListHandler = () => {
         if (openList) {
@@ -169,28 +166,42 @@ const Dashboard = () => {
     }
 
     const changeYearHandler = (i) => {
-        setYear(i)
-        toggleList(false)
+        const params = {
+            params: {
+                username: localStorage.getItem('loggedUsername'),
+                year: i,
+                month: month
+            }
+        }
+
+        axios.get(`${BASE_URL}/questions/contributions/year`, params)
+            .then(response => {
+                setAnnualContributions(response.data)
+                setYear(i)
+                toggleList(false)
+            })
+            .catch(error => {
+            });
     }
 
     const changeMonthHandler = (i) => {
-        setMonth(i)
-        toggleList(false)
-    }
+        const params = {
+            params: {
+                username: localStorage.getItem('loggedUsername'),
+                month: i,
+                year: year
+            }
+        }
 
-    const dummyQuestionObject = [{
-        year: 2021,
-        month: 'June',
-        contributions: 11
-    },{
-        year: 2020,
-        month: 'January',
-        contributions: 10
-    },{
-        year: 2019,
-        month: 'February',
-        contributions: 8
-    }]
+        axios.get(`${BASE_URL}/questions/contributions/month`, params)
+            .then(response => {
+                setMonthlyContributions(response.data)
+                setMonth(i)
+                toggleList(false)
+            })
+            .catch(error => {
+            });
+    }
 
     return (
         <div>
@@ -238,10 +249,9 @@ const Dashboard = () => {
                 <Tab eventKey="contributions" title="My Contributions">
                     <Contributions 
                         year={year} month={month}
+                        annualContributions={annualContributions} monthlyContributions={monthlyContributions}
                         toggleList={toggleListHandler}
-                        yearHandler={yearHandler} monthHandler={monthHandler} 
-                        changeYearHandler={changeYearHandler} changeMonthHandler={changeMonthHandler} 
-                        questions={dummyQuestionObject}>
+                        changeYearHandler={changeYearHandler} changeMonthHandler={changeMonthHandler} >
                     </Contributions>
                 </Tab>
             </Tabs>

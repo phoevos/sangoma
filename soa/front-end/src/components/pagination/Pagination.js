@@ -9,7 +9,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }) => {
 
   return (
     <nav>
-      <ul className='pagination'>
+      <ul className='pagination' style={{cursor: 'pointer'}}>
         {pageNumbers.map(number => (
           <li key={number} className='page-item'>
             <div onClick={() => {paginate(number); window.scrollTo(0, 0);}} className='page-link'>

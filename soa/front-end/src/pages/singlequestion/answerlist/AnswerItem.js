@@ -4,7 +4,6 @@ import DateComponent from '../../../components/date/DateComponent';
 import './AnswerItem.css';
 
 const AnswerItem = (props) => {
-	console.log(props);
 	return (
 		<li>
 			<div className='answer-item'>

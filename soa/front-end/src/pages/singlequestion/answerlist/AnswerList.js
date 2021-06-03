@@ -7,7 +7,7 @@ const AnswerList = (props) => {
 	if (props.items.length === 0) {
 		return <h2 className='answer-list__fallback'>Found no answers.</h2>;
 	}
-	console.log(props.items);
+	
 	return (
 		<ul className='answer-list'>
 			{props.items.map((answer) => (
