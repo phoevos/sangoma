@@ -208,7 +208,7 @@ const Dashboard = () => {
             <h2 className='main-title-margin'>My AskMeAnything</h2>
             <br></br>
             <Tabs defaultActiveKey="myquestions" id="uncontrolled-tab-example">
-                <Tab classname="tab" eventKey="myquestions" title="My Questions">
+                <Tab className="tab" eventKey="myquestions" title="My Questions">
                     <div>
                         <nav>
                             <div className='main-questions'>

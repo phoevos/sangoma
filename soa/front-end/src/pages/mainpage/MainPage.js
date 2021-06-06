@@ -7,7 +7,7 @@ import axios from 'axios';
 import Loader from '../../components/hoc/loader/Loader';
 import Pagination from '../../components/pagination/Pagination'
 import { Modal } from '../../components/hoc/modal/Modal';
-
+import SideBar from '../../components/sidebar/SideBar'
 const BASE_URL = 'http://localhost:3000';
 
 const MainPage = () => {
@@ -22,19 +22,31 @@ const MainPage = () => {
         setShowModal(prev => !prev);
       };
 
-    const fetchdata = (tag) => {
-        let params
-        if (tag) {
-            params = {
-                params: {
-                    matchingKeywords: [tag]
-                }
+    const fetchdata = (matchingkeywords,titlePart,startDate,endDate) => {
+
+        let params = {
+            params: {
+                ...(matchingkeywords && {matchingKeywords : Array.from(matchingkeywords)}),
+                titlePart: titlePart,
+                ...(endDate && {endDate: new Date(endDate)}),
+                ...(startDate && {startDate : new Date(startDate)})
             }
         }
+
         axios.get(`${BASE_URL}/questions`, params)
             .then(response => {
                 dispatchQuestions(response.data);
                 setIsFetched(true);
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+    const fetchKeywords = () => {
+
+        axios.get(`${BASE_URL}/keywords`)
+            .then(response => {
+                setKeywords(response.data);
             })
             .catch(error => {
             });
@@ -52,8 +64,8 @@ const MainPage = () => {
     }
     useEffect(() => {
         fetchdata();
-
-    }, []);
+        fetchKeywords();
+    },[]);
 
     // Tabs should to be added here:
     //     * The default one will be our home page (all questions)
@@ -82,8 +94,6 @@ const MainPage = () => {
             })
             .catch(error => {
                 if (error.response.data.statusCode === 401) {
-                    // That's a temporary work-around, redirecting to signin should be done more gracefully.
-                    //history.push('/signin');
                     openModal()
                 } else {
                     console.log(error.response.data);
@@ -91,11 +101,55 @@ const MainPage = () => {
                 }
             });
     }
+
+    //////////////////////////////////////  Side Bar ////////////////////////////////////////////
+
+    const [matchingkeywords, setMatchingKeywords] = useState(new Set());
+    const [titlePart, setTitlePart] = useState("");
+    const [keywords, setKeywords] = useState([]);
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+  
+    // console.log("This is all")
+    // console.log(titlePart)
+    // console.log(startDate)
+    // console.log(endDate)
+    // console.log(matchingkeywords)
+  
+    const titleChangeHandler = (event) => {
+        setTitlePart(event.target.value);
+    }
+    const startDateChangeHandler = (event) => {
+        setStartDate(event.target.value);
+    }
+    const endDateChangeHandler = (event) => {
+        setEndDate(event.target.value);
+    }
+    const clearDateHandler = () =>{
+        setStartDate("");
+        setEndDate("");
+    }
+    
+    const toggleCheckbox = keyword => {
+        let newshit = new Set(matchingkeywords);
+        if (matchingkeywords.has(keyword)) {
+            newshit.delete(keyword);
+            setMatchingKeywords(newshit);
+      } else {
+        newshit.add(keyword);
+        setMatchingKeywords(newshit);
+      }
+    }
+    const clearKeywordsHandler = () =>{
+        setMatchingKeywords(new Set());
+    }
+
     let message = "You are trying to delete a question without authentication."
     return (
         <div>
         <div>
             <h2 className='main-title-margin'>Recent Questions and Answers </h2>
+            <div classname = "main-wrapper">
             <nav>
                 <div className='main-questions'>
                     {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} fetch={fetchdata} deleteHandler={deleteQuestionHandler} items={currentQuestions} />}
@@ -106,10 +160,18 @@ const MainPage = () => {
                         paginate={paginateHandler}
                     />
                 </div>
+            
             </nav>
+            <SideBar matchingkeywords={matchingkeywords}  keywords={keywords} toggleCheckbox={toggleCheckbox} 
+                clearKeywordsHandler ={clearKeywordsHandler} titlePart={titlePart} titleChangeHandler={titleChangeHandler} 
+                startDateChangeHandler={startDateChangeHandler} startDate={startDate}  endDateChangeHandler={endDateChangeHandler} 
+                endDate={endDate} clearDateHandler={clearDateHandler} fetchdata = {fetchdata}
+            />
+            </div>
 
 
         </div>
+        
         <Modal showModal={showModal} setShowModal={setShowModal} message ={message} history={history}/>        
         </div>
     );

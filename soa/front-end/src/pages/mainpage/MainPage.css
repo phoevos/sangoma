@@ -1,20 +1,29 @@
 .main-questions {
   padding: 1rem;
   background-color: rgba(240, 242, 243, 0.897);
-  margin: 2rem auto;
+  /* margin: 2rem auto; */
   width: 60%;
-  margin-top:50px;
+  /* margin-top:50px;  */
   display: block;
   border-radius: 12px;
-  margin-left:5%;
+  /* margin-left:5%; */
   position:relative;
-  display: inline-block;
+  /* display: inline-block; */
   margin-bottom: 65px;
+  margin-left : 9%; 
+  float : left;
+  margin-right : 10%;
 }
 
 .main-title-margin {
 margin-left: 25%;
 color: rgb(255, 255, 255);
 position: relative;
-top :25px;
+margin-top :25px;
+margin-bottom : 50px;
+}
+
+.main-wrapper {
+  display: flex;
+  margin-top : 30px;
 }

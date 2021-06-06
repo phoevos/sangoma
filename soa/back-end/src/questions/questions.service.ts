@@ -104,9 +104,10 @@ export class QuestionsService {
         matchingKeywordsArray = [].concat(matchingKeywords)
       else 
         matchingKeywordsArray = matchingKeywords
-
-      for (let i = 0; i < matchingKeywordsArray.length; i++)
-        query.innerJoin("question.keywords",`keyword${i}`, `keyword${i}.keyword = :matchingkeyword`, { matchingkeyword: matchingKeywordsArray[i] })
+      for (let i = 0; i < matchingKeywordsArray.length; i++){
+        query.innerJoin("question.keywords",`keyword${i}`, `keyword${i}.keyword = '${matchingKeywordsArray[i]}'`)
+      }
+      console.log(query.getSql())
     }
     if(username)  query.andWhere("question.username = :username", {username}) 
     if(startDate) query.andWhere("question.dateTime >= :startDate", {startDate})

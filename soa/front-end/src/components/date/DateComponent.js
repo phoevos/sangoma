@@ -15,8 +15,8 @@ const DateComponent = (props) => {
 		return hours + ":" + minutes + ":" + seconds;
 	}
 	const date = new Date(props.dateTime);
-	const month = date.getMonth();
-	const day = date.getDay();
+	const month = date.getMonth()+1;
+	const day = date.getDate();
 	const year = date.getFullYear();
 	const time = convert_datetime(date);
 

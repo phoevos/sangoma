@@ -55,7 +55,7 @@ const NewQuestion = () => {
                 'Content-Type': 'application/json'
             }
         }
-        
+        console.log(new Date().toUTCString())
         const requestBody = {
             title: titleState,
             text: textState,
