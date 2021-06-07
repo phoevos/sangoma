@@ -22,17 +22,27 @@ const MainPage = () => {
         setShowModal(prev => !prev);
       };
 
-    const fetchdata = (matchingkeywords,titlePart,startDate,endDate) => {
+    const fetchdata = (tag,matchingkeywords,titlePart,startDate,endDate) => {
 
-        let params = {
-            params: {
-                ...(matchingkeywords && {matchingKeywords : Array.from(matchingkeywords)}),
-                titlePart: titlePart,
-                ...(endDate && {endDate: new Date(endDate)}),
-                ...(startDate && {startDate : new Date(startDate)})
+        let params
+        if(tag)
+
+            params = {
+                params: {
+                matchingKeywords : [tag]
+                }
             }
-        }
-
+        
+        else 
+            params = {
+                params: {
+                    ...(matchingkeywords && {matchingKeywords : Array.from(matchingkeywords)}),
+                    titlePart: titlePart,
+                    ...(endDate && {endDate: new Date(endDate)}),
+                    ...(startDate && {startDate : new Date(startDate)})
+                }
+            }
+            
         axios.get(`${BASE_URL}/questions`, params)
             .then(response => {
                 dispatchQuestions(response.data);

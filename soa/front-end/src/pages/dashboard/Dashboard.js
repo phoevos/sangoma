@@ -1,3 +1,11 @@
+
+        // let params = {
+        //     params: {
+        //         username: localStorage.getItem('loggedUsername')
+        //     }
+        // }
+        // if (tag) params.params.matchingKeywords = [tag]
+
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Tab, Tabs } from 'react-bootstrap'
@@ -33,17 +41,26 @@ const Dashboard = () => {
     const [answersPerPage] = useState(6);
     const history = useHistory();
 
-    const fetchQuestions = (matchingkeywords,titlePart,startDate,endDate) => {
+    const fetchQuestions = (tag,matchingkeywords,titlePart,startDate,endDate) => {
 
-        let params = {
-            params: {
+        let params
+        if(tag)
+            params = {
+                params: {
                 username: localStorage.getItem('loggedUsername'),
-                ...(matchingkeywords && {matchingKeywords : Array.from(matchingkeywords)}),
-                titlePart: titlePart,
-                ...(endDate && {endDate: new Date(endDate)}),
-                ...(startDate && {startDate : new Date(startDate)})
+                matchingKeywords : [tag]
+                }
             }
-        }
+        else 
+            params = {
+                params: {
+                    username: localStorage.getItem('loggedUsername'),
+                    ...(matchingkeywords && {matchingKeywords : Array.from(matchingkeywords)}),
+                    titlePart: titlePart,
+                    ...(endDate && {endDate: new Date(endDate)}),
+                    ...(startDate && {startDate : new Date(startDate)})
+                }
+            }
 
         axios.get(`${BASE_URL}/questions`, params)
             .then(response => {

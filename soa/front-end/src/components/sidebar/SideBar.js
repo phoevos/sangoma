@@ -57,7 +57,7 @@ const SideBar = (props) => {
 			  style={{ marginBottom: '0px' }}
 			  variant="contained"
 			  color="primary"
-			  onClick={() => props.fetchdata(props.matchingkeywords,props.titlePart,props.startDate,props.endDate)}
+			  onClick={() => props.fetchdata("",props.matchingkeywords,props.titlePart,props.startDate,props.endDate)}
 			>   Search 
 			</Button>
 			</Centered>
