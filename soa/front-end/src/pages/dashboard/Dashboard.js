@@ -11,6 +11,7 @@ import '../mainpage/MainPage.css'
 import QuestionsPerKeyword from '../../components/chart/keywords/QuestionsPerKeyword'
 import QuestionsPerKeywordTable from '../../components/chart/keywords/QuestionsPerKeywordTable'
 import Contributions from '../../components/chart/contributions/Contributions'
+import SideBar from '../../components/sidebar/SideBar'
 const BASE_URL = 'http://localhost:3000';
 
 const Dashboard = () => {
@@ -32,13 +33,17 @@ const Dashboard = () => {
     const [answersPerPage] = useState(6);
     const history = useHistory();
 
-    const fetchQuestions = (tag) => {
+    const fetchQuestions = (matchingkeywords,titlePart,startDate,endDate) => {
+
         let params = {
             params: {
-                username: localStorage.getItem('loggedUsername')
+                username: localStorage.getItem('loggedUsername'),
+                ...(matchingkeywords && {matchingKeywords : Array.from(matchingkeywords)}),
+                titlePart: titlePart,
+                ...(endDate && {endDate: new Date(endDate)}),
+                ...(startDate && {startDate : new Date(startDate)})
             }
         }
-        if (tag) params.params.matchingKeywords = [tag]
 
         axios.get(`${BASE_URL}/questions`, params)
             .then(response => {
@@ -203,12 +208,57 @@ const Dashboard = () => {
             });
     }
 
+
+
+
+    //////////////////////////////////////  Side Bar ////////////////////////////////////////////
+
+    const [matchingkeywords, setMatchingKeywords] = useState(new Set());
+    const [titlePart, setTitlePart] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+  
+    // console.log("This is all")
+    // console.log(titlePart)
+    // console.log(startDate)
+    // console.log(endDate)
+    // console.log(matchingkeywords)
+  
+    const titleChangeHandler = (event) => {
+        setTitlePart(event.target.value);
+    }
+    const startDateChangeHandler = (event) => {
+        setStartDate(event.target.value);
+    }
+    const endDateChangeHandler = (event) => {
+        setEndDate(event.target.value);
+    }
+    const clearDateHandler = () =>{
+        setStartDate("");
+        setEndDate("");
+    }
+    
+    const toggleCheckbox = keyword => {
+        let newshit = new Set(matchingkeywords);
+        if (matchingkeywords.has(keyword)) {
+            newshit.delete(keyword);
+            setMatchingKeywords(newshit);
+      } else {
+        newshit.add(keyword);
+        setMatchingKeywords(newshit);
+      }
+    }
+    const clearKeywordsHandler = () =>{
+        setMatchingKeywords(new Set());
+    }
+
     return (
         <div>
             <h2 className='main-title-margin'>My AskMeAnything</h2>
             <br></br>
             <Tabs defaultActiveKey="myquestions" id="uncontrolled-tab-example">
                 <Tab className="tab" eventKey="myquestions" title="My Questions">
+                    <div style={{ "margin-top": "50px"}}>
                     <div>
                         <nav>
                             <div className='main-questions'>
@@ -221,6 +271,12 @@ const Dashboard = () => {
                                 />
                             </div>
                         </nav>
+                    </div>
+                    <SideBar matchingkeywords={matchingkeywords}  keywords={keywords} toggleCheckbox={toggleCheckbox} 
+                                clearKeywordsHandler ={clearKeywordsHandler} titlePart={titlePart} titleChangeHandler={titleChangeHandler} 
+                                startDateChangeHandler={startDateChangeHandler} startDate={startDate}  endDateChangeHandler={endDateChangeHandler} 
+                                endDate={endDate} clearDateHandler={clearDateHandler} fetchdata = {fetchQuestions}
+                    />
                     </div>
                 </Tab>
                 <Tab eventKey="myanswers" title="My Answers">

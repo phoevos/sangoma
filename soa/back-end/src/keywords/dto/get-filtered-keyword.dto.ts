@@ -4,4 +4,8 @@ export class FilteredKeywordDto {
     @IsOptional()
     @IsString()
     keywordPart: string
+
+    @IsOptional()
+    @IsString()
+    username: string
 }

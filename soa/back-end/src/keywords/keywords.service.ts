@@ -15,7 +15,7 @@ export class KeywordsService {
   }
   async findFilteredKeywords(filteredKeywordDto: FilteredKeywordDto) : Promise<any[]> {
 
-    const {keywordPart} = filteredKeywordDto
+    const {keywordPart,username} = filteredKeywordDto
 
     let query = this.entityManager.createQueryBuilder()
       .from(Keyword,"keyword")
@@ -25,7 +25,7 @@ export class KeywordsService {
       .groupBy("keyword.keyword")
       .orderBy("freq", "DESC")
     if(keywordPart) query.andWhere("keyword.keyword LIKE(:keywordpart)",{keywordpart:`%${keywordPart}%`})
-
+    if(username) query.andWhere(`question.username ='${username}' `)
     return query.getRawMany()
   }
 
