@@ -8,7 +8,7 @@ import { Navbar } from 'react-bootstrap';
 import './SignUpPage.css';
 import config from '../../config/config.json'
 const auth_url = config.Services.AuthenticatorService;
-
+const ESB_URL = config.ESB_URL;
 const Heading = styled.h1`
   margin-top: 0;
 `;
@@ -61,6 +61,7 @@ const SignUpPage = () => {
 			const config = {
 				headers: {
 					'Content-Type': 'application/json',
+					'url': `${auth_url}/signup`
 				}
 			}
 			//Create Request Body
@@ -70,11 +71,11 @@ const SignUpPage = () => {
 			};
 			//Send post request
 
-			axios.post(`${auth_url}/auth/signup`, requestBody, config)
+			axios.post(ESB_URL, requestBody, config)
 				.then(response => {
 					let signUpAccessToken = response.data.accessToken;
 					localStorage.setItem('accessToken', signUpAccessToken);
-					localStorage.setItem('username', requestBody.username);
+					localStorage.setItem('loggedUsername', requestBody.username);
 					goToStartingPage();
 				})
 				.catch(error => { console.log(error.response.data); setErrorMessage(error.response.data.message); });

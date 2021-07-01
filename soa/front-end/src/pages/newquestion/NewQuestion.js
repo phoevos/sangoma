@@ -11,6 +11,7 @@ import { Modal } from '../../components/hoc/modal/Modal';
 import config from '../../config/config.json';
 
 const qa_url = config.Services.QAService;
+const ESB_URL = config.ESB_URL;
 const NewQuestion = () => {
 
     const [showModal, setShowModal] = useState(false);
@@ -53,7 +54,8 @@ const NewQuestion = () => {
         const config = {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'url': `${qa_url}/questions`
             }
         }
         console.log(new Date().toUTCString())
@@ -65,7 +67,7 @@ const NewQuestion = () => {
             dateTime: new Date().toUTCString()
         };
         console.log(requestBody)
-        axios.post(`${qa_url}/questions`, requestBody, config)
+        axios.post(ESB_URL, requestBody, config)
             .then(response => {
                 console.log(response.data)
                 goToStartingPage();

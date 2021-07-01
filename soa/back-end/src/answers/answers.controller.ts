@@ -5,7 +5,7 @@ import { CreateAnswerDto } from './dto/create-answer.dto';
 import { FilteredAnswerDto } from './dto/get-filtered-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
 
-@Controller('answers')
+@Controller('qa/answers')
 export class AnswersController {
   constructor(private readonly answersService: AnswersService) {}
 
@@ -19,7 +19,7 @@ export class AnswersController {
   findAll(@Query(ValidationPipe) filteredAnswerDto: FilteredAnswerDto) {
     return this.answersService.findAll(filteredAnswerDto)
   }
-
+ 
   @Get('/:id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.answersService.findOne(id)

@@ -6,7 +6,7 @@ import {FilteredQuestionDto} from './dto/get-filtered-question.dto'
 import { AuthGuard } from '@nestjs/passport';
 import { ContributionsDto } from './dto/contributions.dto';
 
-@Controller('questions')
+@Controller('qa/questions')
 export class QuestionsController {
   constructor(private readonly questionsService: QuestionsService) {}
 

@@ -11,7 +11,7 @@ import SideBar from '../../components/sidebar/SideBar'
 import config from '../../config/config.json'
 
 const qa_url = config.Services.QAService;
-
+const ESB_URL = config.ESB_URL;
 const MainPage = () => {
 
     const [showModal, setShowModal] = useState(false);
@@ -42,25 +42,35 @@ const MainPage = () => {
                     titlePart: titlePart,
                     ...(endDate && {endDate: new Date(endDate)}),
                     ...(startDate && {startDate : new Date(startDate)})
+                },
+                headers:{
+                    'url':`${qa_url}/questions`
                 }
             }
             
-        axios.get(`${qa_url}/questions`, params)
+        axios.get(ESB_URL, params)
             .then(response => {
                 dispatchQuestions(response.data);
                 setIsFetched(true);
             })
             .catch(error => {
+                // dispatchQuestions([])
                 console.log(error);
             });
     }
     const fetchKeywords = () => {
 
-        axios.get(`${qa_url}/keywords`)
+        const params = {
+            headers : {
+                'url': `${qa_url}/keywords`
+            }
+        }
+        axios.get(ESB_URL,params)
             .then(response => {
                 setKeywords(response.data);
             })
             .catch(error => {
+                // setKeywords([])
             });
     }
     const gotoPageHandler = (id, isquestion) => {

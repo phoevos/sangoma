@@ -24,7 +24,7 @@ import config from '../../config/config.json'
 
 const diag_url = config.Services.DiagramService;
 const qa_url = config.Services.QAService;
-
+const ESB_URL = config.ESB_URL;
 
 const Dashboard = () => {
     const [questions, dispatchQuestions] = useState([]);
@@ -63,10 +63,13 @@ const Dashboard = () => {
                     titlePart: titlePart,
                     ...(endDate && {endDate: new Date(endDate)}),
                     ...(startDate && {startDate : new Date(startDate)})
+                },
+                headers: {
+                    'url': `${qa_url}/questions`
                 }
             }
 
-        axios.get(`${qa_url}/questions`, params)
+        axios.get(ESB_URL, params)
             .then(response => {
                 dispatchQuestions(response.data);
                 setIsFetched(true);
@@ -79,9 +82,12 @@ const Dashboard = () => {
         const params = {
             params: {
                 username: localStorage.getItem('loggedUsername')
+            },
+            headers: {
+                'url' : `${qa_url}/answers`
             }
         }
-        axios.get(`${qa_url}/answers`, params)
+        axios.get(ESB_URL, params)
             .then(response => {
                 dispatchAnswers(response.data);
                 setAnswerIsFetched(true);
@@ -94,9 +100,12 @@ const Dashboard = () => {
         const params = {
             params: {
                 username: localStorage.getItem('loggedUsername')
+            },
+            headers:{
+                'url' : `${qa_url}/keywords`
             }
         }
-        axios.get(`${diag_url}/keywords`, params)
+        axios.get(ESB_URL, params)
             .then(response => {
                 dispatchKeywords(response.data);
                 setKeywordsFetched(true);
@@ -140,11 +149,11 @@ const Dashboard = () => {
         const config = {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                'Content-Type': 'application/x-www-form-urlencoded'
-
+                'Content-Type': 'application/json',
+                'url': `${qa_url}/questions/${id}`
             }
         }
-        axios.delete(`${qa_url}/questions/${id}`, config)
+        axios.delete(ESB_URL, config)
             .then(response => {
                 console.log(response.data);
                 dispatchQuestions(questions.filter(q => q.id !== id))
@@ -164,11 +173,11 @@ const Dashboard = () => {
         const config = {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                'Content-Type': 'application/x-www-form-urlencoded'
-
+                'Content-Type': 'application/json',
+                'url': `${qa_url}/answers/${id}`
             }
         }
-        axios.delete(`${qa_url}/answers/${id}`, config)
+        axios.delete(ESB_URL, config)
             .then(response => {
                 console.log(response.data);
                 dispatchAnswers(answers.filter(a => a.id !== id))
@@ -198,10 +207,13 @@ const Dashboard = () => {
                 username: localStorage.getItem('loggedUsername'),
                 year: i,
                 month: month
+            },
+            headers: {
+                'url': `${diag_url}/questions/contributions/year`
             }
         }
 
-        axios.get(`${diag_url}/questions/contributions/year`, params)
+        axios.get(ESB_URL, params)
             .then(response => {
                 setAnnualContributions(response.data)
                 setYear(i)
@@ -217,10 +229,13 @@ const Dashboard = () => {
                 username: localStorage.getItem('loggedUsername'),
                 month: i,
                 year: year
+            },
+            headers:{
+                'url':`${diag_url}/questions/contributions/month`
             }
         }
 
-        axios.get(`${diag_url}/questions/contributions/month`, params)
+        axios.get(ESB_URL, params)
             .then(response => {
                 setMonthlyContributions(response.data)
                 setMonth(i)

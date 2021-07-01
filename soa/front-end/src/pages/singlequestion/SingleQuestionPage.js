@@ -11,12 +11,12 @@ import AnswerList from './answerlist/AnswerList'
 import Pagination from '../../components/pagination/Pagination'
 import config from '../../config/config.json'
 const qa_url = config.Services.QAService;
-
+const ESB_URL= config.ESB_URL;
 const SingleQuestionPage = () => {
 
-    const [question, dispatchQuestion] = useState({answers:[]});
+    const [question, dispatchQuestion] = useState({ answers: [] });
     const [isFetched, setIsFetched] = useState(false);
-    const [addAnswer,setAddAnswer] = useState(false);
+    const [addAnswer, setAddAnswer] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [questionsPerPage] = useState(3);
     const location = useLocation();
@@ -27,9 +27,13 @@ const SingleQuestionPage = () => {
     };
 
     const fetchdata = (tag) => {
-        let params
         let path = location.pathname
-        axios.get(`${qa_url}${path}`, params)
+        const params = {
+            headers: {
+                'url': `${qa_url}${path}`
+            }
+        }
+        axios.get(ESB_URL, params)
             .then(response => {
                 dispatchQuestion(response.data);
                 setIsFetched(true);
@@ -61,19 +65,19 @@ const SingleQuestionPage = () => {
         <div>
             {isFetched &&
                 <div>
-                <div className='single-container2'>
-                    <Question question={question} fetch={fetchdata} addAnswerHandler={addAnswerHandler}>
-                    </Question>
-                    {addAnswer && <NewAnswer location = {location} history = {history} goToStartingPage = {goToStartingPage} addAnswerHandler={addAnswerHandler}>
-                    </NewAnswer>}
-                    <AnswerList gotoPageHandler={gotoPageHandler} items={currentAnswers} />
-                    <Pagination
-                        postsPerPage={questionsPerPage}
-                        totalPosts={question.answers.length}
-                        paginate={paginateHandler}
-                    />
-                </div>
-                </div>}                
+                    <div className='single-container2'>
+                        <Question question={question} fetch={fetchdata} addAnswerHandler={addAnswerHandler}>
+                        </Question>
+                        {addAnswer && <NewAnswer location={location} history={history} goToStartingPage={goToStartingPage} addAnswerHandler={addAnswerHandler}>
+                        </NewAnswer>}
+                        <AnswerList gotoPageHandler={gotoPageHandler} items={currentAnswers} />
+                        <Pagination
+                            postsPerPage={questionsPerPage}
+                            totalPosts={question.answers.length}
+                            paginate={paginateHandler}
+                        />
+                    </div>
+                </div>}
             {!isFetched && <Loader></Loader>}
         </div>
     );

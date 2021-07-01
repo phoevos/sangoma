@@ -8,8 +8,8 @@ import { Navbar } from 'react-bootstrap';
 import './SignInPage.css';
 import config from '../../config/config.json'
 const auth_url = config.Services.AuthenticatorService;
+const ESB_URL = config.ESB_URL;
 const qs = require('querystring');
-
 const FormField = styled(TextField)`
   width: 100%;
 `;
@@ -51,7 +51,8 @@ const SignInPage = (props) => {
 
 		const config = {
 			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
+				'Content-Type': 'application/json',
+				'url': `${auth_url}/signin`
 			}
 		}
 		//Create Request Body
@@ -61,7 +62,7 @@ const SignInPage = (props) => {
 		};
 		//Send post request
 
-		axios.post(`${auth_url}/auth/signin`, qs.stringify(requestBody), config)
+		axios.post(ESB_URL, requestBody, config)
 			.then(response => {
 				let signInAccessToken = response.data.accessToken;
 				localStorage.setItem('accessToken', signInAccessToken);
