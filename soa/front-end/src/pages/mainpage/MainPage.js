@@ -8,7 +8,9 @@ import Loader from '../../components/hoc/loader/Loader';
 import Pagination from '../../components/pagination/Pagination'
 import { Modal } from '../../components/hoc/modal/Modal';
 import SideBar from '../../components/sidebar/SideBar'
-const BASE_URL = 'http://localhost:3000';
+import config from '../../config/config.json'
+
+const qa_url = config.Services.QAService;
 
 const MainPage = () => {
 
@@ -43,7 +45,7 @@ const MainPage = () => {
                 }
             }
             
-        axios.get(`${BASE_URL}/questions`, params)
+        axios.get(`${qa_url}/questions`, params)
             .then(response => {
                 dispatchQuestions(response.data);
                 setIsFetched(true);
@@ -54,7 +56,7 @@ const MainPage = () => {
     }
     const fetchKeywords = () => {
 
-        axios.get(`${BASE_URL}/keywords`)
+        axios.get(`${qa_url}/keywords`)
             .then(response => {
                 setKeywords(response.data);
             })
@@ -88,29 +90,6 @@ const MainPage = () => {
     const currentQuestions = questions.slice(indexOfFirstQuestion, indexOfLastQuestion);
     const paginateHandler = pageNumber => setCurrentPage(pageNumber);
 
-    const deleteQuestionHandler = (id) => {
-        const config = {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                'Content-Type': 'application/x-www-form-urlencoded'
-
-            }
-        }
-        axios.delete(`${BASE_URL}/questions/${id}`, config)
-            .then(response => {
-                console.log(response.data);
-                dispatchQuestions(questions.filter(q => q.id !== id))
-                // window.location.reload();
-            })
-            .catch(error => {
-                if (error.response.data.statusCode === 401) {
-                    openModal()
-                } else {
-                    console.log(error.response.data);
-                    // setErrorMessage(error.response.data.message); 
-                }
-            });
-    }
 
     //////////////////////////////////////  Side Bar ////////////////////////////////////////////
 
@@ -162,7 +141,7 @@ const MainPage = () => {
             <div classname = "main-wrapper">
             <nav>
                 <div className='main-questions'>
-                    {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} fetch={fetchdata} deleteHandler={deleteQuestionHandler} items={currentQuestions} />}
+                    {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} fetch={fetchdata} items={currentQuestions} />}
                     {!isFetched && <Loader></Loader>}
                     <Pagination
                         postsPerPage={questionsPerPage}

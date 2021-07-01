@@ -20,7 +20,11 @@ import QuestionsPerKeyword from '../../components/chart/keywords/QuestionsPerKey
 import QuestionsPerKeywordTable from '../../components/chart/keywords/QuestionsPerKeywordTable'
 import Contributions from '../../components/chart/contributions/Contributions'
 import SideBar from '../../components/sidebar/SideBar'
-const BASE_URL = 'http://localhost:3000';
+import config from '../../config/config.json'
+
+const diag_url = config.Services.DiagramService;
+const qa_url = config.Services.QAService;
+
 
 const Dashboard = () => {
     const [questions, dispatchQuestions] = useState([]);
@@ -62,7 +66,7 @@ const Dashboard = () => {
                 }
             }
 
-        axios.get(`${BASE_URL}/questions`, params)
+        axios.get(`${qa_url}/questions`, params)
             .then(response => {
                 dispatchQuestions(response.data);
                 setIsFetched(true);
@@ -77,7 +81,7 @@ const Dashboard = () => {
                 username: localStorage.getItem('loggedUsername')
             }
         }
-        axios.get(`${BASE_URL}/answers`, params)
+        axios.get(`${qa_url}/answers`, params)
             .then(response => {
                 dispatchAnswers(response.data);
                 setAnswerIsFetched(true);
@@ -92,7 +96,7 @@ const Dashboard = () => {
                 username: localStorage.getItem('loggedUsername')
             }
         }
-        axios.get(`${BASE_URL}/keywords`, params)
+        axios.get(`${diag_url}/keywords`, params)
             .then(response => {
                 dispatchKeywords(response.data);
                 setKeywordsFetched(true);
@@ -100,6 +104,7 @@ const Dashboard = () => {
             .catch(error => {
             });
     }
+
 
     const gotoPageHandler = (id, isquestion) => {
 
@@ -139,7 +144,7 @@ const Dashboard = () => {
 
             }
         }
-        axios.delete(`${BASE_URL}/questions/${id}`, config)
+        axios.delete(`${qa_url}/questions/${id}`, config)
             .then(response => {
                 console.log(response.data);
                 dispatchQuestions(questions.filter(q => q.id !== id))
@@ -163,7 +168,7 @@ const Dashboard = () => {
 
             }
         }
-        axios.delete(`${BASE_URL}/answers/${id}`, config)
+        axios.delete(`${qa_url}/answers/${id}`, config)
             .then(response => {
                 console.log(response.data);
                 dispatchAnswers(answers.filter(a => a.id !== id))
@@ -196,7 +201,7 @@ const Dashboard = () => {
             }
         }
 
-        axios.get(`${BASE_URL}/questions/contributions/year`, params)
+        axios.get(`${diag_url}/questions/contributions/year`, params)
             .then(response => {
                 setAnnualContributions(response.data)
                 setYear(i)
@@ -215,7 +220,7 @@ const Dashboard = () => {
             }
         }
 
-        axios.get(`${BASE_URL}/questions/contributions/month`, params)
+        axios.get(`${diag_url}/questions/contributions/month`, params)
             .then(response => {
                 setMonthlyContributions(response.data)
                 setMonth(i)

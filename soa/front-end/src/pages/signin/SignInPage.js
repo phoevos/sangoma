@@ -6,10 +6,9 @@ import axios from 'axios';
 import ErrorMessage from '../../components/hoc/error/ErrorMessage';
 import { Navbar } from 'react-bootstrap';
 import './SignInPage.css';
+import config from '../../config/config.json'
+const auth_url = config.Services.AuthenticatorService;
 const qs = require('querystring');
-
-
-const BASE_URL = 'http://localhost:3000';
 
 const FormField = styled(TextField)`
   width: 100%;
@@ -62,7 +61,7 @@ const SignInPage = (props) => {
 		};
 		//Send post request
 
-		axios.post(`${BASE_URL}/auth/signin`, qs.stringify(requestBody), config)
+		axios.post(`${auth_url}/auth/signin`, qs.stringify(requestBody), config)
 			.then(response => {
 				let signInAccessToken = response.data.accessToken;
 				localStorage.setItem('accessToken', signInAccessToken);

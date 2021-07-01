@@ -6,8 +6,8 @@ import ErrorMessage from '../../../components/hoc/error/ErrorMessage';
 import {Nav} from 'react-bootstrap';
 import './NewAnswer.css';
 import { Modal } from '../../../components/hoc/modal/Modal';
-
-const BASE_URL = 'http://localhost:3000';
+import config from '../../../config/config.json'
+const qa_url = config.Services.QAService;
 
 const NewAnswer = (props) => {
 
@@ -39,7 +39,7 @@ const NewAnswer = (props) => {
             dateTime: new Date().toUTCString()
         };
 
-        axios.post(`${BASE_URL}/answers`, requestBody, config)
+        axios.post(`${qa_url}/answers`, requestBody, config)
             .then(response => {
                 console.log(response.data)
                 window.location.reload(false);

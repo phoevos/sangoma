@@ -41,8 +41,8 @@ const QuestionItem = (props) => {
 					))}
 				</ul>
 				<div>
-					<div className='gg-pen'></div>
-					<div className='gg-trash' onClick={() => props.deleteHandler(props.id)}></div>
+					 {props.deleteHandler &&<div className='gg-pen'></div>}
+					 {props.deleteHandler &&<div className='gg-trash' onClick={() => props.deleteHandler(props.id)}></div>}
 				</div>
 			</div>
 		</div>

@@ -9,8 +9,8 @@ import Loader from '../../components/hoc/loader/Loader';
 import NewAnswer from './newanswer/NewAnswer'
 import AnswerList from './answerlist/AnswerList'
 import Pagination from '../../components/pagination/Pagination'
-
-const BASE_URL = 'http://localhost:3000';
+import config from '../../config/config.json'
+const qa_url = config.Services.QAService;
 
 const SingleQuestionPage = () => {
 
@@ -29,7 +29,7 @@ const SingleQuestionPage = () => {
     const fetchdata = (tag) => {
         let params
         let path = location.pathname
-        axios.get(`${BASE_URL}${path}`, params)
+        axios.get(`${qa_url}${path}`, params)
             .then(response => {
                 dispatchQuestion(response.data);
                 setIsFetched(true);

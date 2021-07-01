@@ -84,6 +84,7 @@
   float: right;
   box-sizing: border-box;
   position: relative;
+  color : rgb(41, 36, 36);
   display: block;
   transform: rotate(-45deg) scale(var(--ggs,1));
   width: 14px;
@@ -131,6 +132,7 @@
 
 .gg-trash {
   float: right;
+  color : rgb(41, 36, 36);
   box-sizing: border-box;
   position: relative;
   display: block;

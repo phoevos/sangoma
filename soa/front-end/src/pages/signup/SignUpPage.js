@@ -6,8 +6,8 @@ import axios from 'axios';
 import ErrorMessage from '../../components/hoc/error/ErrorMessage';
 import { Navbar } from 'react-bootstrap';
 import './SignUpPage.css';
-
-const BASE_URL = 'http://localhost:3000';
+import config from '../../config/config.json'
+const auth_url = config.Services.AuthenticatorService;
 
 const Heading = styled.h1`
   margin-top: 0;
@@ -70,7 +70,7 @@ const SignUpPage = () => {
 			};
 			//Send post request
 
-			axios.post(`${BASE_URL}/auth/signup`, requestBody, config)
+			axios.post(`${auth_url}/auth/signup`, requestBody, config)
 				.then(response => {
 					let signUpAccessToken = response.data.accessToken;
 					localStorage.setItem('accessToken', signUpAccessToken);

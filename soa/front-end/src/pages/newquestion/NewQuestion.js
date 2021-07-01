@@ -8,8 +8,9 @@ import {Nav} from 'react-bootstrap';
 import './NewQuestion.css';
 import TagsInput from '../../components/tags/TagsInput';
 import { Modal } from '../../components/hoc/modal/Modal';
-const BASE_URL = 'http://localhost:3000';
+import config from '../../config/config.json';
 
+const qa_url = config.Services.QAService;
 const NewQuestion = () => {
 
     const [showModal, setShowModal] = useState(false);
@@ -64,7 +65,7 @@ const NewQuestion = () => {
             dateTime: new Date().toUTCString()
         };
         console.log(requestBody)
-        axios.post(`${BASE_URL}/questions`, requestBody, config)
+        axios.post(`${qa_url}/questions`, requestBody, config)
             .then(response => {
                 console.log(response.data)
                 goToStartingPage();
