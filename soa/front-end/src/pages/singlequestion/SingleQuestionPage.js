@@ -41,7 +41,7 @@ const SingleQuestionPage = () => {
             .catch(error => {
                 console.log(error.response.data);
             });
-    }
+    } 
 
     const gotoPageHandler = (id) => {
         return history.push(`/users/${id}`);
@@ -66,7 +66,7 @@ const SingleQuestionPage = () => {
             {isFetched &&
                 <div>
                     <div className='single-container2'>
-                        <Question question={question} fetch={fetchdata} addAnswerHandler={addAnswerHandler}>
+                        <Question question={question} addAnswerHandler={addAnswerHandler}>
                         </Question>
                         {addAnswer && <NewAnswer location={location} history={history} goToStartingPage={goToStartingPage} addAnswerHandler={addAnswerHandler}>
                         </NewAnswer>}

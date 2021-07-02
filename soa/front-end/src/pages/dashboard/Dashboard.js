@@ -1,10 +1,10 @@
 
-        // let params = {
-        //     params: {
-        //         username: localStorage.getItem('loggedUsername')
-        //     }
-        // }
-        // if (tag) params.params.matchingKeywords = [tag]
+// let params = {
+//     params: {
+//         username: localStorage.getItem('loggedUsername')
+//     }
+// }
+// if (tag) params.params.matchingKeywords = [tag]
 
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
@@ -21,6 +21,7 @@ import QuestionsPerKeywordTable from '../../components/chart/keywords/QuestionsP
 import Contributions from '../../components/chart/contributions/Contributions'
 import SideBar from '../../components/sidebar/SideBar'
 import config from '../../config/config.json'
+import { Modal } from '../../components/hoc/modal/Modal';
 
 const diag_url = config.Services.DiagramService;
 const qa_url = config.Services.QAService;
@@ -44,50 +45,57 @@ const Dashboard = () => {
     const [questionsPerPage] = useState(6);
     const [answersPerPage] = useState(6);
     const history = useHistory();
+    const [showModal, setShowModal] = useState(false);
+    const openModal = () => {
+        setShowModal(prev => !prev);
+    };
+    const fetchQuestions = (tag, matchingkeywords, titlePart, startDate, endDate) => {
 
-    const fetchQuestions = (tag,matchingkeywords,titlePart,startDate,endDate) => {
+        let body
+        const config = {
+            headers: {
+                'url': `${qa_url}/questions/filtered`,
+                'content-type': 'application/json'
+            }
+        }
+        if (tag)
+            body = {
+                matchingKeywords: [tag],
+                username: localStorage.getItem('loggedUsername')
+            }
 
-        let params
-        if(tag)
-            params = {
-                params: {
+        else
+            body = {
                 username: localStorage.getItem('loggedUsername'),
-                matchingKeywords : [tag]
-                }
-            }
-        else 
-            params = {
-                params: {
-                    username: localStorage.getItem('loggedUsername'),
-                    ...(matchingkeywords && {matchingKeywords : Array.from(matchingkeywords)}),
-                    titlePart: titlePart,
-                    ...(endDate && {endDate: new Date(endDate)}),
-                    ...(startDate && {startDate : new Date(startDate)})
-                },
-                headers: {
-                    'url': `${qa_url}/questions`
-                }
+                ...(matchingkeywords && { matchingKeywords: Array.from(matchingkeywords) }),
+                titlePart: titlePart,
+                ...(endDate && { endDate: new Date(endDate) }),
+                ...(startDate && { startDate: new Date(startDate) })
             }
 
-        axios.get(ESB_URL, params)
+
+
+        axios.post(ESB_URL, body, config)
             .then(response => {
                 dispatchQuestions(response.data);
                 setIsFetched(true);
             })
             .catch(error => {
+                // dispatchQuestions([])
+                console.log(error);
             });
     }
 
     const fetchAnswers = () => {
         const params = {
-            params: {
-                username: localStorage.getItem('loggedUsername')
-            },
             headers: {
-                'url' : `${qa_url}/answers`
+                'url': `${qa_url}/answers/filtered`
             }
         }
-        axios.get(ESB_URL, params)
+        const body = {
+            username: localStorage.getItem('loggedUsername')
+        }
+        axios.post(ESB_URL, body, params)
             .then(response => {
                 dispatchAnswers(response.data);
                 setAnswerIsFetched(true);
@@ -98,14 +106,14 @@ const Dashboard = () => {
 
     const fetchKeywords = () => {
         const params = {
-            params: {
-                username: localStorage.getItem('loggedUsername')
-            },
-            headers:{
-                'url' : `${qa_url}/keywords`
+            headers: {
+                'url': `${diag_url}/filtered_keywords`
             }
         }
-        axios.get(ESB_URL, params)
+        const body = {
+            username: localStorage.getItem('loggedUsername')
+        }
+        axios.post(ESB_URL, body, params)
             .then(response => {
                 dispatchKeywords(response.data);
                 setKeywordsFetched(true);
@@ -159,12 +167,11 @@ const Dashboard = () => {
                 dispatchQuestions(questions.filter(q => q.id !== id))
             })
             .catch(error => {
-                if (error.response.data.statusCode === 401) {
+                if (error.response.status === 401) {
                     // That's a temporary work-around, redirecting to signin should be done more gracefully.
-                    history.push('/signin');
+                    openModal()
                 } else {
-                    console.log(error.response.data);
-                    // setErrorMessage(error.response.data.message); 
+                    console.log(error)
                 }
             });
     }
@@ -192,7 +199,7 @@ const Dashboard = () => {
                 }
             });
     }
-    
+
     const toggleListHandler = () => {
         if (openList) {
             toggleList(true)
@@ -203,17 +210,16 @@ const Dashboard = () => {
 
     const changeYearHandler = (i) => {
         const params = {
-            params: {
-                username: localStorage.getItem('loggedUsername'),
-                year: i,
-                month: month
-            },
             headers: {
                 'url': `${diag_url}/contributions/year`
             }
         }
-
-        axios.get(ESB_URL, params)
+        const body = {
+            username: localStorage.getItem('loggedUsername'),
+            month: i,
+            year: year
+        }
+        axios.post(ESB_URL, body, params)
             .then(response => {
                 setAnnualContributions(response.data)
                 setYear(i)
@@ -225,17 +231,18 @@ const Dashboard = () => {
 
     const changeMonthHandler = (i) => {
         const params = {
-            params: {
-                username: localStorage.getItem('loggedUsername'),
-                month: i,
-                year: year
-            },
-            headers:{
-                'url':`${diag_url}/contributions/month`
+            headers: {
+                'url': `${diag_url}/contributions/month`
             }
         }
 
-        axios.get(ESB_URL, params)
+        const body = {
+            username: localStorage.getItem('loggedUsername'),
+            month: i,
+            year: year
+        }
+
+        axios.post(ESB_URL, body, params)
             .then(response => {
                 setMonthlyContributions(response.data)
                 setMonth(i)
@@ -254,13 +261,13 @@ const Dashboard = () => {
     const [titlePart, setTitlePart] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-  
+
     // console.log("This is all")
     // console.log(titlePart)
     // console.log(startDate)
     // console.log(endDate)
     // console.log(matchingkeywords)
-  
+
     const titleChangeHandler = (event) => {
         setTitlePart(event.target.value);
     }
@@ -270,50 +277,52 @@ const Dashboard = () => {
     const endDateChangeHandler = (event) => {
         setEndDate(event.target.value);
     }
-    const clearDateHandler = () =>{
+    const clearDateHandler = () => {
         setStartDate("");
         setEndDate("");
     }
-    
+
     const toggleCheckbox = keyword => {
         let newshit = new Set(matchingkeywords);
         if (matchingkeywords.has(keyword)) {
             newshit.delete(keyword);
             setMatchingKeywords(newshit);
-      } else {
-        newshit.add(keyword);
-        setMatchingKeywords(newshit);
-      }
+        } else {
+            newshit.add(keyword);
+            setMatchingKeywords(newshit);
+        }
     }
-    const clearKeywordsHandler = () =>{
+    const clearKeywordsHandler = () => {
         setMatchingKeywords(new Set());
     }
+    let message = "You are trying to delete a question without authorization."
 
     return (
+        <div>
         <div>
             <h2 className='main-title-margin'>My AskMeAnything</h2>
             <br></br>
             <Tabs defaultActiveKey="myquestions" id="uncontrolled-tab-example">
                 <Tab className="tab" eventKey="myquestions" title="My Questions">
-                    <div style={{ "margin-top": "50px"}}>
-                    <div>
-                        <nav>
-                            <div className='main-questions'>
-                                {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} fetch={fetchQuestions} deleteHandler={deleteQuestionHandler} items={currentQuestions} />}
-                                {!isFetched && <Loader></Loader>}
-                                <Pagination
-                                    postsPerPage={questionsPerPage}
-                                    totalPosts={questions.length}
-                                    paginate={paginateQuestionsHandler}
-                                />
-                            </div>
-                        </nav>
-                    </div>
-                    <SideBar matchingkeywords={matchingkeywords}  keywords={keywords} toggleCheckbox={toggleCheckbox} 
-                                clearKeywordsHandler ={clearKeywordsHandler} titlePart={titlePart} titleChangeHandler={titleChangeHandler} 
-                                startDateChangeHandler={startDateChangeHandler} startDate={startDate}  endDateChangeHandler={endDateChangeHandler} 
-                                endDate={endDate} clearDateHandler={clearDateHandler} fetchdata = {fetchQuestions}
-                    />
+                    <div style={{ "margin-top": "50px" }}>
+                        <div>
+                            <nav>
+                                <div className='main-questions'>
+                                    {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} fetch={fetchQuestions} deleteHandler={deleteQuestionHandler} items={currentQuestions} />}
+                                    {!isFetched && <Loader></Loader>}
+                                    <Pagination
+                                        postsPerPage={questionsPerPage}
+                                        totalPosts={questions.length}
+                                        paginate={paginateQuestionsHandler}
+                                    />
+                                </div>
+                            </nav>
+                        </div>
+                        <SideBar matchingkeywords={matchingkeywords} keywords={keywords} toggleCheckbox={toggleCheckbox}
+                            clearKeywordsHandler={clearKeywordsHandler} titlePart={titlePart} titleChangeHandler={titleChangeHandler}
+                            startDateChangeHandler={startDateChangeHandler} startDate={startDate} endDateChangeHandler={endDateChangeHandler}
+                            endDate={endDate} clearDateHandler={clearDateHandler} fetchdata={fetchQuestions}
+                        />
                     </div>
                 </Tab>
                 <Tab eventKey="myanswers" title="My Answers">
@@ -340,7 +349,7 @@ const Dashboard = () => {
                     </div>
                 </Tab>
                 <Tab eventKey="contributions" title="My Contributions">
-                    <Contributions 
+                    <Contributions
                         year={year} month={month}
                         annualContributions={annualContributions} monthlyContributions={monthlyContributions}
                         toggleList={toggleListHandler}
@@ -348,6 +357,8 @@ const Dashboard = () => {
                     </Contributions>
                 </Tab>
             </Tabs>
+        </div>
+        <Modal showModal={showModal} setShowModal={setShowModal} message={message} history={history} />
         </div>
     )
 }

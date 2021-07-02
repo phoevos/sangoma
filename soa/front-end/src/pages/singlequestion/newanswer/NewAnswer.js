@@ -22,7 +22,7 @@ const NewAnswer = (props) => {
     const openModal = () => {
         setShowModal(prev => !prev);
       };
-    const submitQuestionHandler = () => {
+    const submitAnswerHandler = () => {
 
         const config = {
             headers: {
@@ -45,18 +45,18 @@ const NewAnswer = (props) => {
                 window.location.reload(false);
             })
             .catch(error => {
-                if (error.response.data.statusCode === 401) {
+                console.log(error.response.data) 
+                if (error.response.status === 401) {
                     // That's a temporary work-around, redirecting to signin should be done more gracefully.
                     // props.history.push('/signin');
                     openModal();
                 } 
                 else {
-                    console.log(error.response.data); 
-                    setErrorMessage(error.response.data.message); 
+                    setErrorMessage(error.response.data); 
                 } 
             });
     }
-    let message = "You are trying to an answer without authentication."
+    let message = "You are trying to create an answer without authorization."
 
     return (
         <div>
@@ -80,7 +80,7 @@ const NewAnswer = (props) => {
                             color="primary"
                             size = "small"
 
-                            onClick={() =>{ submitQuestionHandler();
+                            onClick={() =>{ submitAnswerHandler();
                             }}
                         >
                             Submit answer
