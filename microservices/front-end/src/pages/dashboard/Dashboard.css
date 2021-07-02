@@ -1,0 +1,60 @@
+.main-title-margin {
+    margin-left: 40%;
+    /* justify-content: center; */
+    color: rgb(255, 255, 255);
+    position: relative;
+    top :25px;
+}
+
+.tab {
+    color: aliceblue;
+    size: 0ch;
+    text-align: center;
+}
+
+.main-answers {
+    padding: 1rem;
+    background-color: rgba(240, 242, 243, 0.897);
+    margin: 2rem auto;
+    width: 60%;
+    margin-top: 50px;
+    display: block;
+    border-radius: 12px;
+    margin-left: 5%;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 65px;
+  }
+
+.keyword-chart {
+    padding: 1rem;
+    background-color: rgba(240, 242, 243, 0.897);
+    margin: 2rem auto;
+    width: 40%;
+    height: 100%;
+    box-sizing: content-box;
+    margin-top: 10px;
+    /* display: block; */
+    border-radius: 12px;
+    margin-left:5%;
+    margin-right: 5%;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+.keyword-table {
+    padding: 1rem;
+    background-color: rgba(240, 242, 243, 0.897);
+    margin: 2rem auto;
+    width: 40%;
+    height: 100%;
+    box-sizing: content-box;
+    margin-top: 10px;
+    /* display: block; */
+    border-radius: 12px;
+    margin-right:5%;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 10px;
+  }

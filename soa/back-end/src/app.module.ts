@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { questionsOrmConfig, usersOrmConfig } from './config/typeorm.config';
-import { QuestionsModule } from './questions/questions.module';
-import { AnswersModule } from './answers/answers.module';
-import { KeywordsModule } from './keywords/keywords.module';
+import { QuestionsModule } from './qa_service/questions/questions.module';
+import { AnswersModule } from './qa_service/answers/answers.module';
+import { KeywordsModule } from './qa_service/keywords/keywords.module';
+import { DiagramModule } from './diagram/diagram.module';
 
 @Module({
   imports: [
@@ -13,7 +14,8 @@ import { KeywordsModule } from './keywords/keywords.module';
     AuthModule,
     QuestionsModule,
     AnswersModule,
-    KeywordsModule
+    KeywordsModule,
+    DiagramModule
   ]
 })
 export class AppModule {}

@@ -209,7 +209,7 @@ const Dashboard = () => {
                 month: month
             },
             headers: {
-                'url': `${diag_url}/questions/contributions/year`
+                'url': `${diag_url}/contributions/year`
             }
         }
 
@@ -231,7 +231,7 @@ const Dashboard = () => {
                 year: year
             },
             headers:{
-                'url':`${diag_url}/questions/contributions/month`
+                'url':`${diag_url}/contributions/month`
             }
         }
 

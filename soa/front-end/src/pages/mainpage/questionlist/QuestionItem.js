@@ -6,12 +6,12 @@ import './QuestionItem.css';
 
 const QuestionItem = (props) => {
 
-	const hideString = (string) => {
-		if (string.length > 60) {
-			return `${string.substr(0, 60)}...`
-		}
-		return string
-	}
+	// const hideString = (string) => {
+	// 	if (string.length > 60) {
+	// 		return `${string.substr(0, 60)}...`
+	// 	}
+	// 	return string
+	// }
 
 	return (
 		<div>
@@ -19,7 +19,7 @@ const QuestionItem = (props) => {
 				<div className='question-item'>
 					<DateComponent dateTime={props.dateTime} />
 					<div className='question-item__description'>
-						<div onClick={() => { console.log(props.id); props.gotoPageHandler(props.id, true); }}>{hideString(props.title)}</div>
+						<div onClick={() => { console.log(props.id); props.gotoPageHandler(props.id, true); }}>{props.title}</div>
 					</div>
 
 					<div className='question-item-username'>

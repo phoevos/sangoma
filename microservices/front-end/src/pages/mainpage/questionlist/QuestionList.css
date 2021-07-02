@@ -1,0 +1,9 @@
+.question-list {
+  list-style: none;
+  padding: 0;
+}
+
+.question-list__fallback {
+  color: #2a5dbb;
+  text-align: center;
+}

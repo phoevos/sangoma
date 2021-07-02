@@ -7,6 +7,7 @@ export class AppService {
 
   async getRedirect(endpoint: string, params) {
     const url = BASE_URL + endpoint
+    // console.log(params)
     console.log(url)
     return axios.get(url, params)
   }

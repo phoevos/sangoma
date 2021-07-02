@@ -1,0 +1,9 @@
+{
+    "ESB_URL": "http://localhost:4000/esb",
+    "Services": {
+        "AuthenticatorService": "auth",
+        "DiagramService": "diagram",
+        "QAService": "qa"
+    }
+}
+

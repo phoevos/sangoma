@@ -1,0 +1,11 @@
+.newanswer__container{
+    width: 100%;
+    background-color: #eceaea;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  }
+
+.divider{
+    margin:5px;
+}

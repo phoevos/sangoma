@@ -33,6 +33,10 @@ const MainPage = () => {
                 params: {
                 matchingKeywords : [tag]
                 }
+                ,
+                headers:{
+                    'url':`${qa_url}/questions`
+                }
             }
         
         else 

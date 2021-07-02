@@ -1,0 +1,26 @@
+.item-date {
+    display: flex;
+    flex-direction: column;
+    width: 5.5rem;
+    height: 5.5rem;
+    border: 1px solid rgb(77, 116, 201);
+    background-color: #ececec;
+    color: rgb(77, 116, 201);
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+  }
+  
+.item-date__month {
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+  
+.item-date__year {
+    font-size: 0.75rem;
+  }
+  
+.item-date__day {
+    font-size: 0.7rem;
+    font-weight: bold;
+  }

@@ -1,0 +1,183 @@
+.question-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+.question-item-container{
+  background-color: #eceaea;
+  border-radius: 12px;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  overflow:auto;  
+}
+.question-item-container:hover {
+  background-color: lavenderblush;
+}
+
+.question-item__description {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: left;
+  flex-flow: column-reverse;
+  justify-content: flex-start;
+  flex: 1;
+  font-size: 1rem;
+  margin: 0 1rem;
+  color: #2a5dbb;
+  font-weight: bold;
+}
+
+
+.question-item__description:hover{
+  color: #540f69;
+  cursor: pointer;
+}
+
+.question-item-username{
+  font-size: 0.9rem;
+  color: #2a5dbb;
+}
+
+.question-item-username-link{
+  font-weight: bold;
+  font-size: 1rem;
+}
+.question-item-username-link:hover{
+  color: #540f69;
+  cursor: pointer;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 8px 0 0 0;
+  font-size: 10px;
+
+}
+
+.tag {
+  width: auto;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 0 8px;
+  font-size: 10px;
+  list-style: none;
+  border-radius: 6px;
+  margin: 0 8px 8px 0;
+  background: #9197e7;
+}
+.tag-title {
+    margin-top: 3px;
+}
+.tag:hover {
+  background: #540f69;
+  cursor: pointer;
+}
+
+.gg-pen {
+  float: right;
+  box-sizing: border-box;
+  position: relative;
+  color : rgb(41, 36, 36);
+  display: block;
+  transform: rotate(-45deg) scale(var(--ggs,1));
+  width: 14px;
+  height: 4px;
+  border-right: 2px solid transparent;
+  box-shadow:
+  0 0 0 2px,
+  inset -2px 0 0;
+  border-top-right-radius: 1px;
+  border-bottom-right-radius: 1px;
+ }
+ 
+ .gg-pen::after,
+ .gg-pen::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute
+ }
+ 
+ .gg-pen::before {
+  background: currentColor;
+  border-left: 0;
+  right: -6px;
+  width: 3px;
+  height: 4px;
+  border-radius: 1px;
+  top: 0
+ }
+ 
+ .gg-pen::after {
+  width: 8px;
+  height: 7px;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-right: 7px solid;
+  left: -11px;
+  top: -2px
+ } 
+
+ .gg-pen:hover {
+  background-color: chartreuse;
+  cursor: pointer;
+ } 
+
+.gg-trash {
+  float: right;
+  color : rgb(41, 36, 36);
+  box-sizing: border-box;
+  position: relative;
+  display: block;
+  transform: scale(var(--ggs,1));
+  width: 10px;
+  height: 12px;
+  border: 2px solid transparent;
+  box-shadow:
+  0 0 0 2px,
+  inset -2px 0 0,
+  inset 2px 0 0;
+  border-bottom-left-radius: 1px;
+  border-bottom-right-radius: 1px;
+  margin-right: 10px;
+ }
+ 
+ .gg-trash::after,
+ .gg-trash::before {
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  position: absolute
+ }
+ 
+ .gg-trash::after {
+  background: currentColor;
+  border-radius: 3px;
+  width: 16px;
+  height: 2px;
+  top: -4px;
+  left: -5px
+ }
+ 
+ .gg-trash::before {
+  width: 10px;
+  height: 4px;
+  border: 2px solid;
+  border-bottom: transparent;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  top: -7px;
+  left: -2px
+ } 
+ 
+ .gg-trash:hover {
+  background-color: #f71515;
+  cursor: pointer;
+ } 
