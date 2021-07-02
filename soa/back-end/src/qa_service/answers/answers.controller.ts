@@ -15,8 +15,8 @@ export class AnswersController {
     return this.answersService.create(createAnswerDto)
   }
 
-  @Get()
-  findAll(@Query(ValidationPipe) filteredAnswerDto: FilteredAnswerDto) {
+  @Post('/filtered')
+  findAll(@Body(ValidationPipe) filteredAnswerDto: FilteredAnswerDto) {
     return this.answersService.findAll(filteredAnswerDto)
   }
  

@@ -69,22 +69,20 @@ const NewQuestion = () => {
         console.log(requestBody)
         axios.post(ESB_URL, requestBody, config)
             .then(response => {
-                console.log(response.data)
                 goToStartingPage();
             })
             .catch(error => {
-                if (error.response.data.statusCode === 401) {
+                if (error.response.status === 401) {
                     // That's a temporary work-around, redirecting to signin should be done more gracefully.
                     // history.push('/signin');
                     openModal();
                 } else {
-                    console.log(error.response.data); 
-                    setErrorMessage(error.response.data.message); 
+                    setErrorMessage(error.response.data); 
                 } 
             });
     }
 
-    let message = "You are trying to submit a question without authentication."
+    let message = "You are trying to submit a question without authorization."
 
     return (
         <div>

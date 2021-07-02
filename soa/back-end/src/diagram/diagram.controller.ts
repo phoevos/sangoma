@@ -1,20 +1,24 @@
-import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
 import { DiagramService } from './diagram.service';
 import { ContributionsDto } from './dto/contributions.dto';
+import { FilteredKeywordDto } from './dto/get-filtered-keyword.dto';
 
 @Controller('diagram')
 export class DiagramController {
   constructor(private readonly diagramService: DiagramService) {}
 
+  @Post('/filtered_keywords')
+  findFiltered(@Body(ValidationPipe) filteredKeywordDto: FilteredKeywordDto) {
+    return this.diagramService.findFilteredKeywords(filteredKeywordDto);
+  }
 
-
-  @Get('/contributions/year')
-  getContributionsByYear(@Query(ValidationPipe) contributionsDto: ContributionsDto) {
+  @Post('/contributions/year')
+  getContributionsByYear(@Body(ValidationPipe) contributionsDto: ContributionsDto) {
     return this.diagramService.getContributionsByYear(contributionsDto)
   }
 
-  @Get('/contributions/month')
-  getContributionsByMonth(@Query(ValidationPipe) contributionsDto: ContributionsDto) {
+  @Post('/contributions/month')
+  getContributionsByMonth(@Body(ValidationPipe) contributionsDto: ContributionsDto) {
     return this.diagramService.getContributionsByMonth(contributionsDto)
   }
 }

@@ -5,8 +5,8 @@ import { FilteredKeywordDto } from './dto/get-filtered-keyword.dto';
 @Controller('qa/keywords')
 export class KeywordsController {
   constructor(private readonly keywordsService: KeywordsService) {}
-  @Get()
-  findFiltered(@Query(ValidationPipe) filteredKeywordDto: FilteredKeywordDto) {
+  @Post('/filtered')
+  findFiltered(@Body(ValidationPipe) filteredKeywordDto: FilteredKeywordDto) {
     return this.keywordsService.findFilteredKeywords(filteredKeywordDto);
   }
 

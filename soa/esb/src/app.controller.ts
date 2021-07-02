@@ -1,36 +1,68 @@
-import { Body, Controller, Delete, Get, Headers, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, Patch, Post, Query, Res } from '@nestjs/common';
+import { Response } from 'express';
 import { AppService } from './app.service';
 
 @Controller('esb')
 export class AppController {
   constructor( private readonly appService: AppService) { }
 
+
+  @Get('/service_discovery')
+  async getServices(){
+    return this.appService.getServices()
+  }
   @Get()
-  async getRedirect(@Headers() headers, @Query() params) {
+  async getRedirect(@Headers() headers, @Query() params,@Res() response: Response) {
     const url = headers.url
     const config = { headers, params }
+    try{
     const res = await this.appService.getRedirect(url, config);    
-    return res.data
+    response.status(200).send(res.data)
+    }
+    catch(err){
+      response.status(err.response.data.statusCode).send(err.response.data.message)
+    }
   }
 
+  @Get('/endpoints/:id')
+  async getEndpoints(){
+    return this.appService.getEndpoints()
+  }  
   @Post()
-  async postRedirect(@Body() body, @Headers() headers) {
+  async postRedirect(@Body() body, @Headers() headers,@Res() response: Response) {
     const url = headers.url
-    const res = await this.appService.postRedirect(url, body, headers); 
-    return res.data
+    try{
+      const res = await this.appService.postRedirect(url, body, headers); 
+      response.status(200).send(res.data)
+    }
+    catch (err){
+      console.log(err)
+      response.status(err.response.data.statusCode).send(err.response.data.message)
+    }
+    
   }
 
   @Patch()
-  async patchRedirect(@Body() body, @Headers() headers) {
+  async patchRedirect(@Body() body, @Headers() headers,@Res() response: Response) {
     const url = headers.url
+    try{
     const res = await this.appService.patchRedirect(url, body, headers);
-    return res.data
+    response.status(200).send(res.data)
+  }
+    catch(err){
+      response.status(err.response.data.statusCode).send(err.response.data.message)
+    }
   }
 
   @Delete()
-  async deleteRedirect(@Headers() headers) {
+  async deleteRedirect(@Headers() headers,@Res() response: Response) {
     const url = headers.url
+    try{
     const res = await this.appService.deleteRedirect(url, headers);
-    return res.data
+    response.status(200).send(res.data)
+  }
+    catch(err){
+      response.status(err.response.data.statusCode).send(err.response.data.message)
+    }
   }
 }
