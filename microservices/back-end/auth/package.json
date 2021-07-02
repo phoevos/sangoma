@@ -27,6 +27,11 @@
     "@nestjs/platform-express": "^7.6.15",
     "@nestjs/typeorm": "^7.1.5",
     "bcrypt": "^5.0.1",
+<<<<<<< HEAD
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
+=======
+>>>>>>> a1ee6583e1172965526d1565f23f523e9d9b4428
     "config": "^3.3.6",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",
