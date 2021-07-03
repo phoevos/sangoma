@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Headers, Patch, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, Param, ParseIntPipe, Patch, Post, Query, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { AppService } from './app.service';
 
@@ -11,6 +11,13 @@ export class AppController {
   async getServices(){
     return this.appService.getServices()
   }
+
+  @Get('/endpoint_discovery/:id')
+  async getEndpoints(@Param('id', ParseIntPipe) id: number){
+    return this.appService.getEndpoints(id)
+  }  
+
+
   @Get()
   async getRedirect(@Headers() headers, @Query() params,@Res() response: Response) {
     const url = headers.url
@@ -24,10 +31,7 @@ export class AppController {
     }
   }
 
-  @Get('/endpoints/:id')
-  async getEndpoints(){
-    return this.appService.getEndpoints()
-  }  
+
   @Post()
   async postRedirect(@Body() body, @Headers() headers,@Res() response: Response) {
     const url = headers.url

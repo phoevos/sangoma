@@ -1,41 +1,20 @@
-import { HttpService, Injectable } from '@nestjs/common';
+import {Injectable } from '@nestjs/common';
 import axios from 'axios';
+import {services} from '../config/services.config'
+import {endpoints} from '../config/endpoints.config'
 const BASE_URL = 'http://localhost:3000/'
 
 @Injectable()
 export class AppService {
 
   async getServices() {
-    const Services = [
-      {
-        "service_id": 0,
-        "name": "Questions and Answer Service",
-        "relative_path": "qa",
-        "description": "This service is responsible for implementing all Crud operations related to the entities of the database."
-      },
-      {
-        "service_id": 1,
-        "name": "Authenticator Service",
-        "relative_path": "auth",
-        "description": "This service is responsible for sign in/up and the implementation of the JWT strategy."
-      },
-      {
-        "service_id": 2,
-        "name": "Diagram_Service",
-        "relative_path": "diagram",
-        "description": "This service is responsible for implementing various operations which can produce helpful diagrams."
-      }
-    ]
-    return Services
+    return services
   }
-  async getEndpoints(){
-
-    return {"general-description": "In order to send a request to the required service, send the request to the general esb endpoint and put the relative url as an attribute in the headers as follows : 'url': my_relative_url."}
+  async getEndpoints(id : number){
+      return endpoints.find(endpoint => endpoint.id ===  id)
   }
   async getRedirect(endpoint: string, params) {
     const url = BASE_URL + endpoint
-    // console.log(params)
-    console.log(url)
     return axios.get(url, params)
   }
 

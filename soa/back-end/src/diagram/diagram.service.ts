@@ -4,15 +4,16 @@ import { Answer } from 'src/qa_service/answers/entities/answer.entity';
 import { Keyword } from 'src/qa_service/keywords/entities/keyword.entity';
 import { Question } from 'src/qa_service/questions/entities/question.entity';
 import { EntityManager } from 'typeorm';
-import { ContributionsDto } from './dto/contributions.dto';
+import { ContributionsPerMonthDto } from './dto/contributionspermonth.dto';
+import { ContributionsPerYearDto } from './dto/contributionsperyear.dto';
 import { FilteredKeywordDto } from './dto/get-filtered-keyword.dto';
 
 @Injectable()
 export class DiagramService {
   constructor(@InjectEntityManager('questions') private entityManager: EntityManager) { }
 
-  async getContributionsByYear(contributionsDto: ContributionsDto) {
-    const { year, month, username } = contributionsDto
+  async getContributionsByYear(contributionsDto: ContributionsPerYearDto) {
+    const { year, username } = contributionsDto
     const query = this.entityManager.createQueryBuilder(Question, "q")
     // BOTH WORK BEAUTIFULLY, STOP WHINING ABOUT THE QUERYBUILDER <3
     // return this.entityManager.query(`
@@ -47,7 +48,7 @@ export class DiagramService {
       .getRawMany()
   }
 
-  async getContributionsByMonth(contributionsDto: ContributionsDto) {
+  async getContributionsByMonth(contributionsDto: ContributionsPerMonthDto) {
     const { year, month, username } = contributionsDto
     const query = this.entityManager.createQueryBuilder(Question, "q")
     return query.select('EXTRACT(DAY FROM q.dateTime)', 'day')

@@ -124,7 +124,6 @@ export class QuestionsService {
       const question = await manager.findOne(Question, id)
       if (!question) throw new NotFoundException(`Question #${id} not found`)
       await manager.remove(question)
-      // await manager.delete(Question, id)
     })
   }
 }

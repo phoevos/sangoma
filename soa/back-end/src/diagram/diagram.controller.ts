@@ -1,6 +1,7 @@
 import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
 import { DiagramService } from './diagram.service';
-import { ContributionsDto } from './dto/contributions.dto';
+import { ContributionsPerMonthDto } from './dto/contributionspermonth.dto';
+import { ContributionsPerYearDto } from './dto/contributionsperyear.dto';
 import { FilteredKeywordDto } from './dto/get-filtered-keyword.dto';
 
 @Controller('diagram')
@@ -13,12 +14,12 @@ export class DiagramController {
   }
 
   @Post('/contributions/year')
-  getContributionsByYear(@Body(ValidationPipe) contributionsDto: ContributionsDto) {
+  getContributionsByYear(@Body(ValidationPipe) contributionsDto: ContributionsPerYearDto) {
     return this.diagramService.getContributionsByYear(contributionsDto)
   }
 
   @Post('/contributions/month')
-  getContributionsByMonth(@Body(ValidationPipe) contributionsDto: ContributionsDto) {
+  getContributionsByMonth(@Body(ValidationPipe) contributionsDto: ContributionsPerMonthDto) {
     return this.diagramService.getContributionsByMonth(contributionsDto)
   }
 }
