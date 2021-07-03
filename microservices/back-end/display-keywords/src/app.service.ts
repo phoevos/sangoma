@@ -13,7 +13,7 @@ export class AppService {
     const { keywordPart, username } = filteredKeywordDto
 
     let query = this.entityManager.createQueryBuilder()
-      .from(Keyword,"keyword")
+      .from(Keyword, "keyword")
       .select("keyword.keyword as keyword")
       .addSelect("COUNT(*) as freq")
       .innerJoin("keyword.questions", "question")

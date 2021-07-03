@@ -1,6 +1,7 @@
-import { BadRequestException, ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Inject, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { JwtService } from '@nestjs/jwt';
-import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
+import { InjectEntityManager } from '@nestjs/typeorm';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtPayload } from './jwt-payload.interface';
 import * as bcrypt from 'bcrypt';
@@ -10,21 +11,25 @@ import { User } from './user.entity';
 @Injectable()
 export class AppService {
   constructor(
+    @Inject('AUTH_SERVICE') private readonly clientProxy: ClientProxy,
     @InjectEntityManager() private entityManager: EntityManager,
     private jwtService: JwtService
     ) {}
 
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
-      const { username, password } = authCredentialsDto
+      let { username, password } = authCredentialsDto
 
       const user = new User()
       user.username = username
 
       const salt = await bcrypt.genSalt()
-      user.password = await bcrypt.hash(password, salt)
-
+      password = await bcrypt.hash(password, salt)
+      user.password = password
+      
       try {
-          await user.save()            
+          await user.save()       
+          const userDto = { username, password }
+          this.clientProxy.emit('new_user', userDto)     
       } catch (error) {
           if (error.code === '23505') { // duplicate username
               throw new ConflictException('Username is already in use.')

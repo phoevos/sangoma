@@ -1,8 +1,10 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
+import { EventPattern } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
 import { AppService } from './app.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { User } from './auth/user.entity';
 
 @Controller('qa/questions')
 export class AppController {
@@ -24,5 +26,10 @@ export class AppController {
   @UseGuards(AuthGuard())
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.appService.remove(id)
+  }
+
+  @EventPattern('new_user')
+  create_user(user: User) {
+    return this.appService.create_user(user)
   }
 }

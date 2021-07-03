@@ -5,6 +5,8 @@ import { AppService } from './app.service';
 import { JwtModule } from '@nestjs/jwt';
 import { usersOrmConfig } from 'config/typeorm.config';
 import * as config from 'config';
+import { amqpClientOptions } from '../config/amqp.config';
+import { ClientsModule } from '@nestjs/microservices';
 
 const jwtConfig = config.get('jwt')
 
@@ -16,7 +18,8 @@ const jwtConfig = config.get('jwt')
         expiresIn: jwtConfig.expiresIn
       }
     }),
-    TypeOrmModule.forRoot(usersOrmConfig)
+    TypeOrmModule.forRoot(usersOrmConfig),
+    ClientsModule.register(amqpClientOptions)
   ],
   controllers: [AppController],
   providers: [AppService],

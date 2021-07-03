@@ -4,10 +4,14 @@ import { EntityManager } from 'typeorm';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Question } from './entities/question.entity';
+import { User } from './auth/user.entity';
 
 @Injectable()
 export class AppService {
-  constructor(@InjectEntityManager('questions') private entityManager: EntityManager) {}
+  constructor(
+    @InjectEntityManager() private userManager: EntityManager,
+    @InjectEntityManager('questions') private entityManager: EntityManager
+    ) {}
   
   async create(createQuestionDto: CreateQuestionDto){
     const question = this.entityManager.create(Question, createQuestionDto)
@@ -29,5 +33,10 @@ export class AppService {
       if (!question) throw new NotFoundException(`Question #${id} not found`)
       await manager.remove(question)
     })
+  }
+
+  async create_user(userDto) {
+    const user = this.userManager.create(User, userDto)
+    return this.userManager.save(user)
   }
 }

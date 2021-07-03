@@ -4,8 +4,8 @@ server:
 db:
   type: 'postgres'
   port: 5432
-  usersDatabase: ms_users
-  questionsDatabase: ms_questions
+  usersDatabase: ms_management_questions
+  questionsDatabase: ms_management_questions
 
 jwt:
   expiresIn: 3600
