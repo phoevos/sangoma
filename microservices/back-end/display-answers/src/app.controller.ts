@@ -8,7 +8,7 @@ import { UpdateAnswerDto } from './dto/update-answer.dto';
 export class AppController {
   constructor(private readonly appService: AppService) {}
   
-  @Get()
+  @Get('filtered')
   findAll(@Query(ValidationPipe) filteredAnswerDto: FilteredAnswerDto) {
     return this.appService.findAll(filteredAnswerDto)
   }

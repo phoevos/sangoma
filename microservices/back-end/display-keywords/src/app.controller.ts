@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 @Controller('qa/keywords')
 export class AppController {
   constructor(private readonly appService: AppService) {}
-  @Get()
+  @Get('filtered')
   findFiltered(@Query(ValidationPipe) filteredKeywordDto: FilteredKeywordDto) {
     return this.appService.findFilteredKeywords(filteredKeywordDto);
   }

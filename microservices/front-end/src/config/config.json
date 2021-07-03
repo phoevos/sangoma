@@ -1,9 +1,17 @@
 {
-    "ESB_URL": "http://localhost:4000/esb",
+    "MS": {
+        "AUTH": "http://localhost:3000",
+        "DISPLAY_KEYWORDS": "http://localhost:3001",
+        "DISPLAY_QUESTIONS": "http://localhost:3002",
+        "QUESTIONS_MANAGEMENT": "http://localhost:3003",
+        "SINGLE_POST": "http://localhost:3004",
+        "CONTRIBUTIONS": "http://localhost:3005",
+        "DISPLAY_ANSWERS": "http://localhost:3006"
+    },
     "Services": {
-        "AuthenticatorService": "auth",
-        "DiagramService": "diagram",
-        "QAService": "qa"
+        "AuthenticatorService": "/auth",
+        "DiagramService": "/diagram",
+        "QAService": "/qa"
     }
 }
 

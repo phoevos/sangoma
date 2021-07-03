@@ -6,8 +6,6 @@ import { Button } from '@material-ui/core';
 
 const Question = (props) => {
 
-
-
     return (
 
         <div className='single-container'>
@@ -36,7 +34,7 @@ const Question = (props) => {
             <ul className='tags'>
                 {props.question.keywords.map((tag, index) => (
                     <li key={index} className='tag'>
-                        <span className='tag-title' onClick={() => props.fetch(tag.keyword)}>{tag.keyword}</span>
+                        <div className='tag-title'> {tag.keyword}</div>
                     </li>
                 ))}
             </ul>

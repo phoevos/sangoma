@@ -6,7 +6,7 @@ import { FilteredQuestionDto } from './dto/get-filtered-question.dto';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
+  @Get('filtered')
   findFiltered(@Query(ValidationPipe) filteredQuestionDto: FilteredQuestionDto) {
     return this.appService.findFilteredQuestions(filteredQuestionDto);
   }

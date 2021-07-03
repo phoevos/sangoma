@@ -7,9 +7,10 @@ import ErrorMessage from '../../components/hoc/error/ErrorMessage';
 import { Navbar } from 'react-bootstrap';
 import './SignInPage.css';
 import config from '../../config/config.json'
+
 const auth_url = config.Services.AuthenticatorService;
-const ESB_URL = config.ESB_URL;
-const qs = require('querystring');
+const ms = config.MS;
+
 const FormField = styled(TextField)`
   width: 100%;
 `;
@@ -17,8 +18,6 @@ const FormField = styled(TextField)`
 const SignInPage = (props) => {
 
 	const [errorMessage, setErrorMessage] = useState('');
-
-
 	const [credentialsState, dispatchCredentials] = useState({ username: '', password: '' });
 
 	const usernameChangeHandler = (event) => {
@@ -30,7 +29,6 @@ const SignInPage = (props) => {
 		dispatchCredentials({ ...credentialsState, password: event.target.value });
 
 	};
-
 
 	const history = useHistory();
 
@@ -46,13 +44,11 @@ const SignInPage = (props) => {
 		return history.push('/signup');
 	};
 
-
 	const signInHandler = () => {
 
 		const config = {
 			headers: {
-				'Content-Type': 'application/json',
-				'url': `${auth_url}/signin`
+				'Content-Type': 'application/json'
 			}
 		}
 		//Create Request Body
@@ -62,7 +58,7 @@ const SignInPage = (props) => {
 		};
 		//Send post request
 
-		axios.post(ESB_URL, requestBody, config)
+		axios.post(ms.AUTH + `${auth_url}/signin`, requestBody, config)
 			.then(response => {
 				let signInAccessToken = response.data.accessToken;
 				localStorage.setItem('accessToken', signInAccessToken);
@@ -71,9 +67,6 @@ const SignInPage = (props) => {
 			})
 			.catch(error => { console.log(error.response.data); setErrorMessage(error.response.data.message); });
 	}
-
-
-
 
 	return (
 

@@ -3,7 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtPayload } from './jwt-payload.interface';
-import { UserRepository } from './user.repository';
 import * as bcrypt from 'bcrypt';
 import { EntityManager } from 'typeorm';
 import { User } from './user.entity';
@@ -12,13 +11,10 @@ import { User } from './user.entity';
 export class AppService {
   constructor(
     @InjectEntityManager() private entityManager: EntityManager,
-    // @InjectRepository(UserRepository) 
-    // private userRepository: UserRepository,
     private jwtService: JwtService
     ) {}
 
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
-      // const username =  await this.userRepository.signUp(authCredentialsDto)
       const { username, password } = authCredentialsDto
 
       const user = new User()
@@ -46,7 +42,6 @@ export class AppService {
   }
 
   async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
-      // const username =  await this.userRepository.validateUserPassword(authCredentialsDto)
       const { username, password } = authCredentialsDto
 
       const user = await this.entityManager.findOne(User, {username})

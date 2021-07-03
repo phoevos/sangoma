@@ -6,49 +6,42 @@ import './MainPage.css';
 import axios from 'axios';
 import Loader from '../../components/hoc/loader/Loader';
 import Pagination from '../../components/pagination/Pagination'
-import { Modal } from '../../components/hoc/modal/Modal';
 import SideBar from '../../components/sidebar/SideBar'
 import config from '../../config/config.json'
 
 const qa_url = config.Services.QAService;
-const ESB_URL = config.ESB_URL;
+const ms = config.MS;
+
 const MainPage = () => {
 
-    const [showModal, setShowModal] = useState(false);
     const [questions, dispatchQuestions] = useState([]);
     const [isFetched, setIsFetched] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [questionsPerPage] = useState(6);
     const history = useHistory();
-    const openModal = () => {
-        setShowModal(prev => !prev);
-      };
 
-    const fetchdata = (tag,matchingkeywords,titlePart,startDate,endDate) => {
 
-        let params
-        if(tag)
+    const fetchdata = (tag, matchingkeywords, titlePart, startDate, endDate) => {
 
-            params = {
-                params: {
-                matchingKeywords : [tag]
-                }
+        const config = {
+            headers: {
+                'content-type': 'application/json'
+            }
+        }
+        if (tag)
+            config.params = {
+                matchingKeywords: [tag]
+            }
+
+        else
+            config.params = {
+                ...(matchingkeywords && { matchingKeywords: Array.from(matchingkeywords) }),
+                titlePart: titlePart,
+                ...(endDate && { endDate: new Date(endDate) }),
+                ...(startDate && { startDate: new Date(startDate) })
             }
         
-        else 
-            params = {
-                params: {
-                    ...(matchingkeywords && {matchingKeywords : Array.from(matchingkeywords)}),
-                    titlePart: titlePart,
-                    ...(endDate && {endDate: new Date(endDate)}),
-                    ...(startDate && {startDate : new Date(startDate)})
-                },
-                headers:{
-                    'url':`${qa_url}/questions`
-                }
-            }
-            
-        axios.get(ESB_URL, params)
+        axios.get(ms.DISPLAY_QUESTIONS + `${qa_url}/questions/filtered`, config)
             .then(response => {
                 dispatchQuestions(response.data);
                 setIsFetched(true);
@@ -61,11 +54,12 @@ const MainPage = () => {
     const fetchKeywords = () => {
 
         const params = {
-            headers : {
-                'url': `${qa_url}/keywords`
+            headers: {
+                'content-type': 'application/json'
             }
         }
-        axios.get(ESB_URL,params)
+        
+        axios.get(ms.DISPLAY_KEYWORDS + `${qa_url}/keywords/filtered`, params)
             .then(response => {
                 setKeywords(response.data);
             })
@@ -87,7 +81,7 @@ const MainPage = () => {
     useEffect(() => {
         fetchdata();
         fetchKeywords();
-    },[]);
+    }, []);
 
     // Tabs should to be added here:
     //     * The default one will be our home page (all questions)
@@ -108,13 +102,7 @@ const MainPage = () => {
     const [keywords, setKeywords] = useState([]);
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-  
-    // console.log("This is all")
-    // console.log(titlePart)
-    // console.log(startDate)
-    // console.log(endDate)
-    // console.log(matchingkeywords)
-  
+
     const titleChangeHandler = (event) => {
         setTitlePart(event.target.value);
     }
@@ -124,54 +112,53 @@ const MainPage = () => {
     const endDateChangeHandler = (event) => {
         setEndDate(event.target.value);
     }
-    const clearDateHandler = () =>{
+    const clearDateHandler = () => {
         setStartDate("");
         setEndDate("");
     }
-    
+
     const toggleCheckbox = keyword => {
         let newshit = new Set(matchingkeywords);
         if (matchingkeywords.has(keyword)) {
             newshit.delete(keyword);
             setMatchingKeywords(newshit);
-      } else {
-        newshit.add(keyword);
-        setMatchingKeywords(newshit);
-      }
+        } else {
+            newshit.add(keyword);
+            setMatchingKeywords(newshit);
+        }
     }
-    const clearKeywordsHandler = () =>{
+    const clearKeywordsHandler = () => {
         setMatchingKeywords(new Set());
     }
 
-    let message = "You are trying to delete a question without authentication."
     return (
         <div>
-        <div>
-            <h2 className='main-title-margin'>Recent Questions and Answers </h2>
-            <div classname = "main-wrapper">
-            <nav>
-                <div className='main-questions'>
-                    {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} fetch={fetchdata} items={currentQuestions} />}
-                    {!isFetched && <Loader></Loader>}
-                    <Pagination
-                        postsPerPage={questionsPerPage}
-                        totalPosts={questions.length}
-                        paginate={paginateHandler}
+            <div>
+                <h2 className='main-title-margin'>Recent Questions and Answers </h2>
+                <div classname="main-wrapper">
+                    <nav>
+                        <div className='main-questions'>
+                            {isFetched && <QuestionList gotoPageHandler={gotoPageHandler} fetch={fetchdata} items={currentQuestions} />}
+                            {!isFetched && <Loader></Loader>}
+                            <Pagination
+                                postsPerPage={questionsPerPage}
+                                totalPosts={questions.length}
+                                paginate={paginateHandler}
+                            />
+                        </div>
+
+                    </nav>
+                    <SideBar matchingkeywords={matchingkeywords} keywords={keywords} toggleCheckbox={toggleCheckbox}
+                        clearKeywordsHandler={clearKeywordsHandler} titlePart={titlePart} titleChangeHandler={titleChangeHandler}
+                        startDateChangeHandler={startDateChangeHandler} startDate={startDate} endDateChangeHandler={endDateChangeHandler}
+                        endDate={endDate} clearDateHandler={clearDateHandler} fetchdata={fetchdata}
                     />
                 </div>
-            
-            </nav>
-            <SideBar matchingkeywords={matchingkeywords}  keywords={keywords} toggleCheckbox={toggleCheckbox} 
-                clearKeywordsHandler ={clearKeywordsHandler} titlePart={titlePart} titleChangeHandler={titleChangeHandler} 
-                startDateChangeHandler={startDateChangeHandler} startDate={startDate}  endDateChangeHandler={endDateChangeHandler} 
-                endDate={endDate} clearDateHandler={clearDateHandler} fetchdata = {fetchdata}
-            />
+
+
             </div>
 
-
-        </div>
-        
-        <Modal showModal={showModal} setShowModal={setShowModal} message ={message} history={history}/>        
+            
         </div>
     );
 };

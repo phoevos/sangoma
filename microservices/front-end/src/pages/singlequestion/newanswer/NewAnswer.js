@@ -7,8 +7,10 @@ import {Nav} from 'react-bootstrap';
 import './NewAnswer.css';
 import { Modal } from '../../../components/hoc/modal/Modal';
 import config from '../../../config/config.json'
+
 const qa_url = config.Services.QAService;
-const ESB_URL = config.ESB_URL;
+const ms = config.MS;
+
 const NewAnswer = (props) => {
 
     const [showModal, setShowModal] = useState(false);
@@ -21,14 +23,13 @@ const NewAnswer = (props) => {
     };
     const openModal = () => {
         setShowModal(prev => !prev);
-      };
-    const submitQuestionHandler = () => {
+    };
+    const submitAnswerHandler = () => {
 
         const config = {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                'Content-Type': 'application/json',
-                'url': `${qa_url}/answers`
+                'Content-Type': 'application/json'
             }
         }
 
@@ -39,24 +40,24 @@ const NewAnswer = (props) => {
             dateTime: new Date().toUTCString()
         };
 
-        axios.post(ESB_URL, requestBody, config)
+        axios.post(ms.SINGLE_POST + `${qa_url}/answers`, requestBody, config)
             .then(response => {
                 console.log(response.data)
                 window.location.reload(false);
             })
             .catch(error => {
-                if (error.response.data.statusCode === 401) {
+                console.log(error.response.data) 
+                if (error.response.status === 401) {
                     // That's a temporary work-around, redirecting to signin should be done more gracefully.
                     // props.history.push('/signin');
                     openModal();
                 } 
                 else {
-                    console.log(error.response.data); 
-                    setErrorMessage(error.response.data.message); 
+                    setErrorMessage(error.response.data); 
                 } 
             });
     }
-    let message = "You are trying to an answer without authentication."
+    let message = "You are trying to create an answer without authorization."
 
     return (
         <div>
@@ -80,7 +81,7 @@ const NewAnswer = (props) => {
                             color="primary"
                             size = "small"
 
-                            onClick={() =>{ submitQuestionHandler();
+                            onClick={() =>{ submitAnswerHandler();
                             }}
                         >
                             Submit answer

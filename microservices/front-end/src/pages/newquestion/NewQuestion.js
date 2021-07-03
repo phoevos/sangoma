@@ -11,7 +11,8 @@ import { Modal } from '../../components/hoc/modal/Modal';
 import config from '../../config/config.json';
 
 const qa_url = config.Services.QAService;
-const ESB_URL = config.ESB_URL;
+const ms = config.MS;
+
 const NewQuestion = () => {
 
     const [showModal, setShowModal] = useState(false);
@@ -26,7 +27,6 @@ const NewQuestion = () => {
             event.target.value = ""
         }
     }
-
 
     const openModal = () => {
         setShowModal(prev => !prev);
@@ -54,11 +54,10 @@ const NewQuestion = () => {
         const config = {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
-                'Content-Type': 'application/json',
-                'url': `${qa_url}/questions`
+                'Content-Type': 'application/json'
             }
         }
-        console.log(new Date().toUTCString())
+        
         const requestBody = {
             title: titleState,
             text: textState,
@@ -66,25 +65,23 @@ const NewQuestion = () => {
             username: localStorage.getItem('loggedUsername'),
             dateTime: new Date().toUTCString()
         };
-        console.log(requestBody)
-        axios.post(ESB_URL, requestBody, config)
+        
+        axios.post(ms.QUESTIONS_MANAGEMENT + `${qa_url}/questions`, requestBody, config)
             .then(response => {
-                console.log(response.data)
                 goToStartingPage();
             })
             .catch(error => {
-                if (error.response.data.statusCode === 401) {
+                if (error.response.status === 401) {
                     // That's a temporary work-around, redirecting to signin should be done more gracefully.
                     // history.push('/signin');
                     openModal();
                 } else {
-                    console.log(error.response.data); 
-                    setErrorMessage(error.response.data.message); 
+                    setErrorMessage(error.response.data); 
                 } 
             });
     }
 
-    let message = "You are trying to submit a question without authentication."
+    let message = "You are trying to submit a question without authorization."
 
     return (
         <div>
@@ -138,7 +135,6 @@ const NewQuestion = () => {
                     </Nav>
                 </div>
                 <Modal showModal={showModal} setShowModal={setShowModal} history={history} message ={message}/>
-
         </div>
 
     );
