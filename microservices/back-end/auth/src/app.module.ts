@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserRepository } from './user.repository';
 import { JwtModule } from '@nestjs/jwt';
+import { usersOrmConfig } from 'config/typeorm.config';
 import * as config from 'config';
 
 const jwtConfig = config.get('jwt')
@@ -16,7 +17,7 @@ const jwtConfig = config.get('jwt')
         expiresIn: jwtConfig.expiresIn
       }
     }),
-    TypeOrmModule.forFeature([UserRepository])
+    TypeOrmModule.forRoot(usersOrmConfig) // forFeature([UserRepository])
   ],
   controllers: [AppController],
   providers: [AppService],

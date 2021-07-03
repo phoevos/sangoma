@@ -1,6 +1,6 @@
 import { Type } from "class-transformer"
 import { IsDate, IsNotEmpty, IsString } from "class-validator"
-import { Keyword } from "../../keywords/entities/keyword.entity"
+import { Keyword } from "src/entities/keyword.entity"
 
 export class CreateQuestionDto {
     @IsString()
