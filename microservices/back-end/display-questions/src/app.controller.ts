@@ -1,6 +1,8 @@
 import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
 import { AppService } from './app.service';
 import { FilteredQuestionDto } from './dto/get-filtered-question.dto';
+import { Question } from './entities/question.entity';
 
 @Controller('qa/questions')
 export class AppController {
@@ -11,21 +13,18 @@ export class AppController {
     return this.appService.findFilteredQuestions(filteredQuestionDto);
   }
 
-  // @Post()
-  // @UseGuards(AuthGuard())
-  // create(@Body(ValidationPipe) createQuestionDto: CreateQuestionDto) {
-  //   return this.appService.create(createQuestionDto);
-  // }
+  @MessagePattern('create_question')
+  create(createQuestionDto: Question) {
+    return this.appService.create(createQuestionDto);
+  }
 
-  // @Patch('/:id')
-  // @UseGuards(AuthGuard())
-  // update(@Param('id', ParseIntPipe) id: number, @Body(ValidationPipe) updateQuestionDto: UpdateQuestionDto) {
-  //   return this.appService.update(id, updateQuestionDto)
-  // }
+  @MessagePattern('update_question')
+  update(updateQuestionDto: Question) {
+    return this.appService.update(updateQuestionDto)
+  }
 
-  // @Delete('/:id')
-  // @UseGuards(AuthGuard())
-  // remove(@Param('id', ParseIntPipe) id: number) {
-  //   return this.appService.remove(id)
-  // }
+  @MessagePattern('delete_question')
+  remove(deleteQuestionDto) {
+    return this.appService.remove(deleteQuestionDto)
+  }
 }

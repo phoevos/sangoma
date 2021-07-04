@@ -5,7 +5,7 @@ import * as config from 'config';
 
 const redis = config.get('redis')
 
-export async function auth_bootstrap() {
+export async function question_bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
     transport: Transport.REDIS,
     options: {
@@ -14,6 +14,6 @@ export async function auth_bootstrap() {
     },
   });
   app.listen(() => {
-    console.log('Question-Management MS is listening for new users...');    
+    console.log('Display-Keywords MS is listening for question updates...');    
   })
 }

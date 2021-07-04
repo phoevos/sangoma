@@ -14,7 +14,8 @@ import { amqpClientOptions } from 'config/amqp.config';
       defaultStrategy: 'jwt'
     }),
     TypeOrmModule.forRoot(usersOrmConfig),
-    TypeOrmModule.forRoot(questionsOrmConfig)
+    TypeOrmModule.forRoot(questionsOrmConfig),
+    ClientsModule.register(amqpClientOptions)
   ],
   controllers: [AppController],
   providers: [

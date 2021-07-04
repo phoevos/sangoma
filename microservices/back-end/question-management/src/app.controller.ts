@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards, ValidationPipe } from '@nestjs/common';
-import { EventPattern } from '@nestjs/microservices';
+import { MessagePattern } from '@nestjs/microservices';
 import { AuthGuard } from '@nestjs/passport';
 import { AppService } from './app.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
@@ -28,7 +28,7 @@ export class AppController {
     return this.appService.remove(id)
   }
 
-  @EventPattern('new_user')
+  @MessagePattern('new_user')
   create_user(user: User) {
     return this.appService.create_user(user)
   }

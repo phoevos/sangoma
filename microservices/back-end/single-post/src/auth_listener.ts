@@ -14,6 +14,6 @@ export async function auth_bootstrap() {
     },
   });
   app.listen(() => {
-    console.log('Question-Management MS is listening for new users...');    
+    console.log('Single-Post MS is listening for new users...');    
   })
 }

@@ -9,3 +9,7 @@ db:
 
 jwt:
   expiresIn: 3600
+
+redis:
+  url: 'redis://redis-13166.c55.eu-central-1-1.ec2.cloud.redislabs.com:13166'
+  password: ''

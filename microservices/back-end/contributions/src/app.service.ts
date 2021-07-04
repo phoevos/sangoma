@@ -54,26 +54,34 @@ export class AppService {
         .addGroupBy('a.answers')
         .getRawMany()
       }
-    
-      // async create(createQuestionDto: CreateQuestionDto){
-      //   const question = this.entityManager.create(Question, createQuestionDto)
-      //   return this.entityManager.save(question)
-      // }
-      
-      // async update(id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
-        //   return this.entityManager.transaction(async manager => {
-          //     const question = await manager.findOne(Question, id, { relations: ['answers']})
-          //     if (!question) throw new NotFoundException(`Question #${id} not found`)
-          //     manager.merge(Question, question, updateQuestionDto)
-  //     return manager.save(question)
-  //   })
-  // }
 
-  // async remove(id: number): Promise<void> {
-  //   return this.entityManager.transaction(async manager => {
-  //     const question = await manager.findOne(Question, id)
-  //     if (!question) throw new NotFoundException(`Question #${id} not found`)
-  //     await manager.remove(question)
-  //   })
-  // }
+      async create_question(question: Question) : Promise<Question> {
+        question = this.entityManager.create(Question, question)
+        return this.entityManager.save(question)
+      }
+    
+      async update_question(question: Question) : Promise<Question> {
+        question = this.entityManager.create(Question, question)
+        return this.entityManager.save(question)
+      }
+    
+      async remove_question(question): Promise<void> {
+        question = this.entityManager.create(Question, question)
+        return this.entityManager.remove(question)
+      }
+      
+    async create_answer(answer: Answer){
+      answer = this.entityManager.create(Answer, answer)
+      return this.entityManager.save(answer)
+    }
+  
+    async update_answer(answer: Answer) : Promise<Answer> {
+      answer = this.entityManager.create(Answer, answer)
+      return this.entityManager.save(answer)
+    }
+  
+    async remove_answer(answer): Promise<void> {
+      answer = this.entityManager.create(Answer, answer)
+      return this.entityManager.remove(answer)
+    }
 }

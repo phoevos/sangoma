@@ -5,6 +5,7 @@ import { Answer } from './entities/answer.entity';
 import { FilteredAnswerDto } from './dto/get-filtered-answer.dto';
 import { CreateAnswerDto } from './dto/create-answer.dto';
 import { UpdateAnswerDto } from './dto/update-answer.dto';
+import { Question } from './entities/question.entity';
 
 @Injectable()
 export class AppService {
@@ -16,30 +17,39 @@ export class AppService {
       if(username) {
         query.andWhere("answer.username = :username", {username})
         query.leftJoin("answer.question","q").select(['answer.id', 'answer.username', 'answer.text', 'answer.dateTime', 'q.title', 'q.id'])
+        query.orderBy("answer.dateTime", "DESC")
         return query.getMany();
       }
       return this.entityManager.find(Answer, {username})
     }
 
-  // async create(createAnswerDto: CreateAnswerDto): Promise<Answer> {
-  //   const answer = await this.entityManager.create(Answer, createAnswerDto)
-  //   return this.entityManager.save(answer)
-  // }
+    async create_question(question: Question){
+      question = this.entityManager.create(Question, question)
+      return this.entityManager.save(question)
+    }
+  
+    async update_question(question: Question) : Promise<Question> {
+      question = this.entityManager.create(Question, question)
+      return this.entityManager.save(question)
+    }
+  
+    async remove_question(question): Promise<void> {
+      question = this.entityManager.create(Question, question)
+      return this.entityManager.remove(question)
+    }
 
-  // async update(id: number, updateAnswerDto: UpdateAnswerDto): Promise<Answer> {
-  //   return this.entityManager.transaction(async manager => {
-  //     const answer = await manager.findOne(Answer, id)
-  //     if (!answer) throw new NotFoundException(`Answer #${id} not found`)
-  //     manager.merge(Answer, answer, updateAnswerDto)
-  //     return manager.save(answer)
-  //   })
-  // }
-
-  // async remove(id: number): Promise<void> {
-  //   return this.entityManager.transaction(async manager => {
-  //     const answer = await manager.findOne(Answer, id)
-  //     if (!answer) throw new NotFoundException(`Answer #${id} not found`)
-  //     await manager.delete(Answer, id)
-  //   })
-  // }
+    async create_answer(answer: Answer){
+      answer = this.entityManager.create(Answer, answer)
+      return this.entityManager.save(answer)
+    }
+  
+    async update_answer(answer: Answer) : Promise<Answer> {
+      answer = this.entityManager.create(Answer, answer)
+      return this.entityManager.save(answer)
+    }
+  
+    async remove_answer(answer): Promise<void> {
+      answer = this.entityManager.create(Answer, answer)
+      return this.entityManager.remove(answer)
+    }
 }

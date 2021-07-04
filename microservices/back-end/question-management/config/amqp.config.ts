@@ -1,13 +1,13 @@
 import { Transport, ClientsModuleOptions } from '@nestjs/microservices';
+import * as config from 'config';
+
+const redis = config.get('redis')
 
 export const amqpClientOptions: ClientsModuleOptions = [{
-    name: 'AUTH_SERVICE',
-    transport: Transport.RMQ,
+    name: 'QUESTION_SERVICE',
+    transport: Transport.REDIS,
     options: {
-      urls: ['amqps://qaekhthq:y-Mt4YK-5A4qzE9VXwfryN2cLV4SEfZv@rat.rmq2.cloudamqp.com/qaekhthq'],
-      queue: 'user_queue',
-      queueOptions: {
-        durable: false
-      },
+      url: process.env.REDIS_URL || redis.url,
+      password: process.env.REDIS_PASSWORD || redis.password
     },
   }]

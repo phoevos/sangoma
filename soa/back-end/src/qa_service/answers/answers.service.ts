@@ -22,6 +22,7 @@ export class AnswersService {
     if(username) {
       query.andWhere("answer.username = :username", {username})
       query.leftJoin("answer.question","q").select(['answer.id', 'answer.username', 'answer.text', 'answer.dateTime', 'q.title', 'q.id'])
+      query.orderBy("answer.dateTime", "DESC")
       return query.getMany();
     }
     return this.entityManager.find(Answer, {username})

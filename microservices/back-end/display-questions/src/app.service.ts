@@ -1,7 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
+import { CreateQuestionDto } from './dto/create-question.dto';
 import { FilteredQuestionDto } from './dto/get-filtered-question.dto';
+import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Question } from './entities/question.entity';
 
 @Injectable()
@@ -33,25 +35,18 @@ export class AppService {
     return query.getMany()
   }
   
-  // async create(createQuestionDto: CreateQuestionDto){
-  //   const question = this.entityManager.create(Question, createQuestionDto)
-  //   return this.entityManager.save(question)
-  // }
+  async create(question: Question){
+    question = this.entityManager.create(Question, question)
+    return this.entityManager.save(question)
+  }
 
-  // async update(id: number, updateQuestionDto: UpdateQuestionDto): Promise<Question> {
-  //   return this.entityManager.transaction(async manager => {
-  //     const question = await manager.findOne(Question, id, { relations: ['answers']})
-  //     if (!question) throw new NotFoundException(`Question #${id} not found`)
-  //     manager.merge(Question, question, updateQuestionDto)
-  //     return manager.save(question)
-  //   })
-  // }
+  async update(question: Question) : Promise<Question> {
+    question = this.entityManager.create(Question, question)
+    return this.entityManager.save(question)
+  }
 
-  // async remove(id: number): Promise<void> {
-  //   return this.entityManager.transaction(async manager => {
-  //     const question = await manager.findOne(Question, id)
-  //     if (!question) throw new NotFoundException(`Question #${id} not found`)
-  //     await manager.remove(question)
-  //   })
-  // }
+  async remove(question): Promise<void> {
+    question = this.entityManager.create(Question, question)
+    return this.entityManager.remove(question)
+  }
 }
