@@ -2,7 +2,7 @@ import {Injectable } from '@nestjs/common';
 import axios from 'axios';
 import {services} from '../config/services.config'
 import {endpoints} from '../config/endpoints.config'
-const BASE_URL = 'http://localhost:3000/'
+import { BASE_URL } from 'config/url.config';
 
 @Injectable()
 export class AppService {
