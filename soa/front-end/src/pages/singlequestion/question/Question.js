@@ -6,8 +6,6 @@ import { Button } from '@material-ui/core';
 
 const Question = (props) => {
 
-
-
     return (
 
         <div className='single-container'>

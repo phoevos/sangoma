@@ -20,7 +20,7 @@ import QuestionsPerKeyword from '../../components/chart/keywords/QuestionsPerKey
 import QuestionsPerKeywordTable from '../../components/chart/keywords/QuestionsPerKeywordTable'
 import Contributions from '../../components/chart/contributions/Contributions'
 import SideBar from '../../components/sidebar/SideBar'
-import config from '../../config/config.json'
+import config from '../../config/config'
 import { Modal } from '../../components/hoc/modal/Modal';
 
 const diag_url = config.Services.DiagramService;
@@ -253,20 +253,12 @@ const Dashboard = () => {
     }
 
 
-
-
     //////////////////////////////////////  Side Bar ////////////////////////////////////////////
 
     const [matchingkeywords, setMatchingKeywords] = useState(new Set());
     const [titlePart, setTitlePart] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-
-    // console.log("This is all")
-    // console.log(titlePart)
-    // console.log(startDate)
-    // console.log(endDate)
-    // console.log(matchingkeywords)
 
     const titleChangeHandler = (event) => {
         setTitlePart(event.target.value);

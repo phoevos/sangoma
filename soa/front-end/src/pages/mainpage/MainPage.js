@@ -7,10 +7,11 @@ import axios from 'axios';
 import Loader from '../../components/hoc/loader/Loader';
 import Pagination from '../../components/pagination/Pagination'
 import SideBar from '../../components/sidebar/SideBar'
-import config from '../../config/config.json'
+import config from '../../config/config.js'
 
 const qa_url = config.Services.QAService;
 const ESB_URL = config.ESB_URL;
+
 const MainPage = () => {
 
     const [questions, dispatchQuestions] = useState([]);
