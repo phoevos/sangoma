@@ -8,7 +8,7 @@ import {Nav} from 'react-bootstrap';
 import './NewQuestion.css';
 import TagsInput from '../../components/tags/TagsInput';
 import { Modal } from '../../components/hoc/modal/Modal';
-import config from '../../config/config.js';
+import config from '../../config/config';
 
 const qa_url = config.Services.QAService;
 const ESB_URL = config.ESB_URL;

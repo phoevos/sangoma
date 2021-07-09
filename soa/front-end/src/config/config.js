@@ -1,5 +1,5 @@
 const config = {
-    "ESB_URL": process.env.PROD ? 'https://sangoma-soa-esb.herokuapp.com/esb' : "http://localhost:4000/esb",
+    "ESB_URL": (process.env.NODE_ENV == 'production') ? 'https://sangoma-soa-esb.herokuapp.com/esb' : "http://localhost:4000/esb",
     "Services": {
         "AuthenticatorService": "auth",
         "DiagramService": "diagram",

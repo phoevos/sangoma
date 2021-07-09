@@ -12,7 +12,7 @@ import QuestionsPerKeyword from '../../components/chart/keywords/QuestionsPerKey
 import QuestionsPerKeywordTable from '../../components/chart/keywords/QuestionsPerKeywordTable'
 import Contributions from '../../components/chart/contributions/Contributions'
 import SideBar from '../../components/sidebar/SideBar'
-import config from '../../config/config.json'
+import config from '../../config/config.js'
 import { Modal } from '../../components/hoc/modal/Modal';
 
 const diag_url = config.Services.DiagramService;

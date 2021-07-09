@@ -9,7 +9,7 @@ import Loader from '../../components/hoc/loader/Loader';
 import NewAnswer from './newanswer/NewAnswer'
 import AnswerList from './answerlist/AnswerList'
 import Pagination from '../../components/pagination/Pagination'
-import config from '../../config/config.json'
+import config from '../../config/config.js'
 
 const qa_url = config.Services.QAService;
 const ms= config.MS;

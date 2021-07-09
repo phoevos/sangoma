@@ -5,7 +5,8 @@ import { auth_bootstrap } from './auth_listener';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors()
-  await app.listen(3003);
+  const port = process.env.PORT || 3003
+  await app.listen(port);
 }
 bootstrap();
 auth_bootstrap();

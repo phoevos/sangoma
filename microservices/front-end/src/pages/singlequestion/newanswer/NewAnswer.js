@@ -6,7 +6,7 @@ import ErrorMessage from '../../../components/hoc/error/ErrorMessage';
 import {Nav} from 'react-bootstrap';
 import './NewAnswer.css';
 import { Modal } from '../../../components/hoc/modal/Modal';
-import config from '../../../config/config.json'
+import config from '../../../config/config.js'
 
 const qa_url = config.Services.QAService;
 const ms = config.MS;

@@ -6,7 +6,7 @@ import axios from 'axios';
 import ErrorMessage from '../../components/hoc/error/ErrorMessage';
 import { Navbar } from 'react-bootstrap';
 import './SignUpPage.css';
-import config from '../../config/config.json'
+import config from '../../config/config.js'
 
 const auth_url = config.Services.AuthenticatorService;
 const ms = config.MS;

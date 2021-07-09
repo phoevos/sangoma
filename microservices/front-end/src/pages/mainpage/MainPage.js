@@ -7,7 +7,7 @@ import axios from 'axios';
 import Loader from '../../components/hoc/loader/Loader';
 import Pagination from '../../components/pagination/Pagination'
 import SideBar from '../../components/sidebar/SideBar'
-import config from '../../config/config.json'
+import config from '../../config/config.js'
 
 const qa_url = config.Services.QAService;
 const ms = config.MS;
