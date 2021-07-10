@@ -4,9 +4,9 @@ import * as config from 'config';
 const dbConfig = config.get('db')
 export const usersOrmConfig: TypeOrmModuleOptions = {
     type: dbConfig.type,
-    ssl: process.env.PROD || false,
+    ssl: (process.env.PROD == 'true') || false,
     extra: {
-        ssl: process.env.PROD ? {rejectUnauthorized: false} : null
+        ssl: (process.env.PROD == 'true') ? {rejectUnauthorized: false} : null
     },
     host: process.env.RDS_HOSTNAME || dbConfig.host,
     port: process.env.RDS_PORT || dbConfig.port,
@@ -19,9 +19,9 @@ export const usersOrmConfig: TypeOrmModuleOptions = {
 
 export const questionsOrmConfig: TypeOrmModuleOptions = {
     type: dbConfig.type,
-    ssl: process.env.PROD || false,
+    ssl: (process.env.PROD == 'true') || false,
     extra: {
-        ssl: process.env.PROD ? {rejectUnauthorized: false} : null
+        ssl: (process.env.PROD == 'true') ? {rejectUnauthorized: false} : null
     },
     host: process.env.RDS_HOSTNAME || dbConfig.host,
     port: process.env.RDS_PORT || dbConfig.port,
