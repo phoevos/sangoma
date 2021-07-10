@@ -9,7 +9,7 @@ export const usersOrmConfig: TypeOrmModuleOptions = {
         ssl: (process.env.PROD == 'true') ? {rejectUnauthorized: false} : null
     },
     host: process.env.RDS_HOSTNAME || dbConfig.host,
-    port: process.env.RDS_PORT || dbConfig.port,
+    port: parseInt(process.env.RDS_PORT) || dbConfig.port,
     username: process.env.RDS_USERNAME || dbConfig.username,
     password: process.env.RDS_PASSWORD || dbConfig.password,
     database: process.env.RDS_DB_NAME || dbConfig.usersDatabase,
@@ -24,7 +24,7 @@ export const questionsOrmConfig: TypeOrmModuleOptions = {
         ssl: (process.env.PROD == 'true') ? {rejectUnauthorized: false} : null
     },
     host: process.env.RDS_HOSTNAME || dbConfig.host,
-    port: process.env.RDS_PORT || dbConfig.port,
+    port: parseInt(process.env.RDS_PORT) || dbConfig.port,
     name: 'questions',
     username: process.env.RDS_USERNAME || dbConfig.username,
     password: process.env.RDS_PASSWORD || dbConfig.password,
