@@ -19,7 +19,7 @@ export class AppController {
   @Get()
   async getRedirect(@Headers() headers, @Query() params, @Res() response: Response) {
     const url = headers.url
-    const config = { headers, params }
+    const config = { params }
     try {
       const res = await this.appService.getRedirect(url, config);    
       response.status(res.status).send(res.data)
