@@ -15,22 +15,32 @@ export class AppService {
   }
   async getRedirect(endpoint: string, params) {
     const url = BASE_URL + endpoint
+    console.log(url);
+    console.log(params);
     return axios.get(url, params)
   }
 
   async postRedirect(endpoint: string, body, headers) {
     const url = BASE_URL + endpoint
+    console.log(url);
     headers["content-type"] = "application/json"
+    console.log(body);
+    console.log(headers);
     return axios.post(url, body, { headers })
   }
 
   async patchRedirect(endpoint: string, body, headers) {
     const url = BASE_URL + endpoint
+    console.log(url);
+    console.log(body);
+    console.log(headers);
     return axios.patch(url, body, { headers })
   }
 
   async deleteRedirect(endpoint: string, headers) {
     const url = BASE_URL + endpoint
+    console.log(url);
+    console.log(headers);
     return axios.delete(url, { headers })
   }
 }
