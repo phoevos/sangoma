@@ -43,5 +43,4 @@ export class AppController {
   remove_answer(deleteAnswerDto) {
     return this.appService.remove_answer(deleteAnswerDto)
   }
-
 }
