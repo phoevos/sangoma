@@ -4,7 +4,7 @@ server:
 db:
   type: 'postgres'
   port: 5432
-  usersDatabase: ms_management_questions
+  usersDatabase: ms_management_users
   questionsDatabase: ms_management_questions
 
 jwt:

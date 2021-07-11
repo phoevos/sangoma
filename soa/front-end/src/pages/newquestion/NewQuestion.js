@@ -28,7 +28,6 @@ const NewQuestion = () => {
         }
     }
 
-
     const openModal = () => {
         setShowModal(prev => !prev);
       };
@@ -70,12 +69,11 @@ const NewQuestion = () => {
         console.log(requestBody)
         axios.post(ESB_URL, requestBody, config)
             .then(response => {
+                alert('Successfully submitted new question!')
                 goToStartingPage();
             })
             .catch(error => {
-                if (error.response.status === 401) {
-                    // That's a temporary work-around, redirecting to signin should be done more gracefully.
-                    // history.push('/signin');
+                if (error.response.data.status === 401) {
                     openModal();
                 } else {
                     setErrorMessage(error.response.data); 
@@ -137,7 +135,6 @@ const NewQuestion = () => {
                     </Nav>
                 </div>
                 <Modal showModal={showModal} setShowModal={setShowModal} history={history} message ={message}/>
-
         </div>
 
     );

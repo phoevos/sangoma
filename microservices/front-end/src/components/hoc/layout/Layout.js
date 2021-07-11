@@ -51,8 +51,8 @@ const Layout = () => {
                             </Nav.Link>  */}
                             {isLoggedIn && <NavDropdown title={localStorage.getItem('loggedUsername').split('@')[0]} id="nav-dropdown">
                                 <NavDropdown.Item eventKey="4.1" href='/my'>My AskMeAnything</NavDropdown.Item>
-                                <NavDropdown.Item eventKey="4.2">Dingane</NavDropdown.Item>
-                                <NavDropdown.Item eventKey="4.3">Mhlangana</NavDropdown.Item>
+                                <NavDropdown.Item eventKey="4.2" href='https://dingane.herokuapp.com/'>Dingane</NavDropdown.Item>
+                                <NavDropdown.Item eventKey="4.3" href='https://mhlangana.herokuapp.com/'>Mhlangana</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item eventKey="4.4" href="https://www.youtube.com/watch?v=11eis4XVfVE">Enter the cult...</NavDropdown.Item>
                             </NavDropdown>}

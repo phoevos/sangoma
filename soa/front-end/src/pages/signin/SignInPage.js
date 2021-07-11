@@ -70,7 +70,7 @@ const SignInPage = (props) => {
 				localStorage.setItem('loggedUsername', requestBody.username);
 				goToStartingPage();
 			})
-			.catch(error => { console.log(error.response.data); setErrorMessage(error.response.data.message); });
+			.catch(error => { console.log(error.response.data); setErrorMessage(error.response.data); });
 	}
 
 

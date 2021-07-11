@@ -1,7 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { redis } from 'config/ms.config';
 import { AppModule } from './app.module';
-import { auth_bootstrap } from './auth_listener';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,4 +13,3 @@ async function bootstrap() {
   await app.listen(port);
 }
 bootstrap();
-// auth_bootstrap();

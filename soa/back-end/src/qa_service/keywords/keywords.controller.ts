@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, Query, ValidationPipe} from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe} from '@nestjs/common';
 import { KeywordsService } from './keywords.service';
 import { FilteredKeywordDto } from './dto/get-filtered-keyword.dto';
 
@@ -8,10 +8,5 @@ export class KeywordsController {
   @Post('/filtered')
   findFiltered(@Body(ValidationPipe) filteredKeywordDto: FilteredKeywordDto) {
     return this.keywordsService.findFilteredKeywords(filteredKeywordDto);
-  }
-
-  @Get('/:keyword')
-  findOne(@Param('keyword', ParseIntPipe) keyword: string) {
-    return this.keywordsService.findOne(keyword);
   }
 }

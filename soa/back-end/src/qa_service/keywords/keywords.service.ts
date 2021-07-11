@@ -10,7 +10,7 @@ export class KeywordsService {
 
   async findFilteredKeywords(filteredKeywordDto: FilteredKeywordDto) : Promise<any[]> {
 
-    const {keywordPart,username} = filteredKeywordDto
+    const { keywordPart, username } = filteredKeywordDto
 
     let query = this.entityManager.createQueryBuilder()
       .from(Keyword,"keyword")
@@ -19,14 +19,8 @@ export class KeywordsService {
       .innerJoin("keyword.questions", "question")
       .groupBy("keyword.keyword")
       .orderBy("freq", "DESC")
-    if(keywordPart) query.andWhere("keyword.keyword LIKE(:keywordpart)",{keywordpart:`%${keywordPart}%`})
+    if(keywordPart) query.andWhere("keyword.keyword LIKE(:keywordpart)", {keywordpart:`%${keywordPart}%`})
     if(username) query.andWhere(`question.username ='${username}' `)
     return query.getRawMany()
-  }
-
-  async findOne(keyword: string) : Promise<Keyword>{
-    const thekeyword = await this.entityManager.findOne(Keyword, keyword)
-    if (!thekeyword) throw new NotFoundException(`Keyword #${keyword} not found`)
-    return thekeyword
   }
 }

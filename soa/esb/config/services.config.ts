@@ -5,17 +5,17 @@ export const services =  {
             "service_id": 0,
             "name": "Questions and Answer Service",
             "relative_path": "qa",
-            "description": "This service is responsible for implementing all Crud operations related to the entities of the database."
+            "description": "This service is responsible for implementing all CRUD operations related to the entities of the database."
         },
         {
             "service_id": 1,
             "name": "Authenticator Service",
             "relative_path": "auth",
-            "description": "This service is responsible for sign in/up and the implementation of the JWT strategy."
+            "description": "This service is responsible for sign in/up operations and the implementation of the JWT strategy."
         },
         {
             "service_id": 2,
-            "name": "Diagram_Service",
+            "name": "Diagram Service",
             "relative_path": "diagram",
             "description": "This service is responsible for implementing various operations which can produce helpful diagrams."
         }

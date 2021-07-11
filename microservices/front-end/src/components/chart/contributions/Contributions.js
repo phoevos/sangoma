@@ -93,7 +93,7 @@ const Contributions = props => {
                         <button className="dropbtn" onClick={() => props.toggleList()} >{months[props.month - 1]}</button>
                         <div className="dropdown-content">
                             {props.annualContributions.map((i) => (
-                                <div key={i.month} onClick={()=>props.changeMonthHandler(i.month)}>{months[i.month - 1]}</div>
+                                <div key={i.month} onClick={()=>props.changeMonthHandler(i.month, props.year)}>{months[i.month - 1]}</div>
                             ))}
                         </div>
                     </div>

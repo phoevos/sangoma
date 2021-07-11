@@ -1,7 +1,8 @@
 import { Controller, Get, Query, ValidationPipe } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { AppService } from './app.service';
-import { ContributionsDto } from './dto/contributions.dto';
+import { ContributionsPerMonthDto } from './dto/contributionspermonth.dto';
+import { ContributionsPerYearDto } from './dto/contributionsperyear.dto';
 import { Answer } from './entities/answer.entity';
 import { Question } from './entities/question.entity';
 
@@ -10,12 +11,12 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
   
   @Get('year')
-  getContributionsByYear(@Query(ValidationPipe) contributionsDto: ContributionsDto) {
+  getContributionsByYear(@Query(ValidationPipe) contributionsDto: ContributionsPerYearDto) {
     return this.appService.getContributionsByYear(contributionsDto)
   }
   
   @Get('month')
-  getContributionsByMonth(@Query(ValidationPipe) contributionsDto: ContributionsDto) {
+  getContributionsByMonth(@Query(ValidationPipe) contributionsDto: ContributionsPerMonthDto) {
     return this.appService.getContributionsByMonth(contributionsDto)
   }
 

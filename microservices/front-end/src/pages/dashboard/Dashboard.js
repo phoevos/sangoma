@@ -27,7 +27,6 @@ const Dashboard = () => {
     const [year, setYear] = useState((new Date()).getFullYear());
     const [annualContributions, setAnnualContributions] = useState([]);
     const [month, setMonth] = useState((new Date()).getMonth() + 1);
-    // const [month, setMonth] = useState((new Date()).toLocaleString('default', { month: 'long' }));
     const [monthlyContributions, setMonthlyContributions] = useState([]);
     const [isFetched, setIsFetched] = useState(false);
     const [answerIsFetched, setAnswerIsFetched] = useState(false);
@@ -127,7 +126,6 @@ const Dashboard = () => {
         fetchAnswers();
         fetchKeywords();
         changeYearHandler(year);
-        changeMonthHandler(month);
     }, []);
 
     // Get current posts
@@ -202,20 +200,20 @@ const Dashboard = () => {
         }
         config.params = {
             username: localStorage.getItem('loggedUsername'),
-            month: i,
-            year: year
+            year: i
         }
         axios.get(ms.CONTRIBUTIONS + `${diag_url}/contributions/year`, config)
             .then(response => {
                 setAnnualContributions(response.data)
                 setYear(i)
                 toggleList(false)
+                changeMonthHandler(month, i)
             })
             .catch(error => {
             });
     }
 
-    const changeMonthHandler = (i) => {
+    const changeMonthHandler = (i, currentYear) => {
         const config = {
             headers: {
                 'content-type': 'application/json' 
@@ -225,7 +223,7 @@ const Dashboard = () => {
         config.params = {
             username: localStorage.getItem('loggedUsername'),
             month: i,
-            year: year
+            year: currentYear
         }
 
         axios.get(ms.CONTRIBUTIONS + `${diag_url}/contributions/month`, config)
@@ -239,20 +237,12 @@ const Dashboard = () => {
     }
 
 
-
-
     //////////////////////////////////////  Side Bar ////////////////////////////////////////////
 
     const [matchingkeywords, setMatchingKeywords] = useState(new Set());
     const [titlePart, setTitlePart] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-
-    // console.log("This is all")
-    // console.log(titlePart)
-    // console.log(startDate)
-    // console.log(endDate)
-    // console.log(matchingkeywords)
 
     const titleChangeHandler = (event) => {
         setTitlePart(event.target.value);

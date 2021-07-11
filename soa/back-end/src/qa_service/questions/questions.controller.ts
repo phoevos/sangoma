@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, ValidationPipe, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, ValidationPipe, UseGuards } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
-import {FilteredQuestionDto} from './dto/get-filtered-question.dto'
+import { FilteredQuestionDto } from './dto/get-filtered-question.dto'
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('qa/questions')

@@ -29,7 +29,6 @@ export class AppController {
     }
   }
 
-
   @Post()
   async postRedirect(@Body() body, @Headers() headers, @Res() response: Response) {
     const url = headers.url
@@ -38,19 +37,17 @@ export class AppController {
       response.status(res.status).send(res.data)
     }
     catch (err) {
-      console.log(err)
       response.status(err.response.data.statusCode).send(err.response.data.message)
     }
-    
   }
 
   @Patch()
   async patchRedirect(@Body() body, @Headers() headers, @Res() response: Response) {
     const url = headers.url
     try {
-    const res = await this.appService.patchRedirect(url, body, headers);
-    response.status(res.status).send(res.data)
-  }
+      const res = await this.appService.patchRedirect(url, body, headers);
+      response.status(res.status).send(res.data)
+    }
     catch(err) {
       response.status(err.response.data.statusCode).send(err.response.data.message)
     }

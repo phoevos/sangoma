@@ -13,9 +13,7 @@ export class AuthService {
         private jwtService: JwtService
         ) {}
 
-    // async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     async signUp(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
-        // return this.userRepository.signUp(authCredentialsDto)
         const username =  await this.userRepository.signUp(authCredentialsDto)
         if (username) {
             const payload: JwtPayload = { username }

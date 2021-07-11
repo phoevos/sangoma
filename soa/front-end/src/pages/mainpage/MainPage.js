@@ -107,12 +107,6 @@ const MainPage = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
-    // console.log("This is all")
-    // console.log(titlePart)
-    // console.log(startDate)
-    // console.log(endDate)
-    // console.log(matchingkeywords)
-
     const titleChangeHandler = (event) => {
         setTitlePart(event.target.value);
     }

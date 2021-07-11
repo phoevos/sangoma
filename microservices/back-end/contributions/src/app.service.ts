@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
-import { ContributionsDto } from './dto/contributions.dto';
+import { ContributionsPerMonthDto } from './dto/contributionspermonth.dto';
+import { ContributionsPerYearDto } from './dto/contributionsperyear.dto';
 import { Answer } from './entities/answer.entity';
 import { Question } from './entities/question.entity';
 
@@ -9,8 +10,8 @@ import { Question } from './entities/question.entity';
 export class AppService {
   constructor(@InjectEntityManager('questions') private entityManager: EntityManager) {}
   
-  async getContributionsByYear(contributionsDto: ContributionsDto) {
-    const { year, month, username } = contributionsDto
+  async getContributionsByYear(contributionsDto: ContributionsPerYearDto) {
+    const { year, username } = contributionsDto
     const query = this.entityManager.createQueryBuilder(Question, "q")
     return query.select('EXTRACT(MONTH FROM q.dateTime)', 'month')
     .addSelect('COUNT(*)', 'questions')
@@ -31,7 +32,7 @@ export class AppService {
       .getRawMany()
     }
     
-    async getContributionsByMonth(contributionsDto: ContributionsDto) {
+    async getContributionsByMonth(contributionsDto: ContributionsPerMonthDto) {
       const { year, month, username } = contributionsDto
       const query = this.entityManager.createQueryBuilder(Question, "q")
       return query.select('EXTRACT(DAY FROM q.dateTime)', 'day')

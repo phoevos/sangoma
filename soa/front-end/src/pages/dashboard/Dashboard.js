@@ -1,11 +1,3 @@
-
-// let params = {
-//     params: {
-//         username: localStorage.getItem('loggedUsername')
-//     }
-// }
-// if (tag) params.params.matchingKeywords = [tag]
-
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Tab, Tabs } from 'react-bootstrap'
@@ -14,14 +6,14 @@ import Loader from '../../components/hoc/loader/Loader'
 import Pagination from '../../components/pagination/Pagination'
 import QuestionList from '../mainpage/questionlist/QuestionList'
 import AnswerList from '../singlequestion/answerlist/AnswerList'
-import './Dashboard.css'
-import '../mainpage/MainPage.css'
 import QuestionsPerKeyword from '../../components/chart/keywords/QuestionsPerKeyword'
 import QuestionsPerKeywordTable from '../../components/chart/keywords/QuestionsPerKeywordTable'
 import Contributions from '../../components/chart/contributions/Contributions'
 import SideBar from '../../components/sidebar/SideBar'
 import config from '../../config/config'
 import { Modal } from '../../components/hoc/modal/Modal';
+import './Dashboard.css'
+import '../mainpage/MainPage.css'
 
 const diag_url = config.Services.DiagramService;
 const qa_url = config.Services.QAService;
@@ -35,7 +27,6 @@ const Dashboard = () => {
     const [year, setYear] = useState((new Date()).getFullYear());
     const [annualContributions, setAnnualContributions] = useState([]);
     const [month, setMonth] = useState((new Date()).getMonth() + 1);
-    // const [month, setMonth] = useState((new Date()).toLocaleString('default', { month: 'long' }));
     const [monthlyContributions, setMonthlyContributions] = useState([]);
     const [isFetched, setIsFetched] = useState(false);
     const [answerIsFetched, setAnswerIsFetched] = useState(false);
@@ -46,9 +37,11 @@ const Dashboard = () => {
     const [answersPerPage] = useState(6);
     const history = useHistory();
     const [showModal, setShowModal] = useState(false);
+
     const openModal = () => {
         setShowModal(prev => !prev);
     };
+
     const fetchQuestions = (tag, matchingkeywords, titlePart, startDate, endDate) => {
 
         let body
@@ -139,7 +132,6 @@ const Dashboard = () => {
         fetchAnswers();
         fetchKeywords();
         changeYearHandler(year);
-        changeMonthHandler(month);
     }, []);
 
     // Get current posts
@@ -168,7 +160,6 @@ const Dashboard = () => {
             })
             .catch(error => {
                 if (error.response.status === 401) {
-                    // That's a temporary work-around, redirecting to signin should be done more gracefully.
                     openModal()
                 } else {
                     console.log(error)
@@ -216,20 +207,22 @@ const Dashboard = () => {
         }
         const body = {
             username: localStorage.getItem('loggedUsername'),
-            month: i,
-            year: year
+            year: i
         }
         axios.post(ESB_URL, body, params)
             .then(response => {
                 setAnnualContributions(response.data)
                 setYear(i)
                 toggleList(false)
+                changeMonthHandler(month, i);
             })
             .catch(error => {
+                console.log(error)
             });
+
     }
 
-    const changeMonthHandler = (i) => {
+    const changeMonthHandler = (i, currentYear) => {
         const params = {
             headers: {
                 'url': `${diag_url}/contributions/month`
@@ -239,7 +232,7 @@ const Dashboard = () => {
         const body = {
             username: localStorage.getItem('loggedUsername'),
             month: i,
-            year: year
+            year: currentYear
         }
 
         axios.post(ESB_URL, body, params)

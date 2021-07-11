@@ -3,8 +3,6 @@ import { InjectEntityManager } from '@nestjs/typeorm';
 import { EntityManager } from 'typeorm';
 import { Answer } from './entities/answer.entity';
 import { FilteredAnswerDto } from './dto/get-filtered-answer.dto';
-import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { Question } from './entities/question.entity';
 
 @Injectable()

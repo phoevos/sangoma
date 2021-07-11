@@ -48,12 +48,9 @@ const NewAnswer = (props) => {
             })
             .catch(error => {
                 console.log(error.response.data) 
-                if (error.response.status === 401) {
-                    // That's a temporary work-around, redirecting to signin should be done more gracefully.
-                    // props.history.push('/signin');
+                if (error.response.data.status === 401) {
                     openModal();
-                } 
-                else {
+                } else {
                     setErrorMessage(error.response.data); 
                 } 
             });

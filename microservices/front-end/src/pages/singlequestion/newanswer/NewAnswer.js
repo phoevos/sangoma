@@ -43,17 +43,15 @@ const NewAnswer = (props) => {
         axios.post(ms.SINGLE_POST + `${qa_url}/answers`, requestBody, config)
             .then(response => {
                 console.log(response.data)
-                window.location.reload(false);
+                window.location.reload()
             })
             .catch(error => {
                 console.log(error.response.data) 
-                if (error.response.status === 401) {
-                    // That's a temporary work-around, redirecting to signin should be done more gracefully.
-                    // props.history.push('/signin');
+                if (error.response.data.statusCode === 401) {
                     openModal();
                 } 
                 else {
-                    setErrorMessage(error.response.data); 
+                    setErrorMessage(error.response.data.message); 
                 } 
             });
     }

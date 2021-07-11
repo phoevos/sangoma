@@ -15,20 +15,6 @@ export class DiagramService {
   async getContributionsByYear(contributionsDto: ContributionsPerYearDto) {
     const { year, username } = contributionsDto
     const query = this.entityManager.createQueryBuilder(Question, "q")
-    // BOTH WORK BEAUTIFULLY, STOP WHINING ABOUT THE QUERYBUILDER <3
-    // return this.entityManager.query(`
-    //     SELECT EXTRACT(MONTH FROM q."dateTime") AS month, COUNT(*) AS questions, a.answers
-    //     FROM question AS q
-    //     JOIN (
-    //       SELECT EXTRACT(MONTH FROM ans."dateTime") AS month, COUNT(*) AS answers
-    //       FROM answer AS ans
-    //       WHERE username = '${username}' AND EXTRACT(YEAR FROM ans."dateTime") = ${year}
-    //       GROUP BY EXTRACT(MONTH FROM ans."dateTime")
-    //     ) AS a ON a.month = EXTRACT(MONTH FROM q."dateTime")
-    //     WHERE username = '${username}' AND EXTRACT(YEAR FROM q."dateTime") = ${year}
-    //     GROUP BY EXTRACT(MONTH FROM q."dateTime"), a.answers    
-    //     ORDER BY "month" DESC
-    // `)
     return query.select('EXTRACT(MONTH FROM q.dateTime)', 'month')
       .addSelect('COUNT(*)', 'questions')
       .addSelect('a.answers', 'answers')

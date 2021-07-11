@@ -24,7 +24,7 @@ export const endpoints = [
 			{
 				id: 1,
 				name: "Update Answer",
-				method: "Put",
+				method: "Patch",
 				body: {
 					questionId: { type: "number", optional: true },
 					text: { type: "string", optional: true },
@@ -135,7 +135,7 @@ export const endpoints = [
 			{
 				id: 8,
 				name: "Update Question",
-				method: "Put",
+				method: "Patch",
 				body: {
 					title: { type: "string", optional: true },
 					text: { type: "string", optional: true },
@@ -171,7 +171,7 @@ export const endpoints = [
 		endpoints: [
 			{
 				id: 0,
-				name: "signUp",
+				name: "Sign Up",
 				method: "Post",
 				body: {
 					username: { type: "string", optional: false },
@@ -186,7 +186,7 @@ export const endpoints = [
 			,
 			{
 				id: 0,
-				name: "signIn",
+				name: "Sign In",
 				method: "Post",
 				body: {
 					username: { type: "string", optional: false },

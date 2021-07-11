@@ -68,15 +68,14 @@ const NewQuestion = () => {
         
         axios.post(ms.QUESTIONS_MANAGEMENT + `${qa_url}/questions`, requestBody, config)
             .then(response => {
+                alert('Successfully submitted new question!')
                 goToStartingPage();
             })
             .catch(error => {
-                if (error.response.status === 401) {
-                    // That's a temporary work-around, redirecting to signin should be done more gracefully.
-                    // history.push('/signin');
+                if (error.response.data.statusCode === 401) {
                     openModal();
                 } else {
-                    setErrorMessage(error.response.data); 
+                    setErrorMessage(error.response.data.message); 
                 } 
             });
     }

@@ -10,13 +10,13 @@ export class AppService {
   async getServices() {
     return services
   }
+
   async getEndpoints(id: number) {
     return endpoints.find(endpoint => endpoint.id === id)
   }
+
   async getRedirect(endpoint: string, params) {
     const url = BASE_URL + endpoint
-    console.log(url);
-    console.log(params);
     return axios.get(url, params)
   }
 
@@ -24,11 +24,8 @@ export class AppService {
     const url = BASE_URL + endpoint
     const headers = {
       "content-type": "application/json"
-    };
-    headers["Authorization"] = old_headers.Authorization ? old_headers.Authorization : null;
-    console.log(url);
-    console.log(body);
-    console.log(headers);
+    }
+    headers["authorization"] = old_headers.authorization ? old_headers.authorization : null;    
     return axios.post(url, body, { headers })
   }
 
@@ -36,20 +33,15 @@ export class AppService {
     const url = BASE_URL + endpoint
     const headers = {
       "content-type": "application/json"
-    };
-    headers["Authorization"] = old_headers.Authorization ? old_headers.Authorization : null;
-    console.log(url);
-    console.log(body);
-    console.log(headers);
+    }
+    headers["authorization"] = old_headers.authorization ? old_headers.authorization : null
     return axios.patch(url, body, { headers })
   }
 
   async deleteRedirect(endpoint: string, old_headers) {
     const url = BASE_URL + endpoint
-    const headers={}
-    headers["Authorization"] = old_headers.Authorization ? old_headers.Authorization : null;
-    console.log(url);
-    console.log(headers);
+    const headers = {}
+    headers["authorization"] = old_headers.authorization ? old_headers.authorization : null
     return axios.delete(url, { headers })
   }
 }
