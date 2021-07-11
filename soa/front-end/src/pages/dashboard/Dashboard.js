@@ -326,11 +326,13 @@ const Dashboard = () => {
                     </div>
                 </Tab>
                 <Tab eventKey="keywords" title="Questions/Keyword">
-                    <div className='keyword-chart'>
-                        <QuestionsPerKeyword keywords={keywords}></QuestionsPerKeyword>
-                    </div>
-                    <div className='keyword-table'>
-                        <QuestionsPerKeywordTable keywords={keywords} fetch={fetchQuestions}></QuestionsPerKeywordTable>
+                    <div className="display-chart">
+                        <div className='keyword-chart'>
+                            <QuestionsPerKeyword keywords={keywords}></QuestionsPerKeyword>
+                        </div>
+                        <div className='keyword-table'>
+                            <QuestionsPerKeywordTable keywords={keywords} fetch={fetchQuestions}></QuestionsPerKeywordTable>
+                        </div>
                     </div>
                 </Tab>
                 <Tab eventKey="contributions" title="My Contributions">
