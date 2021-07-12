@@ -38,9 +38,7 @@ const SignInPage = (props) => {
 	};
 	const goToSignUp = () => {
 		dispatchCredentials({ username: '', password: '' });
-		console.log(credentialsState);
 		setErrorMessage('');
-		console.log(errorMessage);
 		return history.push('/signup');
 	};
 

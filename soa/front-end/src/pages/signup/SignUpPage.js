@@ -47,9 +47,7 @@ const SignUpPage = () => {
 	};
 	const goToSignIn = () => {
 		dispatchCredentials({ username: '', password: '', reEnterPassword: '' });
-		console.log(credentialsState);
 		setErrorMessage('');
-		console.log(errorMessage);
 		return history.push('/signin');
 	};
 

@@ -2,7 +2,7 @@
   padding: 1rem;
   background-color: rgba(240, 242, 243, 0.897);
   /* margin: 2rem auto; */
-  width: 60%;
+  width: 50%;
   /* margin-top:50px;  */
   display: block;
   border-radius: 12px;
@@ -12,7 +12,7 @@
   margin-bottom: 65px;
   margin-left : 9%; 
   float : left;
-  margin-right : 10%;
+  margin-right : 20%;
 }
 
 .main-title-margin {

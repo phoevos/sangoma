@@ -7,7 +7,7 @@ import { Button } from '@material-ui/core';
 
 const SidebarNav = styled.nav`
 	background: #15171c;
-	width: 300px;
+	width: 20%;
 	display: flex;
 	justify-content: center;
 	padding : 2px;
