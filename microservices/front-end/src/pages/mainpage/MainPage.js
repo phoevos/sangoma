@@ -132,9 +132,8 @@ const MainPage = () => {
     }
 
     return (
-        <div>
             <div>
-                <h2 className='main-title-margin'>Recent Questions and Answers </h2>
+                <h2 className='main-title-margin'>Recent Questions</h2>
                 <div classname="main-wrapper">
                     <nav>
                         <div className='main-questions'>
@@ -157,9 +156,6 @@ const MainPage = () => {
 
 
             </div>
-
-            
-        </div>
     );
 };
 
