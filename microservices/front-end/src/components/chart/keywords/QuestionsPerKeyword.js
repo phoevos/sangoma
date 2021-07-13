@@ -18,12 +18,16 @@ const QuestionsPerKeyword = (props) => {
     // I have only filtered the keywords for the graph 
     // so that the user can see what the "Other" keywords are in the  keyword table.
     // If you want to hide for both , move the code to a higher order component (Contribution).
-    let firstelements = 10 // display only the 5 most frequent keywords
-    let sum = props.keywords.slice(-props.keywords.length+firstelements).reduce((total, currentValue) => {
-        return total + Number(currentValue.freq);
-    }, 0);
-    let filtkeywords = props.keywords.slice(0, firstelements)
-    filtkeywords.push({keyword: "Other", freq: sum})
+    let firstelements = 10
+    let filtkeywords
+    if (props.keywords.length > firstelements) {
+        let sum = props.keywords.slice(-props.keywords.length + firstelements).reduce((total, currentValue) => {
+            return total + Number(currentValue.freq);
+        }, 0);
+        filtkeywords = props.keywords.slice(0, firstelements)
+        filtkeywords.push({ keyword: "Other", freq: sum })
+    }
+    else filtkeywords = props.keywords
 
     const data = {
         labels: filtkeywords.map(i => i.keyword),//.slice(0, 10),
