@@ -146,7 +146,7 @@ const Dashboard = () => {
                 'Content-Type': 'application/json'
             }
         }
-        axios.delete(ms.QUESTION_MANAGEMENT + `${qa_url}/questions/${id}`, config)
+        axios.delete(ms.QUESTIONS_MANAGEMENT + `${qa_url}/questions/${id}`, config)
             .then(response => {
                 console.log(response.data);
                 dispatchQuestions(questions.filter(q => q.id !== id))
